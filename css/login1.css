@@ -1,0 +1,36 @@
+body{
+    background:no-repeat url("../images/login/dly.png");
+    background-size: 100%;
+}
+.container{
+    position: absolute;
+    top:0;right: 0;bottom: 0;left:0;
+    margin: auto;
+    width:722px;
+    height: 470px;
+    background:no-repeat url("../images/login/dlk.png") center;
+    background-size: 100%;
+}
+.login-title{
+    margin: 60px auto 0;
+    width:600px;
+    height: 60px;
+    text-align: center;
+
+    /*background: url("../images/login/bt.png");*/
+}
+.login-title>h2{
+    font-size:30px;
+    font-weight:500;
+}
+.login-form{
+    margin:60px auto 0;
+    padding: 37px 0;
+    width: 272px;
+    height: 228px;
+    /*background:no-repeat url("../image/login/dlk2.png");*/
+    /*background-size: 100%;*/
+}
+.login-form .checkbox{
+    margin-top: 0;
+}

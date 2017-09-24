@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href='../../plugins/zTree/css/blueStyle/blueStyle.css'>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        .itemContent{
+            padding-top: 50px;
+            padding-left: 120px;
+            padding-right: 200px;
+            overflow: auto;
+        }
+        .itemContent>img{
+            width: 762px;
+            height: 545px;
+        }
+    </style>
+</head>
+<body>
+<header class="ysh-smxHead">
+    <div class="ysh-smxTitle">
+        <img class="smxLogo" src="../images/home/logo.png" alt="">
+        <h5>三门峡黄河公铁两用桥信息系统</h5>
+    </div>
+    <ul id="loginOk" class="ysh-XTList">
+        <li><a href="javascript:;">退出系统</a></li>
+        <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+        <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+    </ul>
+</header>
+<div class="ysh-menu">
+    <ul class="ysh-menuList">
+        <li><a href="../main.html">首页</a></li>
+        <li><a style=" background: rgb(0,133,106);" href="itemIntro.html">工程概况</a></li>
+        <li><a  href="../userMgr.html">人员管理</a></li>
+
+        <li class="wsMgr">
+            <a href="javascript:;">物设管理</a>
+            <ul class="wsCont ysh-disappear">
+                <li><a href="../wsMgr/equipment.html">机械设备</a></li>
+                <li><a href="../wsMgr/materialMgr.html">材料设备</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">进度管理</a>
+            <ul class="jdCont ysh-disappear">
+                <li><a href="../processMgr/itemUnit.html">工程单位</a></li>
+                <li><a href="../processMgr/sgPlan.html">总施工进度</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="../safeMgr/safeUserMgr.html">安全管理</a>
+        </li>
+        <li>
+            <a  href="javascript:;">质量管理</a>
+            <ul class="zlCont ysh-disappear">
+                <li><a class="reportMgr" href="../zlMgr/reportMgr.html">检测报告</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;">风险管理</a></li>
+        <li><a href="../jsMgr/datumMgr.html">技术管理</a></li>
+        <li><a href="javascript:;">试验管理</a></li>
+        <li><a href="javascript:;">视频监控</a></li>
+        <li class="sysMgr">
+            <a href="javascript:;">系统管理</a>
+            <ul class="sysCont ysh-disappear">
+                <li><a class="attrMgr" href="../sysMgr/attrMgr.html">属性管理</a></li>
+                <li><a class="attrMgr" href="../sysMgr/materialTypeMgr.html">材料类型</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="container">
+    <div class="sidebar item-sidebar">
+        <ul class="itemList">
+            <li><a class="itemIntro" href="itemIntro.html"><b></b>工程介绍</a></li>
+            <li><a class="itemXg" href="itemXG.html"><b></b>工程效果图</a></li>
+            <li><a class="itemJg" href="itemJG.html"><b></b>项目部组织机构</a></li>
+            <li><a class="itemRules" href="itemRules.html"><b></b>规章制度</a></li>
+        </ul>
+    </div>
+    <div class="mainContent itemContent">
+        <img src="../../images/itemGk/img7.png" alt="">
+    </div>
+</div>
+<script src="../../js/jquery-2.1.4.min.js"></script>
+<script>
+    (function ($) {
+        var uName;
+        var mainHeight = (window.innerHeight - 140)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 140)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+        });
+        uName  = sessionStorage.getItem('PNAME');
+        if(uName){
+            $('#btnLogin').css('display','none');
+            $('#loginOk').removeClass('ysh-disappear');
+            $('#loginOk .xiUser').text(uName);
+        }
+        //绑定事件
+        $('.ysh-menuList a').on('click',showList);
+        $('.wsCont a').on('click',hideList);
+        document.onclick = function(){
+            $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+        }
+
+        //二级列表显示
+        function showList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            if($(this).parent().has('ul')){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                $(this).siblings('ul').removeClass('ysh-disappear');
+            }
+        }
+        function hideList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            $(this).parent().parent().addClass('ysh-disappear');
+
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

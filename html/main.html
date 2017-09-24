@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三门峡黄河公铁两用桥信息系统</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+<body>
+    <header class="ysh-smxHead">
+        <div class="ysh-smxTitle">
+            <img class="smxLogo" src="../images/home/logo.png" alt="">
+            <h5>三门峡黄河公铁两用桥信息系统</h5>
+        </div>
+        <div id="btnLogin" class="ysh-XTList">
+            <button id="loginBtn" class="btn btn-login">登录</button>
+        </div>
+
+        <ul id="loginOk" class="ysh-XTList ysh-disappear">
+            <li><a href="javascript:;">退出系统</a></li>
+            <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+            <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+        </ul>
+    </header>
+    <div class="mainContents">
+        <div class="ysh-cntList">
+            <ul class="ysh-menuList">
+                <li><a style=" background: rgb(0,133,106);" href="main.html">首页</a></li>
+                <li><a class="itemIntro" href="javascript:;">工程概况</a></li>
+                <li >
+                    <a class="userMgr"  href="javascript:;">人员管理</a>
+                </li>
+                <li class="wsMgr">
+                    <a href="javascript:;">物设管理</a>
+                    <ul class="wsCont ysh-disappear">
+                        <li><a class="equipment" href="javascript:;">机械设备</a></li>
+                        <li><a class="material" href="javascript:;">材料设备</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="" href="javascript:;" >进度管理</a>
+                    <ul class="jdCont ysh-disappear">
+                        <li><a class="itemUnit" href="javascript:;">项目单位</a></li>
+                        <li><a class="sgPlan" href="javascript:;">总施工进度</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="safeMgr" href="javascript:;">安全管理</a>
+                </li>
+                <li class="zlMgr">
+                    <a href="javascript:;">质量管理</a>
+                    <ul class="zlCont ysh-disappear">
+                        <li><a class="reportMgr" href="javascript:;">检测报告</a></li>
+                    </ul>
+                </li>
+                <li><a href="javascript:;">风险管理</a></li>
+                <li><a class="jsMgr" href="javascript:;">技术管理</a></li>
+                <li><a href="javascript:;">试验管理</a></li>
+                <li><a href="javascript:;">视频监控</a></li>
+                <li class="sysMgr">
+                    <a href="javascript:;">系统管理</a>
+                    <ul class="sysCont ysh-disappear">
+                        <li><a class="attrMgr" href="javascript:;">属性管理</a></li>
+                        <li><a class="materialTypeMgr" href="javascript:;">材料类型</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="ysh-menuImg">
+                <img  src="../images/home/banner.jpg" alt="">
+            </div>
+        </div>
+        <div class="ysh-cntList ysh-itemJJ">
+            <div class="ysh-leftJJ">
+                <h5>工程简介<span>/INTRODUCTION</span></h5>
+                <p>
+                    三门峡黄河公铁两用桥公路南引桥及南引线起点位于三门峡黄河公铁两用桥合<br/>
+                    建段南岸公铁分离墩处，路线以桥梁形式接出后向东南跨越国道G310后转向正<br/>
+                    南，在七里堡村东落地后设置主线收费站，而后前行跨越连霍高速，设置互通<br>
+                    立交，路线继续向南，设置匝道收费站，在土桥村北与国道G209交叉，到达项<br>
+                    目终点。路线全长2.182公里。工程按双向六车道高速公路标准设计，设计速度<br>
+                    100公里/小时，路基宽度32.5米，桥翘设计荷载等级为公路-I级。
+                </p>
+                <button class="btn">更多</button>
+            </div>
+            <div class="ysh-rightJJ">
+                <div class="rightContent">
+                    <h5>最新公告<span>/LATEST NOTICE</span></h5>
+                    <ul>
+                        <li>
+                            <a href="javascript:;">
+                                关于召开2017年第三次施工安全会议的通知公告
+                                <span class="ysh-newsDate">2017-08-12</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                关于召开2017年第三次施工安全会议的通知公告
+                                <span class="ysh-newsDate">2017-08-12</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                关于召开2017年第三次施工安全会议的通知公告
+                                <span class="ysh-newsDate">2017-08-12</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                关于召开2017年第三次施工安全会议的通知公告
+                                <span class="ysh-newsDate">2017-08-12</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <b class="right-border"></b>
+                <b class="bottom-border"></b>
+            </div>
+        </div>
+        <div class="ysh-cntList ysh-itemRule">
+            <div class="ysh-rules">
+
+            </div>
+        </div>
+        <footer class="ysh-foot">
+            <b></b>
+            <ul>
+                <li><a href="javascript:;">首页</a></li>
+                <li><a href="javascript:;">工程概况</a></li>
+                <li><a href="javascript:;">规章制度</a></li>
+                <li><a href="javascript:;">人才招聘</a></li>
+                <li><a href="javascript:;">联系我们</a></li>
+            </ul>
+            <p>&copy 2017 三门峡黄河钢铁两用桥 版权所有</p>
+        </footer>
+    </div>
+    <div id="imgModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">>
+        <div class="modal-dialog" role="document" style="position:absolute;top:0;left:0;bottom: 0;right:475px;">
+            <div class="modal-content" style="width: 1180px;height: 650px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body" >
+                    <div style="width:1100px;height: 550px;overflow: auto">
+                        <img src="../images/home/bigBanner.jpg" alt="" style="overflow: auto">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loginModal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">用户登录</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="userName" placeholder="用户名">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="userPassword" placeholder="密码">
+                        </div>
+                        <button type="button" class="btn btn-default btnCheckLogin">登录</button>
+                    </form>
+                </div>
+                <!--<div class="modal-footer">-->
+                    <!---->
+                <!--</div>-->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+<script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../plugins/EChart/echarts.min.js"></script>
+<script src="../js/global.js"></script>
+    <!--<script src="../js/jquery-3.1.1.min.js"></script>-->
+    <script>
+        (function ($) {
+            var uName,baseURL = window.global.SMXprogramURL,protocols={
+                getZSchedule: baseURL+'buildunit/SHQScheduleZGet',
+            };
+            $('.ysh-menuList a').on('click',showList);
+            $('#loginBtn').on('click',loginFun);
+            $('.btnCheckLogin').on('click',checkLogin);
+            $('.ysh-menuImg').on('click',imgModal);
+            $('.wsCont a').on('click',hideList);
+            $('.userMgr').on('click',jumpUser);
+            $('.itemIntro').on('click',jumpItem);
+            $('.itemUnit').on('click',jumpUnit);
+            $('.sgPlan').on('click',jumpPlan);
+            $('.equipment').on('click',jumpEq);
+            $('.material').on('click',jumpCl);
+            $('.attrMgr').on('click',jumpAttr);
+            $('.reportMgr').on('click',jumpReport);
+            $('.materialTypeMgr').on('click',jumpclTypeMgr);
+            $('.safeMgr').on('click',jumpSafeMgr);
+//            $('.safeUserMgr').on('click',jumpSafeUser);
+//            $('.tzUserMgr').on('click',jumpTzUser);
+            $('.jsMgr').on('click',jumpDatum);
+            $('.cyUserMgr').on('click',jumpCyUser);
+            $('.safeJGMgr').on('click',jumpAqjg);
+            $('.jxsbMgr').on('click',jumpJxsb);
+            $('.gzzdMgr').on('click',jumpGzzd);
+            document.onclick = function(){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+            }
+            uName  = sessionStorage.getItem('PNAME');
+            if(uName){
+                $('#btnLogin').css('display','none');
+                $('#loginOk').removeClass('ysh-disappear');
+                $('#loginOk .xiUser').text(uName);
+            }
+            $.ajax({
+                url:protocols.getZSchedule,
+                type:'get',
+                success:function (data) {
+                    if(!data.code){
+                        $('.itemPlanTable tbody').empty();
+                        var xAxis = [],actualNum =[],planNum=[],actualData=[],planData=[],numUnit=[];
+
+                        if(data.rows.length){
+                            $.each(data.rows,function (i,o) {
+                                xAxis.push(o.ItemName);
+                                actualNum.push((o.percent*100));
+                                planNum.push('100');
+                                actualData.push(o.ActualNum);
+                                planData.push(o.PlanTotalNum);
+                                numUnit.push(o.ItemUnit)
+                            });
+
+                            console.log(xAxis)
+                            //总图表的配置项
+                            zChartOption = {
+                                backgroundColor:'#ffffff',
+                                title: {
+                                    text: '总项目施工进度'
+                                },
+                                tooltip: {
+                                    trigger: 'axis',
+                                    axisPointer: {
+                                        type: 'cross',
+                                        backgroundColor: 'rgba(245, 245, 245, 0.8)',
+                                        borderWidth: 1,
+                                        borderColor: '#ccc',
+                                        padding: 10,
+                                        textStyle: {
+                                            color: '#000'
+                                        },
+                                        position: function (pos, params, el, elRect, size) {
+                                            var obj = {top: 10};
+                                            obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                                            return obj;
+                                        },
+                                        extraCssText: 'width: 170px',
+                                        label:{
+                                            backgroundColor: '#777',
+                                            formatter:function (params) {
+                                                var s  =''
+//                                            console.log(actualData);
+//                                            console.log(planData)
+//                                            console.log(params.seriesData)
+                                                if(params.seriesData.length){
+//                                            console.log(params.seriesData[0].dataIndex)
+                                                    $.each(actualData,function (i,o) {
+                                                        if(i == params.seriesData[0].dataIndex){
+                                                            s +='实际用量'+o+numUnit[i]+' ';
+                                                        }
+                                                    });
+                                                    $.each(planData,function (i,o) {
+                                                        if(i == params.seriesData[0].dataIndex){
+                                                            s +='计划用量'+o+numUnit[i];
+                                                        }
+                                                    });
+                                                    return s;
+                                                }
+
+                                            }
+                                        }
+                                    },
+                                },
+                                legend: {
+                                    data: [ '实际用量']
+//                                data: [ '实际用量','计划用量']
+                                },
+                                toolbox:{
+                                    show:true,
+                                    feature:{
+                                        dataview:{show:true,readOnly:false},
+                                        magicType:{show:true,type:['line','bar']},
+                                        restore : {show: true},
+                                        saveAsImage : {show: true}
+                                    }
+                                },
+                                calculable : true,
+                                xAxis: [
+                                    {
+                                        axisLabel: {
+                                            interval: 0,
+//                                        rotate:-10,
+                                            formatter: function (val) {
+                                                return val.split("").join("\n");
+                                            }
+                                        },
+                                        boundaryGap: true,
+                                        data: xAxis,
+
+                                    }
+                                ],
+                                grid: { // 控制图的大小，调整下面这些值就可以，
+                                    left: '10%',
+                                    bottom: '210px',
+//                                x: 40,
+//                                x2: 100,
+//                                y2: 210,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                                },
+                                yAxis: [
+                                    {
+                                        type : 'value',
+                                        axisLabel : {
+                                            formatter : '{value}%'
+                                        },
+                                        splitLine:{
+                                            show:false
+                                        },
+                                        data:data,
+                                        min:0,
+                                        max:100
+                                    }
+                                ],
+                                dataZoom: [
+                                    {
+                                        type: 'slider',
+                                        show: true,
+                                        xAxisIndex: [0],
+                                        start: 1,
+                                        end: 35
+                                    },
+                                    {
+                                        type: 'slider',
+                                        show: true,
+                                        yAxisIndex: [0],
+                                        left: '93%',
+                                        start: 1,
+                                        end: 100
+                                    },
+                                    {
+                                        type: 'inside',
+                                        xAxisIndex: [0],
+                                        start: 1,
+                                        end: 35
+                                    },
+                                    {
+                                        type: 'inside',
+                                        yAxisIndex: [0],
+                                        start: 1,
+                                        end: 36
+                                    }
+                                ],
+                                series: [
+                                    {
+                                        name: '实际用量',
+                                        type: 'bar',
+                                        data: actualNum,
+                                        itemStyle:{
+                                            normal: {
+//                                            lineStyle:{
+                                                color: '#65C4FA',
+//                                            }
+                                            }
+                                        },
+
+                                    },
+                                ]
+                            }
+                            ZItemChart = echarts.init($('.ysh-rules')[0]);
+                            ZItemChart.setOption(zChartOption)
+//
+                        }
+
+                    }
+                }
+            });
+            //登录模态框
+            function loginFun() {
+                $('#loginModal').modal('show')
+            }
+            //图片模态框
+            function imgModal() {
+                $('#imgModal').modal('show')
+            }
+            //二级列表显示
+            function showList(e) {
+                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                if($(this).parent().has('ul')){
+                    $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                    $(this).siblings('ul').removeClass('ysh-disappear');
+                }
+            }
+            function hideList(e) {
+                window.event? window.event.cancelBubble = true : e.stopPropagation();
+                $(this).parent().parent().addClass('ysh-disappear');
+
+            }
+            //登录协议函数
+            function checkLogin() {
+                var uId = $('#userName').val();
+                var psd =$('#userPassword').val();
+                //window.location.href='../main.html'
+                $.ajax({
+                    url: window.global.SMXprogramURL + "user/SHQLogin",
+                    type:'post',
+                    data: {
+                        userName:uId,
+                        password:psd
+                    },
+                    success:function(data){
+                        if(!data.code){
+                            $.each(data.rows,function(i,o){
+                                if(window.sessionStorage){
+                                    sessionStorage.setItem('PNAME',o.PNAME);
+                                    sessionStorage.setItem('DPID',o.DPID);
+                                    sessionStorage.setItem('PID',o.PID);
+                                    sessionStorage.setItem('ROLEID',o.ROLEID);
+                                    sessionStorage.setItem('ROLENAME',o.ROLENAME);
+                                    sessionStorage.setItem('DPNO',o.DPNO);
+                                    $('#loginOk .xiUser').text(o.PNAME)
+                                }
+                            });
+                           $('#btnLogin').css('display','none');
+                            $('#loginModal').modal('hide');
+                            $('#loginOk').removeClass('ysh-disappear');
+                        }
+
+                    },
+                    error:function (data) {
+//                        alert('请检查网络连接');
+                        window.wxc.xcConfirm('请检查网络连接', window.wxc.xcConfirm.typeEnum.error);
+                    }
+                })
+            }
+            function jumpUser() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='userMgr.html';
+                }
+            }
+            function jumpItem() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='itemGK/itemIntro.html';
+                }
+            }
+            function jumpUnit() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='processMgr/itemUnit.html';
+                }
+            }
+            function jumpPlan() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='processMgr/sgPlan.html';
+                }
+            }
+            function jumpEq() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='wsMgr/equipment.html';
+                }
+            }
+            function jumpCl() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='wsMgr/materialMgr.html';
+                }
+            }
+            function jumpAttr() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='sysMgr/attrMgr.html';
+                }
+            }
+            function jumpReport() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='zlMgr/reportMgr.html';
+                }
+            }
+            function jumpclTypeMgr() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='sysMgr/materialTypeMgr.html';
+                }
+            }
+           function jumpSafeMgr() {
+               if(!sessionStorage.getItem('PNAME')){
+                   $('#loginModal').modal('show')
+               }else{
+                   window.location.href='safeMgr/safeUserMgr.html';
+               }
+           }
+            function jumpDatum() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='jsMgr/datumMgr.html';
+                }
+            }
+            function jumpCyUser() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='safeMgr/cyryMgr.html';
+                }
+            }
+            function jumpAqjg() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='safeMgr/aqjgMgr.html';
+                }
+            }
+            function jumpJxsb() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='safeMgr/jxsbMgr.html';
+                }
+            }
+            function jumpGzzd() {
+                if(!sessionStorage.getItem('PNAME')){
+                    $('#loginModal').modal('show')
+                }else{
+                    window.location.href='safeMgr/gzzdMgr.html';
+                }
+            }
+        })(window.jQuery)
+    </script>
+</body>
+</html>

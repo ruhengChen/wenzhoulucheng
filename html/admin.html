@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>温州鹿城房产管理系统</title>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .container{
+            padding: 10px 0 0;
+            margin: 0 auto;
+            width: 1200px;
+            overflow: auto;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div  class="ysh-wzlcHead">
+        <div class="ysh-wzlcTitle">
+            <img class="wzlcLogo" src="../images/home/logo.png" alt="">
+            <h5>温州市鹿城区行政事业单位存量房产管理系统</h5>
+        </div>
+        <ul id="loginOk" class="ysh-XTList ">
+            <li><a href="javascript:;">退出系统</a></li>
+            <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+            <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+        </ul>
+    </div>
+</header>
+<div class="container">
+    <table class="table table-striped groupTable">
+        <thead>
+        <tr>
+            <td>权属单位</td>
+            <td>已出租</td>
+            <td>空置</td>
+            <td>合同到期</td>
+            <td>租金到期</td>
+            <!--<td>操作</td>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td colspan="6">正在加载数据...</td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+<script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../plugins/toastr/toastr.min.js"></script>
+<script src="../js/global.js"></script>
+<script>
+    (function ($) {
+        var baseURL = window.global.requestURL;
+        var mainHeight = (window.innerHeight - 70)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 70)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+
+        });
+        //获取本地存储值
+        if(window.sessionStorage.getItem('peopleName')){
+            $('.xiUser').text(window.sessionStorage.getItem('peopleName'));
+        }
+        var d = {
+            msgid:'WZRPMHouseCollect',
+            msgbody:[
+
+            ]
+        };
+        d = JSON.stringify(d);
+        $.ajax({
+            type:"post",
+            url:baseURL,
+            async:true,
+            data:d,
+            dataType:'json',
+            success:function(data){
+                console.log(data.resultcode);
+                if(data.resultcode == '0'){
+                    $('.groupTable>tbody').empty();
+                    if(data.msgbody.length){
+                        $.each(data.msgbody, function(i,o) {
+                            var t = '<tr data-groupid="'+o.groupid+'"><td><span class="houseIcon"></span>'+ o.groupname+'</td>'+
+                                    '<td>'+o.ycz+'</td><td>'+o.kz+'</td><td>'+o.htdq+'</td><td>'+o.zjdq+'</td></tr>';
+                            $('.groupTable>tbody').append(t)
+                        });
+                        $('.groupTable>tbody td').unbind().on('click',jumpPage)
+                    }else{
+                        $('.groupTable>tbody').append('<tr><td colspan="6">暂无数据</td></tr>')
+                    }
+
+                }
+            }
+        });
+        function jumpPage() {
+            window.sessionStorage.setItem('rootGroupid',$(this).parent('tr').attr('data-groupid'))
+            window.location.href='main.html'
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

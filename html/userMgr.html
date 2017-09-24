@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三门峡黄河公铁两用桥信息系统</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href='../plugins/zTree/css/blueStyle/blueStyle.css'>
+    <link rel="stylesheet" href="../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/userMgr.css">
+    <style>
+        #tableToolBar>span.sort:hover,#tableToolBar>span.certMgr:hover{
+            color: #059C7E;
+        }
+        .treeContain{
+            height: calc(100% - 50px);
+            overflow-y: auto;
+        }
+        #userTable{
+            width: 1300px;
+            overflow-x: auto;
+        }
+        .sureSort{
+            float: right;
+            margin-top: 8px;
+        }
+        .leftData,.rightData{
+            margin-right: 5px;
+            padding: 8px 10px;
+            border:1px solid #c4c4c4;
+            height:400px;
+        }
+        .leftData{
+            float: left;
+            width:63%;
+        }
+        .rightData{
+            float: left;
+            margin-right: 0;
+            width: calc(37% - 10px);
+        }
+        .fieList>li{
+            /*float: left;*/
+            margin: 10px 15px 10px;
+            width:250px;
+            height: 110px;
+            border:1px solid #999;
+        }
+        .fieList>li>a{
+            display: block;
+            padding-top: 5px;
+            margin: auto;
+            width: 40px;height: 50px;
+            /*border: 1px dotted #555555;*/
+            text-align: center;
+        }
+        .fieList>li>p{
+            margin-top: 5px;
+            text-align: center;
+        }
+        .fieList>li>a>span{
+            font-size: 38px;
+            color: #FBDC7C;
+        }
+        .li-selected{
+            background-color: #059C7E;
+        }
+    </style>
+</head>
+<body>
+<header class="ysh-smxHead">
+    <div class="ysh-smxTitle">
+        <img class="smxLogo" src="../images/home/logo.png" alt="">
+        <h5>三门峡黄河公铁两用桥信息系统</h5>
+    </div>
+    <ul id="loginOk" class="ysh-XTList">
+        <li><a href="javascript:;">退出系统</a></li>
+        <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+        <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+    </ul>
+</header>
+    <div class="ysh-menu">
+        <ul class="ysh-menuList">
+            <li><a href="main.html">首页</a></li>
+            <li><a href="itemGK/itemIntro.html">工程概况</a></li>
+            <li >
+                <a style=" background: rgb(0,133,106);" href="userMgr.html">人员管理</a>
+            </li>
+
+            <li class="wsMgr">
+                <a href="javascript:;">物设管理</a>
+                <ul class="wsCont ysh-disappear">
+                    <li><a href="wsMgr/equipment.html">机械设备</a></li>
+                    <li><a href="wsMgr/materialMgr.html">材料设备</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">进度管理</a>
+                <ul class="jdCont ysh-disappear">
+                    <li><a href="processMgr/itemUnit.html">项目单位</a></li>
+                    <li><a href="processMgr/sgPlan.html">总施工进度</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="safeMgr/safeUserMgr.html">安全管理</a>
+            </li>
+            <li>
+                <a  href="javascript:;">质量管理</a>
+                <ul class="zlCont ysh-disappear">
+                    <li><a class="reportMgr" href="zlMgr/reportMgr.html">检测报告</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:;">风险管理</a></li>
+            <li><a href="jsMgr/datumMgr.html">技术管理</a></li>
+            <li><a href="javascript:;">试验管理</a></li>
+            <li><a href="javascript:;">视频监控</a></li>
+            <li class="sysMgr">
+                <a href="javascript:;">系统管理</a>
+                <ul class="sysCont ysh-disappear">
+                    <li><a class="attrMgr" href="sysMgr/attrMgr.html">属性管理</a></li>
+                    <li><a class="attrMgr" href="sysMgr/materialTypeMgr.html">材料类型</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+<div class="container">
+    <div class="sidebar">
+        <div class="treeToolBar">
+            <span class="addTree"></span>
+            <span class="editTree"></span>
+            <span class="delTree"></span>
+            <span class="seeTree"></span>
+        </div>
+        <div class="treeContain">
+            <ul id="treeUser" class="ztree"></ul>
+        </div>
+
+    </div>
+    <div class="mainContent">
+        <div id="tableToolBar">
+            <span class="addUser"><b></b>增加</span>
+            <span class="editUser"><b></b>修改</span>
+            <span class="delUser"><b></b>删除</span>
+            <span class="seeUser"><b></b>查看</span>
+            <span class="sort">排序</span>
+            <span class="certMgr" style="width: 60px">证书管理</span>
+            <!--<button class="btn btn-default addUser">增加</button>-->
+            <!--<button class="btn btn-default editUser">修改</button>-->
+            <!--<button class="btn btn-default delUser">删除</button>-->
+            <!--<button class="btn btn-default seeUser">查看</button>-->
+        </div>
+        <!--<table id="ysh-unitTable"></table>-->
+        <div class="table-container">
+            <table id="userTable" class="table table-striped planTable">
+                <thead>
+                <tr>
+                    <th style="">序号</th>
+                    <th style="">部门</th>
+                    <th  style="">姓名</th>
+                    <th style="">职务</th>
+                    <th style="">电话</th>
+                    <th style="">民族</th>
+                    <th style="">政治面貌</th>
+                    <th style="">身份证号</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="9">请选择部门</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--登录-->
+<div id="loginModal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <h4 class="modal-title">用户登录</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="userLoginName" placeholder="用户名">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="userPassword" placeholder="密码">
+                    </div>
+                    <button type="button" class="btn btn-default btnCheckLogin">登录</button>
+                </form>
+            </div>
+            <!--<div class="modal-footer">-->
+            <!---->
+            <!--</div>-->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--增加修改部门-->
+<div class="modal fade bs-example-modal-sm" id="departmentModal" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="departmentModalLabel"></h4>
+            </div>
+            <div class="modal-body" >
+                <form class="form-horizontal departForm" data-dpid="">
+                    <div class="form-group">
+                        <label for="deptName" class="col-sm-3 control-label">部门名称</label>
+                        <div class="col-sm-9">
+                            <!--<select name="" id="deptName"></select>-->
+                            <input type="text" class="form-control" id="deptName">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group" style="visibility: hidden">
+                        <label for="departNum" class="col-sm-3 control-label">部门编号</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="departNum">
+                            <!--<input type="text" class="form-control" id="materialInSum" :duplex="@material_Info.UNO">-->
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="subAddDepartment">确定</button>
+                <button type="button" class="btn btn-primary" id="subEditDepartment">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--人员增改-->
+<div class="modal fade" id="UserModal" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="userModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+
+                    <div class="form-group">
+                        <label for="userName" class="col-sm-3 control-label">姓名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="userName">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="depart" class="col-sm-3 control-label">部门</label>
+                        <div class="col-sm-9">
+                            <select name="" id="depart" class="form-control">
+
+                            </select>
+                            <!--<input type="text" class="form-control" id="materialInSum">-->
+                            <!--<input type="text" class="form-control" id="materialInSum" :duplex="@material_Info.UNO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userJob" class="col-sm-3 control-label">职务</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="userJob">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userLink" class="col-sm-3 control-label">电话</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="userLink" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userSex" class="col-sm-3 control-label">性别</label>
+                        <div class="col-sm-9">
+                            <select name="" id="userSex" class="form-control">
+                                <option value="">请选择性别</option>
+                                <option id="woman" value="女">女</option>
+                                <option id="man" value="男">男</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="IDCARD" class="col-sm-3 control-label">身份证号</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="IDCARD" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userBorn" class="col-sm-3 control-label">出生日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="userBorn" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Nation" class="col-sm-3 control-label">民族</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Nation" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Education" class="col-sm-3 control-label">学历</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Education" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="JobStart" class="col-sm-3 control-label">入职时间</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="JobStart" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="HTStart" class="col-sm-3 control-label">合同时间</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="HTStart" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ResidenceAdr" class="col-sm-3 control-label">户籍</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="ResidenceAdr" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Residence" class="col-sm-3 control-label">户籍性质</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Residence" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Address" class="col-sm-3 control-label">现居地址</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Address" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="PostCode" class="col-sm-3 control-label">邮编</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="PostCode" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Political" class="col-sm-3 control-label">政治面貌</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Political" >
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="subAddUser">确定</button>
+                <button type="button" class="btn btn-primary" id="subEditUser">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--证书管理模态框-->
+<div id="certModal" data-pid="" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="certModalTitle" >证书管理</h4>
+            </div>
+            <div class="modal-body" style="height: 430px;overflow-x: hidden;overflow-y: auto">
+                <div class="leftData">
+                    <div id="Use-toolbar" style="">
+                        <button class="btn btn-default addCert">增加</button>
+                        <button class="btn btn-default editCert">修改</button>
+                        <button class="btn btn-default delCert">删除</button>
+                        <!--<button class="btn btn-default seeUseMaterial">查看</button>-->
+                    </div>
+                    <!--<table id="eventTable"></table>-->
+                    <div class="table-container">
+                        <table data-pid="" id="certTable" style="overflow: auto"
+                               class="table table-striped planTable">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>证书名</th>
+                                <th>开始日期</th>
+                                <th>结束日期</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="5">暂无证书</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="rightData">
+                    <div  style="">
+                        <button class="btn btn-default addFile">上传</button>
+                        <button class="btn btn-default delFile">删除</button>
+                        <!--<button class="btn btn-default seeUseMaterial">查看</button>-->
+                    </div>
+                    <div class="table-container">
+                        <ul class="fieList">
+                            <!--<li >-->
+                                <!--<a href="http://183.129.255.154:8085/SMXprogram/upload/S70428-11541020170904093949.jpg"  target="blank" download="S70428-11541020170904093949.jpg">-->
+                                    <!--<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>-->
+                                    <!--<p  >测试</p>-->
+                                <!--</a>-->
+                                <!--&lt;!&ndash;<img class="imgFile" src="../images/home/ff.png" alt="">&ndash;&gt;-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="http://183.129.255.154:8085/SMXprogram/upload/新建 Microsoft Word 文档20170904100428.docx"  target="blank" download="新建 Microsoft Word 文档20170904100428.docx">-->
+                                    <!--<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>-->
+                                <!--</a>-->
+                                <!--&lt;!&ndash;<img class="imgFile" src="../images/home/ff.png" alt="">&ndash;&gt;-->
+                            <!--</li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--证书增加修改模态框-->
+<div class="modal fade" id="certInfoModal" data-pid="" data-certid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document"  >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="certModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+
+                    <div class="form-group">
+                        <label for="certName" class="col-sm-3 control-label">证书名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certName">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certType" class="col-sm-3 control-label">证书类型</label>
+                        <div class="col-sm-9">
+                            <select name="" id="certType" class="form-control">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certSTime" class="col-sm-3 control-label">开始日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certSTime" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="certETime" class="col-sm-3 control-label">结束日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certETime" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certUnit" class="col-sm-3 control-label">发证单位</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certUnit" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certRmk" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certRmk" >
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="subAddCert">确定</button>
+                <button type="button" class="btn btn-primary" id="subEditCert">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--附件上传-->
+<div class="modal fade" id="fileModal" data-pid="" data-certid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="fileModalLabel">文件上传</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+                    <div class="form-group">
+                        <label for="fileRemark" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="fileRemark">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file" class="col-sm-3 control-label">文件</label>
+                        <div class="col-sm-9">
+                            <input type="file" class="form-control" id="file">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="uploadFile">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="sortUser" class="modal fade"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="certModalTitle" >人员排序</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+
+                <!--<table id="eventTable"></table>-->
+                <div class="table-container" style="overflow: auto">
+                    <table data-pid="" id="sortUserTable" style=""
+                           class="table table-striped planTable">
+                        <thead>
+                        <tr>
+                            <th style="">序号</th>
+                            <th style="">部门</th>
+                            <th  style="">姓名</th>
+                            <th style="">职务</th>
+                            <th style="">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td colspan="6">正在加载，请稍候...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="sortUser-toolbar">
+                    <button class="btn btn-default sureSort" >确认</button>
+                    <!--<button class="btn btn-default seeUseMaterial">查看</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/global.js"></script>
+<script src="../plugins/zTree/js/jquery.ztree.all.min.js"></script>
+<script src="../plugins/daterangepicker/moment.js"></script>
+<script src="../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../plugins/toastr/toastr.min.js"></script>
+<script>
+    (function ($) {
+        //全局变量
+        var baseURL=window.global.SMXprogramURL,last, zNodes=[],dpId='',tableSelector='#ysh-unitTable',uName,ztree,
+                dpNo,nodeLength,pId,ownerId,FLAG,
+            date = new Date(),last,vm,protocols,clUseMID='',clInMID='',
+            today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate(),
+            startTime = today,
+            endTime = today, last = (date.getFullYear()-20)+'-'+(date.getMonth()+1)+'-'+date.getDate();
+                protocols={
+                    getDepart:baseURL +'safemodel/SHQDepartmentGet',
+                    addDepart:baseURL +'safemodel/SHQDepartmentAdd',
+                    editDepart:baseURL +'safemodel/SHQDepartmentEdit',
+                    delDepart:baseURL +'safemodel/SHQDepartmentDel',
+                    getUser:baseURL +'safemodel/SHQPersonGet',
+                    addUser:baseURL +'safemodel/SHQPersonAdd',
+                    editUser:baseURL +'safemodel/SHQPersonEdit',
+                    delUser:baseURL +'safemodel/SHQPersonDel',
+                    sortUser:baseURL+'safemodel/SHQPersonSort',
+                    getCert:baseURL+'safemodel/SHQCertGet',
+                    addCert:baseURL+'safemodel/SHQCertAdd',
+                    editCert:baseURL+'safemodel/SHQCertEdit',
+                    delCert:baseURL+'safemodel/SHQCertDel',
+                    getCertType:baseURL+'safemodel/SHQCertTypeGet',
+                    uploadFile:baseURL+'upload/uploadfile',
+                    delFiles:baseURL+'upload/SHQAttachDel',
+                    getFiles:baseURL+'upload/getfile'
+                };
+        var mainHeight = (window.innerHeight - 160)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 160)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+        });
+        $('#userBorn').daterangepicker({
+            locale: {
+                format : 'YYYY-MM-DD hh:mm:ss',
+                separator: ' ~ ',
+                weekLabel: '星期',
+            },
+            startDate:last,
+            singleDatePicker:true,
+            timePicker:true,
+            timePicker24Hour:true
+        });
+        $('#HTStart,#JobStart,#certSTime,#certETime').daterangepicker({
+            locale: {
+                format : 'YYYY-MM-DD hh:mm:ss',
+                separator: ' ~ ',
+                weekLabel: '星期',
+            },
+            startDate:startTime,
+            singleDatePicker:true,
+            timePicker:true,
+            timePicker24Hour:true
+        });
+        uName  = sessionStorage.getItem('PNAME');
+        if(uName){
+            $('#loginOk .xiUser').text(uName);
+        }else{
+            $('#loginModal').modal('show')
+        }
+        //绑定事件
+        $('.ysh-menuList a').on('click',showList);
+        $('.wsCont a').on('click',hideList);
+        document.onclick = function(){
+            $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+        }
+        //登录
+        $('.btnCheckLogin').on('click',checkLogin);
+        //增删改查按钮事件
+        $('.addTree').on('click',addShow);
+        $('.editTree').on('click',editShow);
+        $('.delTree').on('click',delTree);
+        $('.seeTree').on('click',seeShow);
+        $('.addUser').on('click',addUserShow);
+        $('.editUser').on('click',editUserShow);
+        $('.delUser').on('click',delUser);
+        $('.seeUser').on('click',seeUserShow);
+        //排序
+        $('.sort').on('click',sortUser);
+        $('.sureSort').on('click',sureSortBtn);
+        //部门
+        $('#subAddDepartment').on('click',subAddDepartment);
+        $('#subEditDepartment').on('click',subEditDepartment);
+        //人员
+        $('#subAddUser').on('click',subAddUser);
+        $('#subEditUser').on('click',subEditUser);
+        //证书
+        $('.certMgr').on('click',certModal);
+        $('.addCert').on('click',addCertBtn);
+        $('.editCert').on('click',editCertBtn);
+        $('.delCert').on('click',delCertBtn);
+        $('#subAddCert').on('click',subAddCertBtn);
+        $('#subEditCert').on('click',subEditCertBtn);
+        //文件
+        $('.addFile').on('click',addFileModal);
+        $('.delFile').on('click',delFileModal);
+        $('#uploadFile').on('click',uploadFileBtn);
+        //初始化zTree
+        var setting = {
+            data: {
+                check:{
+                    enable:true
+                },
+                key:{
+                    name:'DPName'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey:'DPNo',
+                    pIdKey:'pId',
+
+                },
+                view:{
+                    showLine:true,
+                    showIcon:true
+                }
+            },
+            callback: {
+                beforeMouseDown:beforeMouseDown,
+                onMouseDown: onMouseDown,
+            }
+        };
+
+        //加载树数据
+        $.ajax({
+            url:protocols.getDepart,
+            type:'get',
+            cache:false,
+            data:{
+
+            },
+            success:function (data) {
+                if(!data.code){
+                    zNodes = treeDataReconstruct(data.rows);
+                    //console.log(d);
+                }
+                //渲染zTree
+                ztree =  $.fn.zTree.init($("#treeUser"), setting, zNodes);
+            },
+            error:function (data) {
+                alert(data.msg)
+            }
+        });
+        //treeDataReconstruct();修改左边树数据结构
+        function treeDataReconstruct(data) {
+            //alert('1')
+            $.each(data,function (i,o) {
+                if(o.DPNo.length < 3){
+                    o.pId ='0'
+                }else{
+                    var s  = o.DPNo.slice(0,-3);
+                    o.pId = s;
+                }
+            });
+            return data;
+        }
+        //鼠标点击之前
+        function beforeMouseDown(treeId, treeNode) {
+            if(!treeNode){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        //鼠标点击
+        function onMouseDown(event,treeId,treeNode) {
+            console.log(treeNode);
+            dpId = treeNode.DPID;
+            dpNo = treeNode.DPNo;
+            var data  = getChildNodes(treeNode);
+            nodeLength = data.length;
+            console.log(data.length);
+            $.ajax({
+                url: protocols.getUser,
+                type: 'post',
+                cache: false,
+                data: {
+                    ID: dpId,
+                },
+                success: function (data) {
+                    if (!data.code) {
+                        if(data.rows.length){
+                            $('#userTable>tbody').empty();
+                            $.each(data.rows, function (i, o) {
+                                var t = '<tr data-pid="' + o.PID + '">' +
+                                        '<td>' + (i + 1) + '</td><td>' + o.DPName + '</td><td>' + o.PName + '</td><td>' + o.JobKind + '</td>' +
+                                        '<td>' + o.LinkTel + '</td><td>' + o.Nation + '</td><td>' + o.Political + '</td><td>' + o.IDCard + '</td>' +
+                                        '</tr>';
+                                $('#userTable>tbody').append(t);
+                                $('#userTable>tbody td').on('click', function () {
+                                    $(this).parent().addClass('table-selected');
+                                    $(this).parent().siblings().removeClass('table-selected')
+                                })
+                                $('.up').unbind().on('click',moveUp);
+                                $('.down').unbind().on('click',moveDown);
+                            });
+                        }else{
+                            $('#userTable>tbody').empty();
+                            $('#userTable>tbody').append('<tr><td colspan="9">该部门暂无数据</td></tr>');
+
+                        }
+
+                    }
+                }
+            });
+        }
+
+        //功能函数
+        //登录协议函数
+        function checkLogin() {
+            var uId = $('#userLoginName').val();
+            var psd =$('#userPassword').val();
+            //window.location.href='../main.html'
+            $.ajax({
+                url: window.global.SMXprogramURL + "user/SHQLogin",
+                type:'post',
+                data: {
+                    userName:uId,
+                    password:psd
+                },
+                success:function(data){
+                    if(!data.code){
+                        $.each(data.rows,function(i,o){
+                            if(window.sessionStorage){
+                                sessionStorage.setItem('PNAME',o.PNAME);
+                                sessionStorage.setItem('DPID',o.DPID);
+                                sessionStorage.setItem('PID',o.PID);
+                                sessionStorage.setItem('ROLEID',o.ROLEID);
+                                sessionStorage.setItem('ROLENAME',o.ROLENAME);
+                                sessionStorage.setItem('DPNO',o.DPNO);
+                                $('#loginOk .xiUser').text(o.PNAME)
+                            }
+                        });
+                        $('#btnLogin').css('display','none');
+                        $('#loginModal').modal('hide');
+                        $('#loginOk').removeClass('ysh-disappear');
+                    }
+
+                },
+                error:function (data) {
+                    alert('请检查网络连接')
+                }
+            })
+        }
+        //增加部门
+        function subAddDepartment() {
+            var dpId = getUnitId();
+
+            $.ajax({
+                url:protocols.addDepart,
+                type:'post',
+                data:{
+                    DPID:dpId,
+                    DPNAME:$('#deptName').val(),
+                    DPNO:$('#departNum').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $('#rygl').load('userMgr/userMgr.html').addClass('active');
+                        $('#departmentModal').modal('hide');
+                    }
+                },
+                error:function(data){
+                    alert(data.msg)
+                }
+
+            });
+        }
+        //编辑部门
+        function subEditDepartment() {
+            $.ajax({
+                url:protocols.editDepart,
+                type:'post',
+                data:{
+                    DPID:$('.departForm').attr('data-dpid'),
+                    DPNAME:$('#deptName').val(),
+                    DPNO:$('#departNum').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        window.location.reload();
+                        $('#departmentModal').modal('hide');
+                    }
+                },
+                error:function(data){
+                    alert(data.msg)
+                }
+
+            });
+        }
+        //增加人员
+        function subAddUser() {
+            var pid = getUnitId();
+            $.ajax({
+                url:protocols.addUser,
+                type:'post',
+                data:{
+                    PID:pid,
+                    PNAME:$('#userName').val(),
+                    SEX:$('#userSex>option:selected').val(),
+                    IDCARD:$('#IDCARD').val(),
+                    BORN:$('#userBorn').val(),
+                    NATION:$('#Nation').val(),
+                    EDUCATION:$('#Education').val(),
+                    JOBSTART:$('#JobStart').val(),
+                    HTSTART:$('#HTStart').val(),
+                    RESIDENCE:$('#Residence').val(),
+                    RESIDENCEADR:$('#ResidenceAdr').val(),
+                    ADDRESS:$("#Address").val(),
+                    POSTCODE:$('#PostCode').val(),
+                    LINKTEL:$('#userLink').val(),
+                    JOBKIND:$('#userJob').val(),
+                    POLITICAL:$('#Political').val(),
+                    DPID:$('#depart>option:selected').val()
+                },
+                success:function (data) {
+                    if(!data.code){
+                        window.location.reload();
+//                        $('#rygl').load('userMgr/userMgr.html').addClass('active');
+                        $('#UserModal').modal('hide')
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            })
+        }
+        function subEditUser() {
+            $.ajax({
+                url:protocols.editUser,
+                type:'post',
+                data:{
+                    PID:$('.userForm').attr('data-pid'),
+                    PNAME:$('#userName').val(),
+                    SEX:$('#userSex>option:selected').val(),
+                    IDCARD:$('#IDCARD').val(),
+                    BORN:$('#userBorn').val(),
+                    NATION:$('#Nation').val(),
+                    EDUCATION:$('#Education').val(),
+                    JOBSTART:$('#JobStart').val(),
+                    HTSTART:$('#HTStart').val(),
+                    RESIDENCE:$('#Residence').val(),
+                    RESIDENCEADR:$('#ResidenceAdr').val(),
+                    ADDRESS:$("#Address").val(),
+                    POSTCODE:$('#PostCode').val(),
+                    LINKTEL:$('#userLink').val(),
+                    JOBKIND:$('#userJob').val(),
+                    POLITICAL:$('#Political').val(),
+                    DPID:$('#depart>option:selected').val()
+                },
+                success:function (data) {
+                    if(!data.code){
+                       window.location.reload();
+                        $('#UserModal').modal('hide')
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            })
+        }
+        //二级列表显示
+        function showList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            if($(this).parent().has('ul')){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                $(this).siblings('ul').removeClass('ysh-disappear');
+            }
+        }
+        function hideList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            $(this).parent().parent().addClass('ysh-disappear');
+
+        }
+        function addShow() {
+            var num;
+            if(dpId) {
+                if (nodeLength > 10) {
+                    num = dpNo + '-' + nodeLength;
+                } else {
+                    num = dpNo + '-0' + nodeLength;
+                }
+                $('#deptName').val('')
+                $('#departNum').val(num)
+                $('#departmentModalLabel').text('新增部门');
+                $('#subEditDepartment').css('display','none');
+                $('#subAddDepartment').css('display','inline-block')
+                $('#departmentModal').modal('show');
+            }else{
+                window.wxc.xcConfirm('请选择父节点', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function editShow() {
+            if(!dpId){
+                window.wxc.xcConfirm('请选择部门', window.wxc.xcConfirm.typeEnum.confirm);
+            }else{
+                $('#departmentModal input').val('');
+                $.ajax({
+                    url:protocols.getDepart,
+                    type:'get',
+                    success:function (data) {
+                        if(!data.code){
+                            $.each(data.rows,function (i,o) {
+                                if(o.DPID == dpId){
+                                    $('#deptName').val(o.DPName);
+                                    $('#departNum').val(o.DPNo);
+                                    $('.departForm').attr('data-dpid',o.DPID)
+                                }
+                            });
+                            $('#departmentModalLabel').text('编辑部门');
+                            $('#subEditDepartment').css('display','inline-block');
+                            $('#subAddDepartment').css('display','none');
+                            $('#departmentModal').modal('show')
+                        }
+                    },
+                    error:function (data) {
+                        alert(data.msg)
+                    }
+                });
+            }
+        }
+        function delTree() {
+            if(!dpId){
+                window.wxc.xcConfirm('请选择部门', window.wxc.xcConfirm.typeEnum.confirm);
+            }else{
+                window.wxc.xcConfirm('确认删除该部门？', window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function(){
+                        $.ajax({
+                            url:protocols.delDepart,
+                            type:'post',
+                            data:{
+                                DPID:dpId
+                            },
+                            success:function (data) {
+                                if(!data.code){
+
+                                    $.ajax({
+                                        url:protocols.getDepart,
+                                        type:'get',
+                                        cache:false,
+                                        data:{
+
+                                        },
+                                        success:function (data) {
+                                            if(!data.code){
+                                                toastr.success(data.msg);
+                                                zNodes = treeDataReconstruct(data.rows);
+                                                //console.log(d);
+                                            }
+                                            //渲染zTree
+                                            ztree =  $.fn.zTree.init($("#treeUser"), setting, zNodes);
+                                        },
+                                        error:function (data) {
+                                            alert(data.msg)
+                                        }
+                                    });
+                                }
+                            },
+                            error:function (data) {
+                                alert(data.msg)
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        function seeShow() {
+            if(!dpId){
+                window.wxc.xcConfirm('请选择部门', window.wxc.xcConfirm.typeEnum.confirm);
+            }else{
+                $('#departmentModal input').val('');
+                $.ajax({
+                    url:protocols.getDepart,
+                    type:'get',
+                    success:function (data) {
+                        if(!data.code){
+                            $.each(data.rows,function (i,o) {
+                                if(o.DPID == dpId){
+                                    $('#deptName').val(o.DPName);
+                                    $('#departNum').val(o.DPNo);
+                                    $('.departForm').attr('data-dpid',o.DPID)
+                                }
+                            });
+
+                            $('#departmentModalLabel').text('查看部门');
+                            $('#subEditDepartment').css('display','none');
+                            $('#subAddDepartment').css('display','none');
+                            $('#departmentModal').modal('show')
+                        }
+                    },
+                    error:function (data) {
+                        alert(data.msg)
+                    }
+                });
+            }
+        }
+        function addUserShow() {
+            $('#UserModal input').val('');
+            $('#userModalLabel').text('增加用户');
+            $('#UserModal input').val('');
+            $('#subEditUser').css('display','none');
+            $('#subAddUser').css('display','inline-block');
+            $.ajax({
+                url: protocols.getDepart,
+                type: 'get',
+                cache: false,
+                data: {},
+                success: function (data) {
+                    if (!data.code) {
+                        $('#depart').empty();
+                        var o = '<option checked="checked" value="">请选择部门</option>';
+                        $('#depart').append(o);
+                        $.each(data.rows, function (i, o) {
+                            var opt = '<option id="' + o.DPID + '" value="' + o.DPID + '">' + o.DPName + '</option>';
+                            $('#depart').append(opt);
+
+                        })
+                        $('#UserModal').modal('show');
+                    }
+                },
+                error: function (data) {
+                    alert(data.msg)
+                }
+            });
+        }
+        function editUserShow() {
+            var pid =$('#userTable>tbody>tr.table-selected').attr('data-pid');
+            if(pid){
+                $('#UserModal input').val('');
+                $('#userModalLabel').text('修改用户');
+                $('#subEditUser').css('display','inline-block');
+                $('#subAddUser').css('display','none');
+                $.ajax({
+                    url:protocols.getDepart,
+                    type:'get',
+                    cache:false,
+                    data:{
+
+                    },
+                    success:function (data) {
+                        if(!data.code){
+                            $('#depart').empty();
+                            var o = '<option checked="checked" value="">请选择部门</option>';
+                            $('#depart').append(o);
+                            $.each(data.rows,function (i,o) {
+                                var opt = '<option id="'+o.DPID+'" value="'+o.DPID+'">'+o.DPName+'</option>';
+                                $('#depart').append(opt);
+
+                            })
+                            $.ajax({
+                                url:protocols.getUser,
+                                type:'post',
+                                data:{
+                                    ID:dpId,
+                                },
+                                success:function (data) {
+                                    if(!data.code){
+                                        $.each(data.rows,function (i,o) {
+                                            if(o.PID == pid){
+                                                $('.userForm').attr('data-pid',pid);
+                                                $('#userName').val(o.PName);
+                                                $('#userJob').val(o.JobKind);
+                                                $('#userLink').val(o.LinkTel);
+                                                $('#IDCARD').val(o.IDCard),
+                                                $('#userBorn').val(o.Born);
+                                                $('#Nation').val(o.Nation);
+                                                $('#Education').val(o.Education);
+                                                $('#JobStart').val(o.JobStart);
+                                                $('#HTStart').val(o.HTStart);
+                                                $('#ResidenceAdr').val(o.ResidenceAdr);
+                                                $('#Residence').val(o.Residence);
+                                                $('#Address').val(o.Address);
+                                                $('#PostCode').val(o.PostCode);
+                                                $('#Political').val(o.Political)
+                                                if(o.Sex =='女'){
+                                                    $('#woman').attr('selected',true);
+                                                }else{
+                                                    $('#man').attr('selected',true);
+                                                }
+                                                var s = '#'+o.DPID
+                                                $(s).attr('selected',true);
+
+                                            }
+                                        });
+                                        $('#UserModal').modal('show')
+                                    }
+                                },
+                                error:function (data) {
+                                    alert(data.msg)
+                                }
+                            })
+                            //console.log(d);
+                        }
+                    },
+                    error:function (data) {
+                        alert(data.msg)
+                    }
+                });
+
+
+            }else{
+                window.wxc.xcConfirm('请选择部门下的用户', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function delUser() {
+
+            var pid =$('#userTable>tbody>tr.table-selected').attr('data-pid');
+            if(pid){
+                window.wxc.xcConfirm('确认删除该部门？', window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function(){
+                        $.ajax({
+                            url:protocols.delUser,
+                            type:'post',
+                            data:{
+                                PID:pid
+                            },
+                            success:function (data) {
+                                if(!data.code){
+
+                                    $.ajax({
+                                        url:protocols.getUser,
+                                        type:'post',
+                                        cache:false,
+                                        data:{
+                                            ID:dpId,
+                                        },
+                                        success:function (data) {
+                                            if(!data.code){
+                                                toastr.success(data.msg);
+                                                $('#userTable>tbody').empty();
+                                                $.each(data.rows,function (i,o) {
+                                                    var t ='<tr data-pid="'+o.PID+'">' +
+                                                            '<td>'+(i+1)+'</td><td>'+o.DPName+'</td><td>'+o.PName+'</td><td>'+o.JobKind+'</td>' +
+                                                            '<td>'+o.LinkTel+'</td><td>'+o.Nation+'</td><td>'+o.Political+'</td><td>'+o.PID+'</td></tr>';
+                                                    $('#userTable>tbody').append(t);
+                                                    $('#userTable>tbody td').on('click',function () {
+                                                        $(this).parent().addClass('table-selected');
+                                                        $(this).parent().siblings().removeClass('table-selected')
+                                                    })
+
+                                                })
+                                            }
+                                        }
+                                    })
+                                }
+                            },
+                            error:function (data) {
+                                alert(data.msg)
+                            }
+                        });
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择部门下的用户', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function seeUserShow() {
+            var pid =$('#userTable>tbody>tr.table-selected').attr('data-pid');
+            if(pid){
+                $('#UserModal input').val('');
+                $('#userModalLabel').text('查看用户');
+                $('#subEditUser').css('display','none');
+                $('#subAddUser').css('display','none');
+                $.ajax({
+                    url:protocols.getDepart,
+                    type:'get',
+                    cache:false,
+                    data:{
+
+                    },
+                    success:function (data) {
+                        if(!data.code){
+                            $('#depart').empty();
+                            var o = '<option checked="checked" value="">请选择部门</option>';
+                            $('#depart').append(o);
+                            $.each(data.rows,function (i,o) {
+                                var opt = '<option id="'+o.DPID+'" value="'+o.DPID+'">'+o.DPName+'</option>';
+                                $('#depart').append(opt);
+                            })
+                            $.ajax({
+                                url:protocols.getUser,
+                                type:'post',
+                                data:{
+                                    ID:dpId,
+                                },
+                                success:function (data) {
+                                    if(!data.code){
+                                        $.each(data.rows,function (i,o) {
+                                            if(o.PID == pid){
+                                                $('#userName').val(o.PName);
+                                                $('#userJob').val(o.JobKind);
+                                                $('#userLink').val(o.LinkTel);
+                                                $('#userBorn').val(o.Born);
+                                                $('#IDCARD').val(o.IDCard),
+                                                $('#Nation').val(o.Nation);
+                                                $('#Education').val(o.Education);
+                                                $('#JobStart').val(o.JobStart);
+                                                $('#HTStart').val(o.HTStart);
+                                                $('#ResidenceAdr').val(o.ResidenceAdr);
+                                                $('#Residence').val(o.Residence);
+                                                $('#Address').val(o.Address);
+                                                $('#PostCode').val(o.PostCode);
+                                                $('#Political').val(o.Political)
+                                                if(o.Sex =='女'){
+                                                    $('#woman').attr('selected',true);
+                                                }else{
+                                                    $('#man').attr('selected',true);
+                                                }
+                                                var s = '#'+o.DPID
+                                                $(s).attr('selected',true);
+
+                                            }
+                                        });
+                                        $('#UserModal').modal('show')
+                                    }
+                                },
+                                error:function (data) {
+                                    alert(data.msg)
+                                }
+                            })
+                            //console.log(d);
+                        }
+                    },
+                    error:function (data) {
+                        alert(data.msg)
+                    }
+                });
+
+
+            }else{
+                alert('请选择部门下的用户')
+            }
+        }
+
+        //排序函数
+        function sortUser() {
+            console.log(dpId)
+            if(dpId){
+                $.ajax({
+                    url: protocols.getUser,
+                    type: 'post',
+                    cache: false,
+                    data: {
+                        ID: dpId,
+                    },
+                    success: function (data) {
+                        if (!data.code) {
+                            if(data.rows.length){
+                                $('#sortUserTable>tbody').empty();
+                                $.each(data.rows, function (i, o) {
+                                    var t = '<tr data-pid="' + o.PID + '">' +
+                                        '<td>' + (i + 1) + '</td><td>' + o.DPName + '</td><td>' + o.PName + '</td><td>' + o.JobKind + '</td>' +
+                                        '<td><button class="up operate" style="margin-right: 5px">上移</button>' +
+                                        '<button class="down operate" style="" >下移</button></td></tr>';
+                                    $('#sortUserTable>tbody').append(t);
+                                    $('#sortUserTable>tbody td').on('click', function () {
+                                        $(this).parent().addClass('table-selected');
+                                        $(this).parent().siblings().removeClass('table-selected')
+                                    })
+                                    $('.up').unbind().on('click',moveUp);
+                                    $('.down').unbind().on('click',moveDown);
+                                    $('#sortUser').modal('show')
+                                });
+                            }else{
+                                $('#sortUserTable>tbody>tr>td').text('请选择部门')
+                            }
+
+                        }
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择部门下的用户', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+
+//            if($(this).text() == '排序'){
+//                $(this).text('确认');
+//                $('.operate').css('visibility','visible')
+//            }else if($(this).text() == '确认'){
+//                var userData =[];
+//                $.each($('#userTable>tbody>tr'),function (i,o) {
+//                    var l = {PID:'',TSort:''};
+//                    l.PID = $(o).attr('data-pid');
+//                    l.TSort = (i+1);
+//                    userData.push(l);
+//                });
+//                console.log(JSON.stringify(userData));
+//                var d = JSON.stringify(userData);
+//                $.ajax({
+//                    url:protocols.sortUser,
+//                    type:'post',
+//                    data:{
+//                        str:d
+//                    },
+//                    success:function (data) {
+//                        if(!data.code){
+//                            $(this).text('排序');
+//                            toastr.success(data.msg);
+//                            window.location.reload();
+//                        }else{
+//                            alert(data.msg)
+//                        }
+//                    },
+//                    error:function (data) {
+//                        alert(data.msg)
+//                    }
+//                })
+//            }
+
+        }
+        function sureSortBtn() {
+            var userData =[];
+            $.each($('#sortUserTable>tbody>tr'),function (i,o) {
+                var l = {PID:'',TSort:''};
+                l.PID = $(o).attr('data-pid');
+                l.TSort = (i+1);
+                userData.push(l);
+            });
+            console.log(JSON.stringify(userData));
+            var d = JSON.stringify(userData);
+            $.ajax({
+                url:protocols.sortUser,
+                type:'post',
+                data:{
+                    str:d
+                },
+                success:function (data) {
+                    if(!data.code){
+                        $(this).text('排序');
+                        toastr.success(data.msg);
+                        window.location.reload();
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            })
+        }
+        function cleanWhitespace(element){
+//遍历element的子节点
+            for(var i=0;i<element.childNodes.length;i++)
+            {
+                var node=element.childNodes[i]
+                if(node.nodeType==3 && !/\s/.test(node.nodeValue))
+                    node.parentNode.removeChild(node);
+            }
+        }
+//获得表格对象
+        var _table=document.getElementById("userTable");
+        cleanWhitespace(_table);
+//使表格行上移，接收参数为链接对象
+        function moveUp(){
+//通过链接对象获取表格行的引用
+            var _row=this.parentNode.parentNode;
+//如果不是第一行 交换顺序
+            console.log(_row.previousSibling)
+            if(_row.previousSibling)swapNode(_row,_row.previousSibling);
+        }
+//使表格行下移 接收参数为链接对象
+        function moveDown(){
+//通过链接对象获取表格行的引用
+            var _row=this.parentNode.parentNode;
+//如果不是最后一行 则与下一行交换顺序
+            if(_row.nextSibling) swapNode (_row,_row.nextSibling);
+        }
+//定义通用的函数交换两个节点的位置
+        function swapNode(node1,node2){
+//获取父节点
+            var _parent=node1.parentNode;
+//获取两个节点的相应位置
+            var _t1=node1.nextSibling;
+            var _t2=node2.nextSibling;
+//将node2插入到原来node1的位置
+            if(_t1)_parent.insertBefore(node2,_t1);
+            else _parent.appendChild(node2);
+//将node1插入到原来ndoe2的位置
+            if(_t2)_parent.insertBefore(node1,_t2);
+            else _parent.appendChild(node1);
+        }
+        //文件
+        function addFileModal() {
+            ownerId = $('#certTable tbody>tr.table-selected').attr('data-certid');
+           var  flag = $('#certTable tbody>tr.table-selected').attr('data-flag');
+//            if(flag == 'SAFETY'){
+//                FLAG = 'safety';
+//            }else if(flag == 'SPECIAL'){
+//                FLAG = 'special';
+//            }
+            if(ownerId){
+                $('#fileModal input').val('');
+                $('#fileModal').modal('show');
+            }else{
+                window.wxc.xcConfirm('请选择证书', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function delFileModal() {
+            var aid = $('.fieList li.li-selected').attr('data-aid')
+            if(aid){
+                window.wxc.xcConfirm('确认删除该附件', window.wxc.xcConfirm.typeEnum.warning,{
+                    onOk:function () {
+                        $.ajax({
+                            url:protocols.delFiles,
+                            type:'post',
+                            data:{
+                                AID:aid
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    $('.rightData .fieList').empty();
+                                    var c =$('#certTable tbody>tr.table-selected').attr('data-certid');
+                                    var p =$('#certModal').attr('data-pid');
+                                    console.log(c);
+                                    drawFiles(c,p);
+//                                    $('#fileModal').modal('hide');
+                                }else{
+                                    window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                                }
+                            }
+                        });
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择文件', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function uploadFileBtn() {
+            var aId = getUnitId();
+            aFlag ='personcert';
+            var formdata = new FormData();
+            formdata.append('uploadFile',$('#file')[0].files[0]);
+            var quertString = '?AID='+aId+'&AFLAG='+aFlag+'&OWNER='+ownerId+'&RMK='+$('#fileRemark').val();
+            $.ajax({
+                url:protocols.uploadFile+quertString,
+                processData:false,
+                contentType:false,
+                type:'post',
+                data:formdata,
+                success:function (data) {
+                    console.log(data.code)
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $('.rightData .fieList').empty();
+//                        var c  = $('#reportInfoModal').attr('data-crid');
+                        var c =$('#certTable tbody>tr.table-selected').attr('data-certid');
+                        var p =$('#certModal').attr('data-pid');
+                        console.log(c);
+                        drawFiles(c,p);
+                        $('#fileModal').modal('hide');
+                    }else{
+                        window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                    }
+                }
+            })
+        }
+        //证书（获取）
+        function certModal() {
+         var   pId =  $('#userTable>tbody>tr.table-selected').attr('data-pid');
+//            ownerId = $('#userTable>tbody>tr.table-selected').attr('data-pid');
+            $('#certModal').attr('data-pid',pId);
+
+            console.log(pId);
+            if(pId){
+                $('.rightData .fieList').empty();
+                $.ajax({
+                    url:protocols.getCert,
+                    type:'post',
+                    data:{
+                        PID:pId
+                    },
+                    success:function (data) {
+                        if(!data.code){
+                            $('#certModal').modal('show');
+//                            $('#certTable').attr('data-pid',pId);
+                            if(data.rows){
+                                $('.rightData .fieList').empty();
+                                $('#certTable>tbody').empty();
+                                $.each(data.rows,function (i,o) {
+                                    var s = '<tr data-certId="'+o.CertID+'"  data-flag="'+o.CTName+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+                                        '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                    $('#certTable>tbody').append(s);
+                                });
+                                $('#certTable>tbody td').on('click',function () {
+                                    $('.rightData .fieList').empty();
+                                    $(this).parent().addClass('table-selected');
+                                    $(this).parent().siblings().removeClass('table-selected');
+                                    var c  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                    var p  = pId;
+                                    drawFiles(c,p);
+                                });
+                            }
+                        }
+                    }
+                })
+
+            }else{
+                window.wxc.xcConfirm('请选择部门下的用户', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function addCertBtn() {
+            $('#certInfoModal input').val('');
+            $('#subEditCert').css('display','none');
+            $('#subAddCert').css('display','inline-block');
+            $('#certModalLabel').text('增加证书');
+            var pId  = $('#certModal').attr('data-pid');
+            console.log(pId )
+            $.ajax({
+                url:protocols.getCertType,
+                type:'get',
+                data:{
+                    PID:pId,
+                },
+                success:function (data) {
+                    if(!data.code){
+                        $('#certType').empty();
+                        $.each(data.rows,function (i,o) {
+                            var o = '<option id="'+o.CTID+'"  value="'+o.CTID+'">'+o.CTName+'</option>';
+                            $('#certType').append(o);
+                        });
+                        $('#certInfoModal input').val('');
+                        $('#certInfoModal').modal('show');
+                    }else{
+                        window.wxc.xcConfirm(data.msg,window.wxc.xcConfirm.typeEnum.confirm)
+                    }
+                }
+            });
+
+
+        }
+        function editCertBtn() {
+            var certId = $('#certTable>tbody>tr.table-selected').attr('data-certid');
+            var pId = $('#certModal').attr('data-pid');
+            console.log(certId);
+            console.log(pId);
+            if(certId){
+                $('#certInfoModal input').val('');
+                $('#subEditCert').css('display','inline-block');
+                $('#subAddCert').css('display','none');
+                $('#certModalLabel').text('编辑证书');
+//                $.ajax({
+//                    url:protocols.getCertType,
+//                    type:'get',
+//                    data:{
+//                        PID:pId
+//                    },
+//                    success:function (data) {
+//                        if(!data.code){
+//                            $('#certType').empty();
+//                            $.each(data.rows,function (i,o) {
+//                                var o = '<option id="'+o.CTID+'" value="'+o.CTID+'">'+o.CTName+'</option>';
+//                                $('#certType').append(o);
+//                            });
+//                        }
+//                    }
+//                });
+                $.ajax({
+                    url:protocols.getCert,
+                    type:'post',
+                    data:{
+                        PID:pId
+                    },
+                    success:function (data) {
+                        if(!data.code){
+//                            toastr.success(data.msg);
+                            $.each(data.rows,function (i,o) {
+                                if(o.CertID == certId){
+                                    $('#certName').val(o.CertName);
+                                    $('#certSTime').val(o.CStartDate);
+                                    $('#certRmk').val(o.Remark);
+                                    $('#certETime').val(o.CEndDate);
+                                    if(o.CTID == '4IKXOVI8TC86UYKCTX3GS4A2E2Z12345'){
+                                        $('#certType').empty();
+                                        var o ='<option checked="checked" value="4IKXOVI8TC86UYKCTX3GS4A2E2Z12345">SAFETY</option>';
+                                        $('#certType').append(o);
+                                    }else if(o.CTID == '4IKXOVI8TC86UYKCTX3GS4A2E2Z54321'){
+                                        $('#certType').empty();
+                                        var o ='<option checked="checked" value="4IKXOVI8TC86UYKCTX3GS4A2E2Z54321">SPECIAL</option>';
+                                        $('#certType').append(o);
+                                    }
+                                    var s  = '#'+o.CTID;
+                                    $(s).attr('selected','true');
+                                    $('#certUnit').val(o.FZUnit);
+                                    $('#certInfoModal').attr('data-certid',o.CertID);
+                                    $('#certInfoModal').attr('data-pid',o.PID);
+
+                                }
+                            })
+                            $('#certInfoModal').modal('show');
+                        }
+                    }
+                });
+            }else{
+//                alert('请选择证书！！');
+                window.wxc.xcConfirm('请选择证书!!!', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function delCertBtn() {
+            var certId = $('#certTable>tbody>tr.table-selected').attr('data-certid');
+            var pId  = $('#certModal').attr('data-pid');
+            console.log(pId)
+            if(certId){
+                $.ajax({
+                    url:protocols.delCert,
+                    type:'post',
+                    data:{
+                        CERTID:certId,
+                    },
+                    success:function (data) {
+                        if(!data.code){
+                            $.ajax({
+                                url:protocols.getCert,
+                                type:'post',
+                                data:{
+                                    PID:pId
+                                },
+                                success:function (data) {
+                                    if(!data.code){
+                                        toastr.success(data.msg);
+                                        $('#certTable').attr('data-pid',pId);
+                                        if(data.rows){
+                                            $('.rightData .fieList').empty();
+                                            $('#certTable>tbody').empty();
+                                            $.each(data.rows,function (i,o) {
+                                                var s = '<tr data-certid="'+o.CertID+'" data-flag="'+o.CTName+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+                                                    '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                                $('#certTable>tbody').append(s);
+                                            });
+                                            $('#certTable>tbody td').on('click',function () {
+                                                $('.rightData .fieList').empty();
+                                                $(this).parent().addClass('table-selected');
+                                                $(this).parent().siblings().removeClass('table-selected');
+                                                var c  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                                var p  = pId;
+                                                drawFiles(c,p);
+                                            })
+                                        }else{
+                                            $('.rightData .fieList').empty();
+                                            $('#certTable>tbody').empty();
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    },
+                    error:function (data) {
+                        alert(data.msg)
+                    }
+                })
+            }else{
+                alert('请选择证书！！')
+            }
+
+        }
+        function subAddCertBtn() {
+            var certId  = getUnitId();
+            var pId  = $('#certModal').attr('data-pid');
+            console.log(certId);
+            console.log(pId)
+            $.ajax({
+                url:protocols.addCert,
+                type:'post',
+                data:{
+                    PID:pId,
+                    CERTID:certId,
+                    CERTNAME:$('#certName').val(),
+                    CTID:$('#certType>option:checked').val(),
+                    FZUNIT:$('#certUnit').val(),
+                    STARTDATE:$('#certSTime').val(),
+                    ENDDATE:$('#certETime').val(),
+                    REMARK:$('#certRmk').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        $.ajax({
+                            url:protocols.getCert,
+                            type:'post',
+                            data:{
+                                PID:pId
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    $('#certTable').attr('data-pid',pId);
+                                    if(data.rows){
+                                        $('.rightData .fieList').empty();
+                                        $('#certTable>tbody').empty();
+                                        $.each(data.rows,function (i,o) {
+                                            var s = '<tr data-certId="'+o.CertID+'" data-flag="'+o.CTName+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+                                                '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                            $('#certTable>tbody').append(s);
+                                        });
+                                        $('#certTable>tbody td').on('click',function () {
+                                            $(this).parent().addClass('table-selected');
+                                            $(this).parent().siblings().removeClass('table-selected');
+                                            $('.rightData .fieList').empty();
+                                            $(this).parent().addClass('table-selected');
+                                            $(this).parent().siblings().removeClass('table-selected');
+                                            var c  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                            var p  = pId;
+                                            drawFiles(c,p);
+                                        });
+                                        $('#certInfoModal').modal('hide')
+                                    }
+                                }
+                            }
+                        })
+
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            });
+        }
+        function subEditCertBtn() {
+            var certId  = $('#certInfoModal').attr('data-certid');
+            var pId  = $('#certModal').attr('data-pid');
+            console.log(certId);
+            console.log(pId)
+            $.ajax({
+                url:protocols.editCert,
+                type:'post',
+                data:{
+                    PID:pId,
+                    CERTID:certId,
+                    CERTNAME:$('#certName').val(),
+                    CTID:$('#certType>option:checked').val(),
+                    FZUNIT:$('#certUnit').val(),
+                    STARTDATE:$('#certSTime').val(),
+                    ENDDATE:$('#certETime').val(),
+                    REMARK:$('#certRmk').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        $.ajax({
+                            url:protocols.getCert,
+                            type:'post',
+                            data:{
+                                PID:pId
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    $('#certTable').attr('data-pid',pId);
+                                    console.log(pId);
+                                    if(data.rows){
+                                        $('.rightData .fieList').empty();
+                                        $('#certTable>tbody').empty();
+                                        $.each(data.rows,function (i,o) {
+                                            var s = '<tr data-certid="'+o.CertID+'"  data-flag="'+o.CTName+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+                                                '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                            $('#certTable>tbody').append(s);
+                                        });
+                                        $('#certTable>tbody td').on('click',function () {
+                                            $(this).parent().addClass('table-selected');
+                                            $(this).parent().siblings().removeClass('table-selected');
+                                            $('.rightData .fieList').empty();
+                                            $(this).parent().addClass('table-selected');
+                                            $(this).parent().siblings().removeClass('table-selected');
+                                            var c  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                            var p  = pId;
+                                            drawFiles(c,p);
+                                        });
+                                        $('#certInfoModal').modal('hide')
+                                    }
+                                }
+                            }
+                        });
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            });
+        }
+
+        function drawFiles(c,p) {
+            var certid = c;
+            var pId  =p;
+            $.ajax({
+                url:protocols.getCert,
+                type:'post',
+                data:{
+                    PID:pId
+                },
+                success:function (data) {
+                    if(!data.code){
+//                            $('#certTable').attr('data-pid',pId);
+                        if(data.rows){
+//                            $('#certTable>tbody').empty();
+//                            $('.rightData .fieList').empty();
+//                            $.each(data.rows,function (i,o) {
+//                                var s = '<tr data-certId="'+o.CertID+'"  data-flag="'+o.CTName+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+//                                        '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+//                                $('#certTable>tbody').append(s);
+//                            });
+//                            $('#certTable>tbody td').on('click',function () {
+//                                $('.rightData .fieList').empty();
+//                                $(this).parent().addClass('table-selected');
+//                                $(this).parent().siblings().removeClass('table-selected');
+////                                var certid  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+//                                console.log(certid)
+                                $.each(data.rows,function (i,o) {
+                                    if(o.CertID == certid){
+                                        console.log(o.ATTACHLIST.length)
+                                        if(o.ATTACHLIST.length){
+                                            $.each(o.ATTACHLIST,function (ind,obj) {
+                                                if(obj.kind =='pic'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> ' +
+                                                            '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='audio'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-headphones" aria-hidden="true"></span> ' +
+                                                            '</a><p>'+obj.AName+'<p>'+obj.Remark+'</p> </li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='video'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-facetime-video" aria-hidden="true"></span> ' +
+                                                            '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='txt'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-pencil" aria-hidden="true"></span> ' +
+                                                            '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='word'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-list-alt" aria-hidden="true"></span> ' +
+                                                            '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='xls'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-calendar" aria-hidden="true"></span> ' +
+                                                            '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='other'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-folder-open" aria-hidden="true"></span> ' +
+                                                            '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }
+                                            });
+                                        }else{
+                                            $('.rightData .fieList').empty();
+                                        }
+
+                                    }
+
+//                                });
+                                $('.rightData .fieList>li').on('click',function () {
+                                    $(this).addClass('li-selected');
+                                    $(this).siblings().removeClass('li-selected');
+                                });
+                            });
+                            $('#fileModal').modal('hide');
+                        }
+                    }
+                }
+            })
+        }
+        //32Id随机值
+        function getUnitId() {
+            var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+            var res = "";
+            for(var i = 0; i < 32 ; i ++) {
+                var id = Math.ceil(Math.random()*35);
+                res += chars[id];
+            }
+            return res;
+
+        }
+        function getChildNodes(treeNode) {
+            var childNodes = ztree.transformToArray(treeNode);
+            var nodes = new Array();
+            for(i = 0; i < childNodes.length; i++) {
+                nodes[i] = childNodes[i];
+            }
+            return nodes;
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

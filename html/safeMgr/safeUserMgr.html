@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三门峡黄河公铁两用桥信息系统</title>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href='../../plugins/zTree/css/blueStyle/blueStyle.css'>
+    <link rel="stylesheet" href="../../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/userMgr.css">
+    <style>
+        .table-container {
+            height: calc(100% - 130px);
+        }
+        .peopleContainer{
+            height: calc(100% - 80px);
+        }
+        #peopleTable thead th,#peopleTable tbody td{
+            text-align: center;
+        }
+        .ysh-caption>span{
+            display: block;
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .leftData,.rightData{
+            margin-right: 5px;
+            padding: 8px 10px;
+            border:1px solid #c4c4c4;
+            height:400px;
+        }
+        .leftData{
+            float: left;
+            width:63%;
+        }
+        .rightData{
+            float: left;
+            margin-right: 0;
+            width: calc(37% - 10px);
+        }
+        .fieList>li{
+            /*float: left;*/
+            margin: 10px 15px 10px;
+            width:250px;
+            height: 110px;
+            border:1px solid #999;
+        }
+        .fieList>li>a{
+            display: block;
+            padding-top: 5px;
+            margin: auto;
+            width: 40px;height: 50px;
+            /*border: 1px dotted #555555;*/
+            text-align: center;
+        }
+        .fieList>li>p{
+            margin-top: 5px;
+            text-align: center;
+        }
+        .fieList>li>a>span{
+            font-size: 38px;
+            color: #FBDC7C;
+        }
+        .li-selected{
+            background-color: #059C7E;
+        }
+        .ysh-caption>div{text-align:right;}
+        .chj-detail>span{display:block;text-align:left;}
+        .chj-badges{text-align:right;margin-top:20px;}
+        .chj-badges>span{margin-left:10px;}
+        .chj-green{color:green;}
+        .chj-red{color:red;}
+        .chj-blue{color:#3299CC;}
+        .chj-fixed-bottom{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:30px;background-color: #3299CC;text-align:center;line-height: 30px;color:#fff;}
+    </style>
+</head>
+<body>
+<header class="ysh-smxHead">
+    <div class="ysh-smxTitle">
+        <img class="smxLogo" src="../../images/home/logo.png" alt="">
+        <h5>三门峡黄河公铁两用桥信息系统</h5>
+    </div>
+    <ul id="loginOk" class="ysh-XTList">
+        <li><a href="javascript:;">退出系统</a></li>
+        <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+        <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+    </ul>
+</header>
+
+<div class="ysh-menu">
+    <ul class="ysh-menuList">
+        <li><a href="../main.html">首页</a></li>
+        <li><a  href="../itemGK/itemIntro.html">工程概况</a></li>
+        <li><a  href="../userMgr.html">人员管理</a></li>
+        <li class="wsMgr">
+            <a href="javascript:;">物设管理</a>
+            <ul class="wsCont ysh-disappear">
+                <li><a href="../wsMgr/equipment.html">机械设备</a></li>
+                <li><a href="../wsMgr/materialMgr.html">材料设备</a></li>
+            </ul>
+        </li>
+        <li>
+            <a  href="javascript:;">进度管理</a>
+            <ul class="jdCont ysh-disappear">
+                <li><a href="../processMgr/itemUnit.html">项目单位</a></li>
+                <li><a href="../processMgr/sgPlan.html">总施工进度</a></li>
+            </ul>
+        </li>
+        <li>
+            <a style=" background: rgb(0,133,106);"  href="safeUserMgr.html">安全管理</a>
+            <!--<ul class="aqCont ysh-disappear">-->
+                <!--<li><a class="safeUserMgr" href="safeUserMgr.html">安全管理人员</a></li>-->
+                <!--<li><a class="tzUserMgr" href="tzUserMgr.html">特种作业人员</a></li>-->
+                <!--<li><a href="cyryMgr.html" class="cyUserMgr">从业人员保险</a></li>-->
+                <!--<li><a href="aqjgMgr.html" class="safeJGMgr">安全组织机构</a></li>-->
+                <!--<li><a href="jxsbMgr.html" class="jxsbMgr">机械设备管理</a></li>-->
+                <!--<li><a href="gzzdMgr.html" class="gzzdMgr">规章制度</a></li>-->
+            <!--</ul>-->
+        </li>
+        <li>
+            <a href="javascript:;">质量管理</a>
+            <ul class="zlCont ysh-disappear">
+                <li><a class="reportMgr" href="../zlMgr/reportMgr.html">检测报告</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;">风险管理</a></li>
+        <li><a href="../jsMgr/datumMgr.html">技术管理</a></li>
+        <li><a href="javascript:;">试验管理</a></li>
+        <li><a href="javascript:;">视频监控</a></li>
+        <li class="sysMgr">
+            <a href="javascript:;">系统管理</a>
+            <ul class="sysCont ysh-disappear">
+                <li><a class="attrMgr" href="../sysMgr/attrMgr.html">属性管理</a></li>
+                <li><a class="attrMgr" href="../sysMgr/materialTypeMgr.html">材料类型</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="container parentContainer">
+    <span  class="glyphicon glyphicon-step-backward openState" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-step-forward closeState ysh-disappear" aria-hidden="true"></span>
+    <div class="sidebar item-sidebar">
+
+        <ul class="itemList">
+
+            <li><a class="ysh-liActive" href="safeUserMgr.html">安全管理人员</a></li>
+            <li><a class="" href="tzUserMgr.html">特种作业人员</a></li>
+            <li><a class="" href="ryda.html">人员档案</a></li>
+            <li><a class="" href="aqsczrs.html">安全生产责任书</a></li>
+            <li><a href="aqsclh.html">安全生产例会</a></li>
+            <li><a href="jypx.html">教育培训</a></li>
+            <li><a href="aqscfy.html">安全生产费用</a></li>
+            <li><a href="xfss.html">消防设施</a></li>
+            <li><a href="aqjsjd.html">安全技术交底</a></li>
+            <li><a href="lsydjc.html">临时用电检查</a></li>
+            <li class="safeWord">
+                <a class="safeWordMgr" href="javascript:;">安全生产文档</a>
+                <ul class="applyList ysh-disappear">
+                    <li><a class="" href="aqscjfsy.html">安全生产经费使用计划</a></li>
+                    <li><a class="" href="gysb.html">关于上报我部安全组织机构报告</a></li>
+                    <li><a class="" href="xmfz.html">项目负责人待办生产制度</a></li>
+                    <li><a class="" href="aqsg.html">安全事故隐患排查治理办法</a></li>
+                    <li><a class="" href="aqscjf.html">安全生产奖罚考核制度</a></li>
+                    <li><a class="" href="aqfxfz.html">安全风险组管控指导意见</a></li>
+                    <li><a class="" href="zdwx.html">重大危险源管理方案</a></li>
+                    <li><a class="" href="xmwxy.html">项目危险源</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="container ">
+        <div class="sidebar treeSideBar">
+            <!--<div class="treeToolBar">-->
+            <!--<span class="addTree"></span>-->
+            <!--<span class="editTree"></span>-->
+            <!--<span class="delTree"></span>-->
+            <!--<span class="seeTree"></span>-->
+            <!--</div>-->
+            <div class="treeContain">
+                <ul id="treeUser" class="ztree"></ul>
+            </div>
+
+        </div>
+        <div class="mainContent">
+            <div id="tableToolBar" class="tableTitle"></div>
+
+            <!--<table id="ysh-unitTable"></table>-->
+            <div class="table-container">
+                <table id="userTable" class="table table-striped planTable">
+                    <thead>
+                    <tr>
+                        <th style="">序号</th>
+                        <th  style="">姓名</th>
+                        <th style="">职务</th>
+                        <th style="">联系方式</th>
+                        <th style="">证件编号</th>
+                        <th style="">备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="9">请选择部门</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="tableToolBar">
+                <span class="addUser filesInfo" style="width: 90px">安全证书管理</span>
+                <!--<span class="editUser"><b></b>修改</span>-->
+                <!--<span class="delUser"><b></b>删除</span>-->
+
+                <!--<span class="sort">排序</span>-->
+                <span class="certMgr setSafe" style="width: 90px">设置安全人员</span>
+                <span class="certMgr cancelSafe" style="width: 90px">取消安全人员</span>
+                <span class="seeUser" style="width: 90px"><b></b>查看详情</span>
+                <!--<button class="btn btn-default addUser">增加</button>-->
+                <!--<button class="btn btn-default editUser">修改</button>-->
+                <!--<button class="btn btn-default delUser">删除</button>-->
+                <!--<button class="btn btn-default seeUser">查看</button>-->
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--附件详情管理模态框-->
+<div id="filesDataModal" data-pid="" data-ownerid=""  aria-hidden="true" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="filesDataTitle" >信息详情管理</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <div id="Use-toolbar">
+                    <button class="btn btn-default addFiles">增加</button>
+                    <button class="btn btn-default editFiles">修改</button>
+                    <button class="btn btn-default delFiles">删除</button>
+                    <button class="btn btn-default seeFiles">查看</button>
+                </div>
+                <!--<table id="eventTable"></table>-->
+                <div class="table-container">
+                    <table id="attrTable" data-ownerid=""
+                           class="table table-striped planTable">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>附件名称</th>
+                            <th>上传时间</th>
+                            <!--<th>描述</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--安全人员管理模态框-->
+<div id="peopleModal" data-pid="" data-ownerid=""  aria-hidden="true" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="peopleModalTitle" >安全人员管理</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <!--<div id="Use-toolbar">-->
+                    <!--<button class="btn btn-default addFiles">增加</button>-->
+                    <!--<button class="btn btn-default editFiles">修改</button>-->
+                    <!--<button class="btn btn-default delFiles">删除</button>-->
+                    <!--<button class="btn btn-default seeFiles">查看</button>-->
+                <!--</div>-->
+                <!--<table id="eventTable"></table>-->
+                <div class="table-container peopleContainer">
+                    <table id="peopleTable" data-ownerid=""
+                           class="table table-striped planTable">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>部门</th>
+                            <th>姓名</th>
+                            <th>职务</th>
+                            <th>电话</th>
+                            <th>政治面貌</th>
+                            <th>是否为安全人员</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="tableToolBar">
+                <button class="btn btn-default setSafeUser">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--安全证书管理模态框-->
+<div id="certModal" data-pid="" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="certModalTitle" >安全证书管理</h4>
+            </div>
+            <div class="modal-body" style="height: 430px;overflow-x: hidden;overflow-y: auto">
+                <div class="leftData">
+                    <div class="tableToolBar" style="">
+                        <button class="btn btn-default addCert">增加</button>
+                        <button class="btn btn-default editCert">修改</button>
+                        <button class="btn btn-default delCert">删除</button>
+                        <!--<button class="btn btn-default seeUseMaterial">查看</button>-->
+                    </div>
+                    <!--<table id="eventTable"></table>-->
+                    <div class="table-container">
+                        <table data-pid="" data-certid="" id="certTable" style="overflow: auto"
+                               class="table table-striped planTable">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>证书名</th>
+                                <th>开始日期</th>
+                                <th>结束日期</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="5">暂无证书</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="rightData">
+                    <div  style="">
+                        <button class="btn btn-default addFile">上传</button>
+                        <button class="btn btn-default delFile">删除</button>
+                        <!--<button class="btn btn-default seeUseMaterial">查看</button>-->
+                    </div>
+                    <div class="table-container">
+                        <ul class="fieList">
+                            <!--<li >-->
+                            <!--<a href="http://183.129.255.154:8085/SMXprogram/upload/S70428-11541020170904093949.jpg"  target="blank" download="S70428-11541020170904093949.jpg">-->
+                            <!--<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>-->
+                            <!--<p  >测试</p>-->
+                            <!--</a>-->
+                            <!--&lt;!&ndash;<img class="imgFile" src="../images/home/ff.png" alt="">&ndash;&gt;-->
+                            <!--</li>-->
+                            <!--<li>-->
+                            <!--<a href="http://183.129.255.154:8085/SMXprogram/upload/新建 Microsoft Word 文档20170904100428.docx"  target="blank" download="新建 Microsoft Word 文档20170904100428.docx">-->
+                            <!--<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>-->
+                            <!--</a>-->
+                            <!--&lt;!&ndash;<img class="imgFile" src="../images/home/ff.png" alt="">&ndash;&gt;-->
+                            <!--</li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--证书增加修改模态框-->
+<div class="modal fade" id="certInfoModal" data-pid="" data-certid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document"  >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="certModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+
+                    <div class="form-group">
+                        <label for="certName" class="col-sm-3 control-label">证书名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certName">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certType" class="col-sm-3 control-label">证书类型</label>
+                        <div class="col-sm-9">
+                            <select name="" id="certType" class="form-control">
+                                <option checked="checked" value="4IKXOVI8TC86UYKCTX3GS4A2E2Z12345">SAFETY</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certSTime" class="col-sm-3 control-label">开始日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certSTime" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="certETime" class="col-sm-3 control-label">结束日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certETime" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certUnit" class="col-sm-3 control-label">发证单位</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certUnit" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certRmk" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="certRmk" >
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="subAddCert">确定</button>
+                <button type="button" class="btn btn-primary" id="subEditCert">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--附件上传-->
+<div class="modal fade" id="fileModal" data-pid="" data-certid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="fileModalLabel">文件上传</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+                    <div class="form-group">
+                        <label for="fileRemark" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="fileRemark">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file" class="col-sm-3 control-label">文件</label>
+                        <div class="col-sm-9">
+                            <input type="file" class="form-control" id="file">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="uploadFile">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--人员信息模态框-->
+<div id="peopleInfoModal" data-pid="" data-ownerid=""  aria-hidden="true" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="peopleInfoModalTitle" >安全人员信息</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <div style="width:90%;height:95%;margin:0 auto;">
+                    <table border="1" cellpadding="10" cellspacing="0" class="table table-striped safeUserTable">
+                        <caption class="ysh-caption">
+                           <span>安全人员登记表</span>
+                            <div>
+                            序号：<span class="tableNo"></span>
+                             </div>
+                        </caption>
+                        <col width="140px"/>
+                        <col width="130px"/>
+                        <col width="140px"/>
+                        <col width="140px"/>
+                        <col width="140px"/>
+                        <col width="140px"/>
+                        <tbody>
+                            <tr>
+                                <td>姓名</td>
+                                <td class="safeUserName" colspan="2"></td>
+                                <td>单位名称</td>
+                                <td class="safeUserUnit" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td>部门</td>
+                                <td class="safeUserDepart" colspan="2"></td>
+                                <td>职务</td>
+                                <td class="safeUserJob" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td>联系方式</td>
+                                <td class="safeUserLink" colspan="2"></td>
+                                <td>证书编号</td>
+                                <td class="safeUserCert" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td>发证单位</td>
+                                <td class="safeCertUnit" colspan="2"></td>
+                                <td>有效期</td>
+                                <td class="saferCertTime" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="5" colspan="6">
+                                    <div style="height: 500px;overflow-y: auto">
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/jquery-2.1.4.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../plugins/zTree/js/jquery.ztree.all.min.js"></script>
+<script src="../../plugins/daterangepicker/moment.js"></script>
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../../js/global.js"></script>
+<script>
+    (function ($) {
+        //全局变量
+        var baseURL=window.global.SMXprogramURL,last, zNodes=[],dpId='',tableSelector='#ysh-unitTable',uName,ztree,
+            dpNo,nodeLength,pId,ownerId,
+            date = new Date(),last,vm,protocols,clUseMID='',clInMID='',
+            today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate(),
+            startTime = today,
+            endTime = today, last = (date.getFullYear()-20)+'-'+(date.getMonth()+1)+'-'+date.getDate();
+        protocols={
+            getDepart:baseURL +'safemodel/SHQDepartmentGet',
+            addDepart:baseURL +'safemodel/SHQDepartmentAdd',
+            editDepart:baseURL +'safemodel/SHQDepartmentEdit',
+            delDepart:baseURL +'safemodel/SHQDepartmentDel',
+            getUser:baseURL +'safemodel/SHQPersonGet',
+            addUser:baseURL +'safemodel/SHQPersonAdd',
+            editUser:baseURL +'safemodel/SHQPersonEdit',
+            delUser:baseURL +'safemodel/SHQPersonDel',
+            sortUser:baseURL+'safemodel/SHQPersonSort',
+            getCert:baseURL+'safemodel/SHQCertGet',
+            addCert:baseURL+'safemodel/SHQCertAdd',
+            editCert:baseURL+'safemodel/SHQCertEdit',
+            delCert:baseURL+'safemodel/SHQCertDel',
+            getCertType:baseURL+'safemodel/SHQCertTypeGet',
+            uploadFile:baseURL+'upload/uploadfile',
+            getFiles:baseURL+'upload/getfile',
+            setSafePeople:baseURL+'safemodel/SHQPersonSetFlag',
+            delFiles:baseURL+'upload/SHQAttachDel'
+        };
+        var mainHeight = (window.innerHeight - 160)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 160)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+        });
+        uName  = sessionStorage.getItem('PNAME');
+        if(uName){
+            $('#loginOk .xiUser').text(uName);
+        }else{
+            $('#loginModal').modal('show')
+        }
+        //初始化zTree
+        var setting = {
+            data: {
+                check:{
+                    enable:true
+                },
+                key:{
+                    name:'DPName'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey:'DPNo',
+                    pIdKey:'pId',
+
+                },
+                view:{
+                    showLine:true,
+                    showIcon:true
+                }
+            },
+            callback: {
+                beforeMouseDown:beforeMouseDown,
+                onMouseDown: onMouseDown,
+            }
+        };
+        //加载树数据
+        $.ajax({
+            url:protocols.getDepart,
+            type:'get',
+            cache:false,
+            data:{
+
+            },
+            success:function (data) {
+                if(!data.code){
+                    zNodes = treeDataReconstruct(data.rows);
+                    //console.log(d);
+                }
+                //渲染zTree
+                ztree =  $.fn.zTree.init($("#treeUser"), setting, zNodes);
+            },
+            error:function (data) {
+                alert(data.msg)
+            }
+        });
+        //treeDataReconstruct();修改左边树数据结构
+        function treeDataReconstruct(data) {
+            //alert('1')
+            $.each(data,function (i,o) {
+                if(o.DPNo.length < 3){
+                    o.pId ='0'
+                }else{
+                    var s  = o.DPNo.slice(0,-3);
+                    o.pId = s;
+                }
+            });
+            return data;
+        }
+        //鼠标点击之前
+        function beforeMouseDown(treeId, treeNode) {
+            if(!treeNode){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        //鼠标点击
+        function onMouseDown(event,treeId,treeNode) {
+            console.log(treeNode);
+            dpId = treeNode.DPID;
+            dpNo = treeNode.DPNo;
+            var data  = getChildNodes(treeNode);
+            var doc = $('.tableTitle');
+            var s =treeNode.DPName;
+            var safeRY=[];
+            checkAllParents(treeNode,s,doc);
+            nodeLength = data.length;
+            console.log(data.length);
+            $.ajax({
+                url: protocols.getUser,
+                type: 'post',
+                cache: false,
+                data: {
+                    ID: dpId,
+                },
+                success: function (data) {
+                    if (!data.code) {
+                        if(data.rows.length){
+                            $('#userTable>tbody').empty();
+                            $.each(data.rows, function (i, o) {
+                                if(o.FlagSafety == '1'){
+                                    safeRY.push(o);
+                                }
+                            });
+                            $.each(safeRY,function (i,o) {
+                                var t = '<tr data-pid="' + o.PID + '">' +
+                                    '<td>' + (i+1) + '</td><td class="pName">' + o.PName + '</td><td>' + o.JobKind + '</td>' +
+                                    '<td>' + o.LinkTel + '</td><td>' + o.IDCard + '</td><td></td>' +
+                                    '</tr>';
+                                $('#userTable>tbody').append(t);
+                                $('#userTable>tbody td').on('click', function () {
+                                    $(this).parent().addClass('table-selected');
+                                    $(this).parent().siblings().removeClass('table-selected')
+                                })
+//                                $('.up').unbind().on('click',moveUp);
+//                                $('.down').unbind().on('click',moveDown);
+                            })
+                        }else{
+                            $('#userTable>tbody').empty();
+                            $('#userTable>tbody').append('<tr><td colspan="9">该部门暂无数据</td></tr>');
+
+                        }
+                    }
+                }
+            });
+        }
+        //绑定事件
+        $('.ysh-menuList a').on('click',showList);
+        $('.wsCont a').on('click',hideList);
+        document.onclick = function(){
+            $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+        }
+        $('.openState').on('click',openMenu);
+        $('.closeState').on('click',closeMenu);
+        $('.safeWordMgr').on('click',toggleOn)
+        //设置安全人员
+        $('.setSafe').on('click',setSafeBtn);
+        $('.setSafeUser').on('click',setSafeUser);
+        $('.cancelSafe').on('click',cancelSafeUser);
+        //安全人员证书
+        $('.addCert').on('click',addCertBtn);
+        $('.editCert').on('click',editCertBtn);
+        $('.delCert').on('click',delCertBtn);
+        $('#subAddCert').on('click',subAddCertBtn);
+        $('#subEditCert').on('click',subEditCertBtn);
+        //安全人员附件
+        //文件
+        $('.addFile').on('click',addFileModal);
+        $('.delFile').on('click',delFileModal);
+//        $('#uploadFile').on('click',uploadFileBtn);
+        $('.filesInfo').on('click',filesInfoBtn);
+        $('.addFiles').on('click',addFilesBtn);
+        $('#uploadFile').on('click',uploadFilesBtn);
+
+        //查看
+        $('.seeUser').on('click',seeUserBtn);
+        //二级列表显示
+        function showList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            if($(this).parent().has('ul')){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                $(this).siblings('ul').removeClass('ysh-disappear');
+            }
+        }
+        function hideList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            $(this).parent().parent().addClass('ysh-disappear');
+
+        }
+        function openMenu() {
+            $('.item-sidebar').css('display','none');
+            $('.parentContainer').css('padding-left','5px');
+            $('.treeSideBar').css('left','15px')
+            $('.closeState').removeClass('ysh-disappear');
+            $(this).addClass('ysh-disappear')
+        }
+        function closeMenu() {
+            $('.item-sidebar').css('display','block');
+            $('.parentContainer').css('padding-left','215px');
+            $('.treeSideBar').css('left','230px')
+            $('.openState').removeClass('ysh-disappear');
+            $(this).addClass('ysh-disappear')
+        }
+        function toggleOn() {
+            if($('.applyList').hasClass('ysh-disappear')){
+                $('.safeWord').css('height','422px');
+                $('.applyList').removeClass('ysh-disappear');
+            }else{
+                $('.applyList').addClass('ysh-disappear');
+                $('.safeWord').css('height','60px');
+            }
+        }
+        function checkAllParents(treeNode,string,doc){
+            if (!treeNode.pId) {
+                doc.text(string);
+                return string;
+
+            }else{
+                treeNode.checked=true;
+                string = treeNode.getParentNode().DPName + "-" + string;
+                checkAllParents(treeNode.getParentNode(),string,doc);
+            }
+        }
+        function getChildNodes(treeNode) {
+            var childNodes = ztree.transformToArray(treeNode);
+            var nodes = new Array();
+            for(i = 0; i < childNodes.length; i++) {
+                nodes[i] = childNodes[i];
+            }
+            return nodes;
+        }
+        //安全人员函数
+        function setSafeBtn() {
+            if(dpId){
+                $.ajax({
+                    url: protocols.getUser,
+                    type: 'post',
+                    cache: false,
+                    data: {
+                        ID: dpId,
+                    },
+                    success: function (data) {
+                        if (!data.code) {
+                            if(data.rows.length){
+                                $('#peopleTable>tbody').empty();
+                                $.each(data.rows, function (i, o) {
+                                    if(o.FlagSafety =='1'){
+                                        o.FlagSafety = '是'
+                                    }else{
+                                        o.FlagSafety ='否'
+                                    }
+                                    var t = '<tr data-pid="' + o.PID + '">' +
+                                        '<td>' + (i + 1) + '</td><td>' + o.DPName + '</td><td>' + o.PName + '</td><td>' + o.JobKind + '</td>' +
+                                        '<td>' + o.LinkTel + '</td><td>' + o.Political + '</td><td>'+o.FlagSafety +'</td>' +
+                                        '</tr>';
+                                    $('#peopleTable>tbody').append(t);
+                                    $('#peopleTable>tbody td').on('click', function () {
+                                        $(this).parent().addClass('table-selected');
+                                        $(this).parent().siblings().removeClass('table-selected')
+                                    })
+//                                    $('.up').unbind().on('click',moveUp);
+//                                    $('.down').unbind().on('click',moveDown);
+                                });
+                            }else{
+                                $('#peopleTable>tbody').empty();
+                                $('#peopleTable>tbody').append('<tr><td colspan="9">该部门暂无数据</td></tr>');
+
+                            }
+                        $('#peopleModal').modal('show')
+                        }
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择部门', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function setSafeUser() {
+            var pid = $('#peopleTable>tbody>tr.table-selected').attr('data-pid');
+            if(pid){
+                $.ajax({
+                    url:protocols.setSafePeople,
+                    type:'post',
+                    data:{
+                        PID:pid,
+                        FLAG:'safety',
+                        SUCCESS:'1'
+                    },
+                    success:function (data) {
+                        console.log(data.code)
+                        if(!data.code){
+                            drawSelTable();
+                            toastr.success(data.msg);
+                            $('#peopleModal').modal('hide');
+                        }
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择人员', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function cancelSafeUser() {
+            var pid = $('#userTable>tbody>tr.table-selected').attr('data-pid');
+            var useName  = $('#userTable>tbody>tr.table-selected>td.pName').text();
+            if(pid){
+                window.wxc.xcConfirm('是否将'+useName+'设置为非安全人员？',window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+                        $.ajax({
+                            url:protocols.setSafePeople,
+                            type:'post',
+                            data:{
+                                PID:pid,
+                                FLAG:'safety',
+                                SUCCESS:'0'
+                            },
+                            success:function (data) {
+                                console.log(data.code)
+                                if(!data.code){
+                                    drawSelTable();
+                                    toastr.success(data.msg);
+                                }
+                            }
+                        });
+                    }
+                });
+
+            }else{
+                window.wxc.xcConfirm('请选择人员', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        //人员附件函数
+        function filesInfoBtn() {
+            var   pId =  $('#userTable>tbody>tr.table-selected').attr('data-pid');
+//            ownerId = $('#userTable>tbody>tr.table-selected').attr('data-pid');
+            $('#certModal').attr('data-pid',pId);
+            console.log(pId);
+            if(pId){
+                $.ajax({
+                    url:protocols.getCert,
+                    type:'post',
+                    data:{
+                        PID:pId
+                    },
+                    success:function (data) {
+                        if(!data.code){
+//                            $('#certTable').attr('data-pid',pId);
+                            if(data.rows){
+                                $('.rightData .fieList').empty();
+                                $('#certTable>tbody').empty();
+                                $('#certModal').modal('show');
+
+                                $.each(data.rows,function (i,o) {
+                                    if(o.CTName=='SAFETY'){
+                                        var s = '<tr data-certId="'+o.CertID+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+                                                '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                        $('#certTable>tbody').append(s);
+                                    }
+
+                                });
+                                $('#certTable>tbody td').on('click',function () {
+                                    $('.rightData .fieList').empty();
+                                    $(this).parent().addClass('table-selected');
+                                    $(this).parent().siblings().removeClass('table-selected');
+                                    var c  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                    var p  = pId;
+                                    drawFiles(c,p);
+                                });
+                            }
+                        }
+                    }
+                })
+
+            }else{
+                window.wxc.xcConfirm('请选择部门下的用户', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        //证书
+        function addCertBtn() {
+            console.log($('#certTable>tbody>tr').length)
+            if($('#certTable>tbody>tr').length){
+                window.wxc.xcConfirm('无法添加，已有证书！', window.wxc.xcConfirm.typeEnum.warning);
+            }else{
+                $('#certInfoModal input').val('');
+                $('#subEditCert').css('display','none');
+                $('#subAddCert').css('display','inline-block');
+                $('#certModalLabel').text('增加证书');
+                var pId  = $('#certModal').attr('data-pid');
+                console.log(pId );
+                $('#certInfoModal input').val('');
+                $('#certInfoModal').modal('show');
+            }
+
+        }
+        function editCertBtn() {
+            var certId = $('#certTable>tbody>tr.table-selected').attr('data-certid');
+            var pId = $('#certModal').attr('data-pid');
+            console.log(certId);
+            console.log(pId);
+            if(certId){
+                $('#certInfoModal input').val('');
+                $('#subEditCert').css('display','inline-block');
+                $('#subAddCert').css('display','none');
+                $('#certModalLabel').text('编辑证书');
+                $.ajax({
+                    url:protocols.getCert,
+                    type:'post',
+                    data:{
+                        PID:pId
+                    },
+                    success:function (data) {
+                        if(!data.code){
+                            toastr.success(data.msg);
+                            $.each(data.rows,function (i,o) {
+                                if(o.CertID == certId){
+                                    $('#certName').val(o.CertName);
+                                    $('#certSTime').val(o.CStartDate);
+                                    $('#certRmk').val(o.Remark);
+                                    $('#certETime').val(o.CEndDate);
+                                    var s  = '#'+o.CTID;
+                                    $(s).attr('selected','true');
+//                                    if(o.CTID == '4IKXOVI8TC86UYKCTX3GS4A2E2Z12345'){
+//                                        $('#certType').empty();
+//                                        var o ='<option checked="checked" value="4IKXOVI8TC86UYKCTX3GS4A2E2Z12345">SAFETY</option>';
+//                                        $('#certType').append(o);
+//                                    }else if(o.CTID == '4IKXOVI8TC86UYKCTX3GS4A2E2Z54321'){
+//                                        $('#certType').empty();
+//                                        var o ='<option checked="checked" value="4IKXOVI8TC86UYKCTX3GS4A2E2Z54321">SPECIAL</option>';
+//                                        $('#certType').append(o);
+//                                    }
+                                    $('#certUnit').val(o.FZUnit);
+                                    $('#certInfoModal').attr('data-certid',o.CertID);
+                                    $('#certInfoModal').attr('data-pid',o.PID);
+
+                                }
+                            })
+                            $('#certInfoModal').modal('show');
+                        }
+                    }
+                });
+            }else{
+//                alert('请选择证书！！');
+                window.wxc.xcConfirm('请选择证书!!!', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function delCertBtn() {
+            var certId = $('#certTable>tbody>tr.table-selected').attr('data-certid');
+            var pId  = $('#certModal').attr('data-pid');
+            console.log(pId)
+            if(certId){
+                $.ajax({
+                    url:protocols.delCert,
+                    type:'post',
+                    data:{
+                        CERTID:certId,
+                    },
+                    success:function (data) {
+                        if(!data.code){
+                            $.ajax({
+                                url:protocols.getCert,
+                                type:'post',
+                                data:{
+                                    PID:pId
+                                },
+                                success:function (data) {
+                                    if(!data.code){
+                                        toastr.success(data.msg);
+                                        $('#certTable').attr('data-pid',pId);
+                                        if(data.rows){
+                                            $('.rightData .fieList').empty();
+                                            $('#certTable>tbody').empty();
+                                            $.each(data.rows,function (i,o) {
+                                                var s = '<tr data-certid="'+o.CertID+'" data-flag="'+o.CTName+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+                                                        '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                                $('#certTable>tbody').append(s);
+                                            });
+                                            $('#certTable>tbody td').on('click',function () {
+                                                $('.rightData .fieList').empty();
+                                                $(this).parent().addClass('table-selected');
+                                                $(this).parent().siblings().removeClass('table-selected');
+                                                var c  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                                var p  = pId;
+                                                drawFiles(c,p);
+                                            })
+                                        }else{
+                                            $('.rightData .fieList').empty();
+                                            $('#certTable>tbody').empty();
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    },
+                    error:function (data) {
+                        alert(data.msg)
+                    }
+                })
+            }else{
+                alert('请选择证书！！')
+            }
+
+        }
+        function subAddCertBtn() {
+            var certId  = getUnitId();
+            var pId  = $('#certModal').attr('data-pid');
+            console.log(certId);
+            console.log(pId)
+            $.ajax({
+                url:protocols.addCert,
+                type:'post',
+                data:{
+                    PID:pId,
+                    CERTID:certId,
+                    CERTNAME:$('#certName').val(),
+                    CTID:$('#certType>option:checked').val(),
+                    FZUNIT:$('#certUnit').val(),
+                    STARTDATE:$('#certSTime').val(),
+                    ENDDATE:$('#certETime').val(),
+                    REMARK:$('#certRmk').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        $.ajax({
+                            url:protocols.getCert,
+                            type:'post',
+                            data:{
+                                PID:pId
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    $('#certTable').attr('data-pid',pId);
+                                    if(data.rows){
+                                        $('.rightData .fieList').empty();
+                                        $('#certTable>tbody').empty();
+                                        $.each(data.rows,function (i,o) {
+                                            var s = '<tr data-certId="'+o.CertID+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+                                                    '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                            $('#certTable>tbody').append(s);
+                                        });
+                                        $('#certTable>tbody td').on('click',function () {
+                                            $('#certTable>tbody td').on('click',function () {
+                                                $('.rightData .fieList').empty();
+                                                $(this).parent().addClass('table-selected');
+                                                $(this).parent().siblings().removeClass('table-selected');
+                                                var c  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                                var p  = pId;
+                                                drawFiles(c,p);
+                                            });
+                                        });
+                                        $('#certInfoModal').modal('hide')
+                                    }
+                                }
+                            }
+                        })
+
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            });
+        }
+        function subEditCertBtn() {
+            var certId  = $('#certInfoModal').attr('data-certid');
+            var pId  = $('#certModal').attr('data-pid');
+            console.log(certId);
+            console.log(pId)
+            $.ajax({
+                url:protocols.editCert,
+                type:'post',
+                data:{
+                    PID:pId,
+                    CERTID:certId,
+                    CERTNAME:$('#certName').val(),
+                    CTID:$('#certType>option:checked').val(),
+                    FZUNIT:$('#certUnit').val(),
+                    STARTDATE:$('#certSTime').val(),
+                    ENDDATE:$('#certETime').val(),
+                    REMARK:$('#certRmk').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        $.ajax({
+                            url:protocols.getCert,
+                            type:'post',
+                            data:{
+                                PID:pId
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    $('#certTable').attr('data-pid',pId);
+                                    console.log(pId);
+                                    if(data.rows){
+                                        $('.rightData .fieList').empty();
+                                        $('#certTable>tbody').empty();
+                                        $.each(data.rows,function (i,o) {
+                                            var s = '<tr data-certid="'+o.CertID+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+                                                    '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                            $('#certTable>tbody').append(s);
+                                        });
+                                        $('#certTable>tbody td').on('click',function () {
+                                            $('#certTable>tbody td').on('click',function () {
+                                                $('.rightData .fieList').empty();
+                                                $(this).parent().addClass('table-selected');
+                                                $(this).parent().siblings().removeClass('table-selected');
+                                                var c  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                                var p  = pId;
+                                                drawFiles(c,p);
+                                            });
+                                        });
+                                        $('#certInfoModal').modal('hide')
+                                    }
+                                }
+                            }
+                        });
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            });
+        }
+//        function filesInfoBtn() {
+//            var pid = $('#userTable>tbody>tr.table-selected').attr('data-pid');
+//            $('#certModal').attr('data-pid',pid);
+//            var pName = $('#userTable>tbody>tr.table-selected>td.pName').text();
+//            console.log(pName);
+//            if(pid){
+//                $('.certModalTitle').text(pName+' -- 安全证书管理');
+//                $('#certModal').modal('show');
+//                $.ajax({
+//                    url:protocols.getCert,
+//                    type:'post',
+//                    data:{
+//                        PID:pid
+//                    },
+//                    success:function (data) {
+//                        if(!data.code){
+////                            $('#certTable').attr('data-pid',pId);
+//                            if(data.rows){
+//                                $('#certTable>tbody').empty();
+//                                $.each(data.rows,function (i,o) {
+//                                    var s = '<tr data-certId="'+o.CertID+'"><td>'+(i+1)+'</td><td>'+o.CertName+'</td>' +
+//                                            '<td>'+o.CStartDate+'</td><td>'+o.CEndDate+'</td><td>'+o.Remark+'</td></tr>';
+//                                    $('#certTable>tbody').append(s);
+//                                });
+//                                $('#certTable>tbody td').on('click',function () {
+//                                    var certid = $('#certTable>tbody tr.table-selected').attr('data-certid');
+//                                    $(this).parent().addClass('table-selected');
+//                                    $(this).parent().siblings().removeClass('table-selected');
+//
+//                                });
+//                            }
+//                        }
+//                    }
+//                })
+//            }else{
+//                window.wxc.xcConfirm('请选择人员', window.wxc.xcConfirm.typeEnum.warning);
+//            }
+//        }
+        //证书附件
+        function addFileModal() {
+            ownerId = $('#certTable tbody>tr.table-selected').attr('data-certid')
+            if(ownerId){
+                $('#fileModal input').val('');
+                $('#fileModal').attr('data-certid',ownerId);
+                $('#fileModal').modal('show');
+            }else{
+                window.wxc.xcConfirm('请选择证书', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function delFileModal() {
+            var aid = $('.fieList li.li-selected').attr('data-aid')
+            if(aid){
+                window.wxc.xcConfirm('确认删除该附件', window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+                        $.ajax({
+                            url:protocols.delFiles,
+                            type:'post',
+                            data:{
+                                AID:aid
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    $('.rightData .fieList').empty();
+                                    var c =$('#certTable tbody>tr.table-selected').attr('data-certid');
+                                    var p =$('#certTable tbody>tr.table-selected').attr('data-pid');
+                                    console.log(c);
+                                    drawFiles(c,p);
+//                                    $('#fileModal').modal('hide');
+                                }else{
+                                    window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                                }
+                            }
+                        })
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择文件', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+//        function uploadFileBtn() {
+//            var aId = getUnitId();
+//            var aFlag = 'personcert';
+//            var formdata = new FormData();
+//            formdata.append('uploadFile',$('#file')[0].files[0]);
+//            var quertString = '?AID='+aId+'&AFLAG='+aFlag+'&OWNER='+ownerId+'&RMK='+$('#fileRemark').val();
+//            $.ajax({
+//                url:protocols.uploadFile+quertString,
+//                processData:false,
+//                contentType:false,
+//                type:'post',
+//                data:formdata,
+//                success:function (data) {
+//                    if(!data.code){
+//                        toastr.success(data.msg);
+////                        var c  = $('#reportInfoModal').attr('data-crid');
+//                        var c =$('#certTable tbody>tr.table-selected').attr('data-certid');
+//                        var p = $('#certModal').attr('data-pid');
+//                        console.log(c);
+//                        drawFiles(c,p);
+//                        $('#fileModal').modal('hide');
+//                    }else{
+//                        window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+//                    }
+//                }
+//            })
+//        }
+        function addFilesBtn() {
+            var pid = $('#filesDataModal').attr('data-pid');
+            $('#fileModal').attr('data-pid',pid);
+//            console.log(pid)
+            $('#fileModal').modal('show')
+        }
+        function uploadFilesBtn() {
+            var pid  =   $('#fileModal').attr('data-certid');
+            var aId = getUnitId();
+            aFlag = 'personcert';
+            var formdata = new FormData();
+            formdata.append('uploadFile',$('#file')[0].files[0]);
+            var queryString = '?AID='+aId+'&AFLAG='+aFlag+'&OWNER='+pid+'&RMK='+$('#fileRemark').val();
+            $.ajax({
+                url:protocols.uploadFile+queryString,
+                processData:false,
+                contentType:false,
+                type:'post',
+                data:formdata,
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $('.rightData .fieList').empty();
+//                        var c  = $('#reportInfoModal').attr('data-crid');
+                        var c =$('#certTable tbody>tr.table-selected').attr('data-certid');
+                        var p =$('#certModal').attr('data-pid');
+                        console.log(c);
+                        drawFiles(c,p);
+                        $('#fileModal').modal('hide');
+                    }else{
+                        window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                    }
+                }
+            })
+        }
+        function seeUserBtn() {
+            var pid  =  $('#userTable>tbody>tr.table-selected').attr('data-pid');
+            if(pid){
+                $('#peopleInfoModal').attr('data-pid',pid);
+                $.ajax({
+                    url: protocols.getUser,
+                    type: 'post',
+                    cache: false,
+                    data: {
+                        ID: dpId,
+                    },
+                    success: function (data) {
+                        if (!data.code) {
+                                $.each(data.rows, function (i, o) {
+                                    if(1){
+                                        if(o.PID == pid){
+                                            $('.safeUserTable td.safeUserName').text(o.PName);
+                                            $('.safeUserTable td.safeUserUnit').text(o.PName);
+                                            $('.safeUserTable td.safeUserDepart').text(o.DPName);
+                                            $('.safeUserTable td.safeUserJob').text(o.JobKind);
+                                            $('.safeUserTable td.safeUserLink').text(o.LinkTel);
+                                            $('.safeUserTable td.safeUserCert').text(o.PName);
+                                            $('.safeUserTable td.safeCertUnit').text(o.LinkTel);//发证单位
+                                            $('.safeUserTable td.saferCertTime').text(o.PName);//
+                                            $('#peopleInfoModal').modal('show')
+                                        }
+                                    }else{
+                                        window.wxc.xcConfirm('该安全人员暂无信息！', window.wxc.xcConfirm.typeEnum.warning);
+                                    }
+                                });
+                        }
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择人员', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+
+        function drawTable() {
+            $.ajax({
+                url: protocols.getUser,
+                type: 'post',
+                cache: false,
+                data: {
+                    ID: dpId,
+                },
+                success: function (data) {
+                    if (!data.code) {
+                        if(data.rows.length){
+                            $('#userTable>tbody').empty();
+                            $.each(data.rows, function (i, o) {
+                                if(o.FlagSafety == '1'){
+                                    safeRY.push(o);
+                                }
+                            });
+                            $.each(safeRY,function (i,o) {
+                                var t = '<tr data-pid="' + o.PID + '">' +
+                                    '<td>' + (i+1) + '</td><td class="pName">' + o.PName + '</td><td>' + o.JobKind + '</td>' +
+                                    '<td>' + o.LinkTel + '</td><td>' + o.IDCard + '</td><td></td>' +
+                                    '</tr>';
+                                $('#userTable>tbody').append(t);
+                                $('#userTable>tbody td').on('click', function () {
+                                    $(this).parent().addClass('table-selected');
+                                    $(this).parent().siblings().removeClass('table-selected');
+                                    var certid  = $('#certTable>tbody tr.table-selected').attr('data-certid');
+                                    console.log(certid)
+                                    $.each(data.rows,function (i,o) {
+                                        if(o.CertID == certid){
+                                            $.each(o.ATTACHLIST,function (ind,obj) {
+                                                if(obj.kind =='pic'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> ' +
+                                                            '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='audio'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-headphones" aria-hidden="true"></span> ' +
+                                                            '</a><p>'+obj.AName+'<p>'+obj.Remark+'</p> </li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='video'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-facetime-video" aria-hidden="true"></span> ' +
+                                                            '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='txt'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-pencil" aria-hidden="true"></span> ' +
+                                                            '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='word'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-list-alt" aria-hidden="true"></span> ' +
+                                                            '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='xls'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-calendar" aria-hidden="true"></span> ' +
+                                                            '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }else if(obj.kind =='other'){
+                                                    var l ='<li data-aid="'+obj.AID+'">' +
+                                                            '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                            '<span class="glyphicon  glyphicon-folder-open" aria-hidden="true"></span> ' +
+                                                            '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                    $('.rightData .fieList').append(l);
+                                                }
+                                            });
+                                        }
+
+                                    });
+                                    $('.rightData .fieList>li').on('click',function () {
+                                        $(this).addClass('li-selected');
+                                        $(this).siblings().removeClass('li-selected');
+                                    });
+                                });
+//                                $('.up').unbind().on('click',moveUp);
+//                                $('.down').unbind().on('click',moveDown);
+                            });
+                        }else{
+                            $('#userTable>tbody').empty();
+                            $('#userTable>tbody').append('<tr><td colspan="9">该部门暂无数据</td></tr>');
+
+                        }
+                    }
+                }
+            });
+        }
+        function drawSelTable() {
+            var safeRY=[];
+           $.ajax({
+               url: protocols.getUser,
+               type: 'post',
+               cache: false,
+               data: {
+                   ID: dpId,
+               },
+               success: function (data) {
+                   if (!data.code) {
+                       if(data.rows.length){
+                           $('#userTable>tbody').empty();
+                           $.each(data.rows, function (i, o) {
+                               if(o.FlagSafety == '1'){
+                                   safeRY.push(o);
+                               }
+                           });
+                           $.each(safeRY,function (i,o) {
+                               var t = '<tr data-pid="' + o.PID + '">' +
+                                       '<td>' + (i+1) + '</td><td class="pName">' + o.PName + '</td><td>' + o.JobKind + '</td>' +
+                                       '<td>' + o.LinkTel + '</td><td>' + o.IDCard + '</td><td></td>' +
+                                       '</tr>';
+                               $('#userTable>tbody').append(t);
+                               $('#userTable>tbody td').on('click', function () {
+                                   $(this).parent().addClass('table-selected');
+                                   $(this).parent().siblings().removeClass('table-selected')
+                               })
+//                                $('.up').unbind().on('click',moveUp);
+//                                $('.down').unbind().on('click',moveDown);
+                           })
+                       }else{
+                           $('#userTable>tbody').empty();
+                           $('#userTable>tbody').append('<tr><td colspan="9">该部门暂无数据</td></tr>');
+
+                       }
+                   }
+               }
+           });
+       }
+        //32Id随机值
+        function getUnitId() {
+            var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+            var res = "";
+            for(var i = 0; i < 32 ; i ++) {
+                var id = Math.ceil(Math.random()*35);
+                res += chars[id];
+            }
+            return res;
+
+        }
+        function drawFiles(c,p) {
+            var certid = c;
+            var pId  =p;
+            $.ajax({
+                url:protocols.getCert,
+                type:'post',
+                data:{
+                    PID:pId
+                },
+                success:function (data) {
+                    if(!data.code){
+                        if(data.rows){
+                            $.each(data.rows,function (i,o) {
+                                if(o.CertID == certid){
+                                    console.log(o.ATTACHLIST.length)
+                                    if(o.ATTACHLIST.length){
+                                        $.each(o.ATTACHLIST,function (ind,obj) {
+                                            if(obj.kind =='pic'){
+                                                var l ='<li data-aid="'+obj.AID+'">' +
+                                                        '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                        '<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> ' +
+                                                        '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                $('.rightData .fieList').append(l);
+                                            }else if(obj.kind =='audio'){
+                                                var l ='<li data-aid="'+obj.AID+'">' +
+                                                        '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                        '<span class="glyphicon  glyphicon-headphones" aria-hidden="true"></span> ' +
+                                                        '</a><p>'+obj.AName+'<p>'+obj.Remark+'</p> </li>';
+                                                $('.rightData .fieList').append(l);
+                                            }else if(obj.kind =='video'){
+                                                var l ='<li data-aid="'+obj.AID+'">' +
+                                                        '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                        '<span class="glyphicon  glyphicon-facetime-video" aria-hidden="true"></span> ' +
+                                                        '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                $('.rightData .fieList').append(l);
+                                            }else if(obj.kind =='txt'){
+                                                var l ='<li data-aid="'+obj.AID+'">' +
+                                                        '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                        '<span class="glyphicon  glyphicon-pencil" aria-hidden="true"></span> ' +
+                                                        '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                $('.rightData .fieList').append(l);
+                                            }else if(obj.kind =='word'){
+                                                var l ='<li data-aid="'+obj.AID+'">' +
+                                                        '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                        '<span class="glyphicon  glyphicon-list-alt" aria-hidden="true"></span> ' +
+                                                        '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                $('.rightData .fieList').append(l);
+                                            }else if(obj.kind =='xls'){
+                                                var l ='<li data-aid="'+obj.AID+'">' +
+                                                        '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                        '<span class="glyphicon  glyphicon-calendar" aria-hidden="true"></span> ' +
+                                                        '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                                $('.rightData .fieList').append(l);
+                                            }else if(obj.kind =='other'){
+                                                var l ='<li data-aid="'+obj.AID+'">' +
+                                                        '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                        '<span class="glyphicon  glyphicon-folder-open" aria-hidden="true"></span> ' +
+                                                        '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                                $('.rightData .fieList').append(l);
+                                            }
+                                        });
+                                    }else{
+                                        $('.rightData .fieList').empty();
+                                    }
+                                }
+                                $('.rightData .fieList>li').on('click',function () {
+                                    $(this).addClass('li-selected');
+                                    $(this).siblings().removeClass('li-selected');
+                                });
+                            });
+                            $('#fileModal').modal('hide');
+                        }
+                    }
+                }
+            })
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

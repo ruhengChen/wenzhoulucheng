@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>温州鹿城房产管理系统</title>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .groupTable>thead th,.groupTable tbody td{
+            text-align: center;
+        }
+        .table-striped>tbody>tr.table-selected{
+            background-color: #059C7E;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div  class="ysh-wzlcHead">
+        <div class="ysh-wzlcTitle">
+            <img class="wzlcLogo" src="../images/home/logo.png" alt="">
+            <h5>温州市鹿城区行政事业单位存量房产管理系统</h5>
+        </div>
+        <ul id="loginOk" class="ysh-XTList ">
+            <li><a href="javascript:;">退出系统</a></li>
+            <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+            <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+        </ul>
+    </div>
+</header>
+<div class="container">
+    <div class="sidebar">
+        <ul class="wzlc-menuList">
+            <li>
+                <a  href="main.html">主页</a>
+            </li>
+            <li>
+                <a class="houseInfo" href="houseInfo.html">房屋信息</a>
+            </li>
+            <li>
+                <a class="groupMgr" href="groupMgr.html">分组管理</a>
+            </li>
+            <li>
+                <a class="evaluateUnit" href="evaluateUnit.html">评估单位</a>
+            </li>
+            <li class="Apply">
+                <a class="applyMgr" href="javascript:;">出租管理</a>
+                <ul class="applyList ysh-disappear">
+                    <li><a class="houseBp" href="apply/houseBp.html">报批</a></li>
+                    <li><a class="housePg" href="apply/housePg.html">评估</a></li>
+                    <li><a class="houseZz" href="apply/houseZz.html">招租</a></li>
+                    <li><a class="houseQy" href="apply/houseQy.html">签约</a></li>
+                    <li><a class="houseSz" href="apply/houseSz.html">收租</a></li>
+                    <li><a class="houseCz" href="apply/houseCz.html">催租</a></li>
+                    <li><a class="houseTz" href="apply/houseTz.html">退租</a></li>
+                    <li><a class="statics" href="apply/statics.html">统计</a></li>
+                    <li><a class="safeMgr" href="apply/safeMgr.html">安全管理</a></li>
+                    <li><a class="messageMgr" href="apply/messageMgr.html">短信通知</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="sysMgr" href="javascript:;">系统设置</a>
+            </li>
+        </ul>
+    </div>
+    <div class="mainContent">
+        <div class="infoHead">
+            分组管理
+        </div>
+        <div class="infoContent">
+            <div class="tableToolBar">
+                <button class="btn btn-default addGroup">新增</button>
+                <button class="btn btn-default editGroup">编辑</button>
+                <button class="btn btn-default delGroup">删除</button>
+            </div>
+            <div class="table-container">
+                <table class="table table-striped groupTable">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>名称</th>
+                            <!--<th>备注</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">正在加载数据...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--街道增删改-->
+<div class="modal fade" id="groupModal" data-groupid="" data-certid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="groupModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+                    <div class="form-group">
+                        <label for="groupName" class="col-sm-3 control-label">名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="groupName">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="Remark" class="col-sm-3 control-label">备注</label>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<input type="text" class="form-control" id="Remark">-->
+                            <!--&lt;!&ndash;<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="subAddGroup">确定</button>
+                <button type="button" class="btn btn-primary" id="subEditGroup">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../plugins/toastr/toastr.min.js"></script>
+<script src="../js/global.js"></script>
+<script>
+    (function ($) {
+        var baseURL = window.global.requestURL,groupIdIndex,groupid,groupId,peopleId;
+        var mainHeight = (window.innerHeight - 70)+'px';
+        var infoHgt = (window.innerHeight - 130)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $('.infoContent').innerHeight(infoHgt);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 70)+'px';
+            infoHgt = (window.innerHeight - 130)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+            $('.infoContent').innerHeight(infoHgt);
+        })
+
+        //获取本地存储值
+        if(window.sessionStorage.getItem('peopleName')){
+            $('.xiUser').text(window.sessionStorage.getItem('peopleName'));
+        }
+        peopleId = window.sessionStorage.getItem('peopleId');
+        groupid = window.sessionStorage.getItem('groupId')
+        if(groupid =='170725144059'){
+            groupId = window.sessionStorage.getItem('rootGroupid')
+        }else{
+            $('.editHouse').css('display','none')
+            groupId = window.sessionStorage.getItem('groupId');
+        }
+
+        //初始化表格
+        var d = {
+            msgid:'WZRPWGroupFind',
+            msgbody:[]
+        };
+        d = JSON.stringify(d);
+        console.log(baseURL)
+        console.log(d)
+        $.ajax({
+            type:"post",
+            url:baseURL,
+            async:true,
+            data:d,
+            dataType:'json',
+            success:function(data){
+                console.log(data.resultcode);
+                if(data.resultcode == '0'){
+                    $('.groupTable tbody').empty();
+                    $.each(data.msgbody, function(i,o) {
+//                        if(o.groupid != '170725144059'){
+                           var t = '<tr data-groupid="'+o.groupid+'"><td>'+(i+1)+'</td><td>'+o.groupname+'</td></tr>';
+                            $('.groupTable tbody').append(t)
+                        groupIdIndex = parseInt(o.groupid)+1;
+//                        }
+                    });
+                    $('.groupTable tbody td').unbind().on('click',function () {
+                        $(this).parent().addClass('table-selected');
+                        $(this).parent().siblings().removeClass('table-selected');
+                    })
+                }
+            }
+        });
+        //绑定事件
+        $('.houseInfo').on('click',jumpHouseInfo);
+        $('.groupMgr').on('click',jumpGroup);
+        $('.evaluateUnit').on('click',jumpEvaluate);
+        $('.applyMgr').on('click',toggleCon);
+        $('.addGroup').on('click',addGroupBtn);
+        $('.editGroup').on('click',editGroupBtn);
+        $('.delGroup').on('click',delGroupBtn);
+        
+        $('#subAddGroup').on('click',subAddGroupBtn);
+        $('#subEditGroup').on('click',subEditGroupBtn);
+        //事件函数
+        function addGroupBtn() {
+            $('#groupModalLabel').text('增加组别');
+            $('#subEditGroup').css('display','none');
+            $('#subAddGroup').css('display','inline-block');
+            $('#groupModal input').val('');
+            $('#groupModal').modal('show');
+        }
+        function editGroupBtn() {
+            var groupId = $('.groupTable tbody>tr.table-selected').attr('data-groupid');
+            if(groupId){
+                $('#groupModalLabel').text('修改组别');
+                $('#subEditGroup').css('display','inline-block');
+                $('#subAddGroup').css('display','none');
+                $('#groupModal').modal('show')
+                var d = {
+                    msgid:'WZRPWGroupFind',
+                    msgbody:[]
+                };
+                d = JSON.stringify(d);
+                console.log(baseURL)
+                console.log(d)
+                $.ajax({
+                    type:"post",
+                    url:baseURL,
+                    async:true,
+                    data:d,
+                    dataType:'json',
+                    success:function(data){
+                        console.log(data.resultcode);
+                        if(data.resultcode == '0'){
+                            $.each(data.msgbody,function (i,o) {
+                                if(o.groupid == groupId){
+                                    $('#groupModal').attr('data-groupid',o.groupid);
+                                    $('#groupName').val(o.groupname);
+//                                    $('#Remark').val()
+                                }
+                            });
+
+//                            $('.groupTable tbody').empty();
+//                            $.each(data.msgbody, function(i,o) {
+//                                if(o.groupid != '170725144059'){
+//                                    var t = '<tr data-groupid="'+o.groupid+'"><td>'+i+'</td><td>'+o.groupname+'</td></tr>';
+//                                    $('.groupTable tbody').append(t)
+//                                }
+//                            });
+                        }
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm( "请选择组别",window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function delGroupBtn() {
+            var groupId = $('.groupTable tbody>tr.table-selected').attr('data-groupid');
+            if(groupId){
+                window.wxc.xcConfirm( "确认删除该组别",window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+
+                        var d ={
+                            msgid:'WZRPMDelGroup',
+                            msgbody:[{
+                                groupid:groupId
+                            }]
+                        };
+                        d  = JSON.stringify(d);
+                        console.log(d);
+                        $.ajax({
+                            type: "post",
+                            url: baseURL,
+                            async: true,
+                            data: d,
+                            dataType:'json',
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success('操作成功');
+                                    drawTable();
+                                }
+                            }
+                        })
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm( "请选择组别",window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function subAddGroupBtn() {
+            console.log(groupIdIndex)
+            var d  ={
+                msgid:'WZRPWAddGroup',
+                msgbody:[{
+                    groupid:groupIdIndex,
+                    groupname:$('#groupName').val()
+                }]
+            };
+            d = JSON.stringify(d);
+            $.ajax({
+                type:"post",
+                url:baseURL,
+                async:true,
+                data:d,
+                dataType:'json',
+                success:function(data){
+                    console.log(data.resultcode)
+                    if(data.resultcode =='0'){
+                        var d = {
+                            msgid:'WZRPWGroupFind',
+                            msgbody:[]
+                        };
+                        d = JSON.stringify(d);
+                        $.ajax({
+                            type:"post",
+                            url:baseURL,
+                            data:d,
+                            async:true,
+                            dataType:'json',
+                            success:function(data){
+                                console.log(data.resultcode);
+                                if(data.resultcode == '0'){
+                                    drawTable();
+                                    toastr.success('操作成功');
+                                    $('#groupModal').modal('hide')
+                                }
+
+
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        function subEditGroupBtn() {
+            var d  ={
+                msgid:'WZRPMEditGroup',
+                msgbody:[{
+                    groupid: $('#groupModal').attr('data-groupid'),
+                    groupname:$('#groupName').val()
+                }]
+            };
+            d = JSON.stringify(d);
+            console.log(d)
+            $.ajax({
+                type:"post",
+                url:baseURL,
+                async:true,
+                data:d,
+                dataType:'json',
+                success:function(data){
+                    if(data.resultcode == '0'){
+                     toastr.success('操作成功')
+                    drawTable();
+                      $('#groupModal').modal('hide')
+
+                    }
+                }
+            });
+        }
+        function drawTable() {
+            var d = {
+                msgid:'WZRPWGroupFind',
+                msgbody:[]
+            };
+            d = JSON.stringify(d);
+            console.log(baseURL)
+            console.log(d)
+            $.ajax({
+                type:"post",
+                url:baseURL,
+                async:true,
+                data:d,
+                dataType:'json',
+                success:function(data){
+                    console.log(data.resultcode);
+                    if(data.resultcode == '0'){
+                        $('.groupTable tbody').empty();
+                        $.each(data.msgbody, function(i,o) {
+//                            if(o.groupid != '170725144059'){
+                                var t = '<tr data-groupid="'+o.groupid+'"><td>'+i+'</td><td>'+o.groupname+'</td><td></td></tr>';
+                                $('.groupTable tbody').append(t);
+                            groupIdIndex = parseInt(o.groupid)+1;
+//                            }
+                        });
+                        $('.groupTable tbody td').unbind().on('click',function () {
+                            $(this).parent().addClass('table-selected');
+                            $(this).parent().siblings().removeClass('table-selected');
+                        })
+                    }
+                }
+            });
+        }
+        function toggleCon() {
+            if($('.applyList').hasClass('ysh-disappear')){
+                $('.Apply').css('height','462px');
+                $('.applyList').removeClass('ysh-disappear');
+            }else{
+                $('.applyList').addClass('ysh-disappear');
+                $('.Apply').css('height','60px');
+            }
+        }
+        function jumpHouseInfo() {
+            window.location.href='houseInfo.html'
+        }
+        function jumpGroup() {
+            if(groupid == '170725144059'){
+                window.location.href='groupMgr.html'
+            }else{
+                window.wxc.xcConfirm('您不具备此操作权限', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function jumpEvaluate() {
+            if(groupid == '170725144059'){
+                window.location.href='evaluateUnit.html'
+            }else{
+                window.wxc.xcConfirm('您不具备此操作权限', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

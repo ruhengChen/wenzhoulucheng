@@ -1,0 +1,553 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>温州鹿城房产管理系统</title>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        .table-container{
+            height: calc(100% - 20px);;
+        }
+        .houseTable>thead th,.houseTable tbody td{
+            text-align: center;
+        }
+        .imgContainer{
+            position: absolute;
+            right: 15px;
+            top:40px;
+            border: 1px solid #dddddd;
+            width: 75%;
+            height: 110px;
+        }
+        .filesBtn{
+            margin-top: 9px;
+            height: 30px;
+        }
+        .wzlc-menuList li.Apply{
+            height:462px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div  class="ysh-wzlcHead">
+        <div class="ysh-wzlcTitle">
+            <img class="wzlcLogo" src="../../images/home/logo.png" alt="">
+            <h5>温州市鹿城区行政事业单位存量房产管理系统</h5>
+        </div>
+        <ul id="loginOk" class="ysh-XTList ">
+            <li><a href="javascript:;">退出系统</a></li>
+            <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+            <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+        </ul>
+    </div>
+</header>
+<div class="container">
+    <div class="sidebar">
+        <ul class="wzlc-menuList">
+            <li>
+                <a  href="../main.html">主页</a>
+            </li>
+            <li>
+                <a class="houseInfo" href="../houseInfo.html">房屋信息</a>
+            </li>
+            <li>
+                <a class="groupMgr" href="../groupMgr.html">分组管理</a>
+            </li>
+            <li>
+                <a class="evaluateUnit" href="../evaluateUnit.html">评估单位</a>
+            </li>
+            <li class="Apply">
+                <a class="applyMgr" href="javascript:;">出租管理</a>
+                <ul class="applyList ">
+                    <li><a class="houseBp" href="houseBp.html">报批</a></li>
+                    <li><a class="housePg" href="housePg.html">评估</a></li>
+                    <li><a class="houseZz" href="houseZz.html">招租</a></li>
+                    <li><a class="houseQy" href="houseQy.html">签约</a></li>
+                    <li><a class="houseSz" href="houseSz.html">收租</a></li>
+                    <li><a class="houseCz" href="houseCz.html">催租</a></li>
+                    <li><a class="houseTz" href="houseTz.html">退租</a></li>
+                    <li><a class="statics" href="statics.html">统计</a></li>
+                    <li><a class="safeMgr" href="safeMgr.html">安全管理</a></li>
+                    <li><a class="messageMgr" href="messageMgr.html">短信通知</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="sysMgr" href="javascript:;">系统设置</a>
+            </li>
+        </ul>
+    </div>
+    <div class="mainContent">
+        <div class="infoHead">
+            房屋评估
+        </div>
+        <div class="infoContent">
+            <div class="table-container">
+                <table class="table table-striped houseTable">
+                    <thead>
+                    <tr>
+                    <th>序号</th>
+                    <th>地址</th>
+                    <th>面积</th>
+                    <th>权属单位</th>
+                    <th>房屋状态</th>
+                    <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="7">正在加载数据,请稍后...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="housePG" data-houseid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content" style="width: 780px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="houseModalLabel">房屋评估</h4>
+            </div>
+            <div class="modal-body" style="height: 550px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal houseForm" data-pid="">
+
+                    <div class="form-group">
+                        <label for="selUnit" class="col-sm-3 control-label">评估单位</label>
+                        <div class="col-sm-9">
+                            <button id="selUnit" type="button" class="btn btn-default btn-green form-control">随机抽取评估单位</button>
+                            <input type="text" class="form-control ysh-disappear" id="seeSelUnit">
+                        </div>
+                    </div>
+                    <div class="form-group imgGroup">
+                        <label class="col-sm-3 control-label">评估报告及上传附件</label>
+                        <div class="col-sm-9">
+                            <input type="file" class="filesBtn pgFiles" id="files" size="80" >
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                        <div class="img-cont">
+                            <ul id="imgsList">
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="subAddHouse">确定</button>
+                <!--<button type="button" class="btn btn-primary" id="subEditHouse">确定</button>-->
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/jquery-2.1.4.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../js/global.js"></script>
+<script>
+    (function ($) {
+        var   date = new Date(),today,check=true,id='1';
+        var baseURL = window.global.requestURL,groupId,groupid,peopleId,
+                uploadURL=window.global.uploadURL,arr1=[],photo1=[],arrLgt='0',leaseId='';
+        var mainHeight = (window.innerHeight - 70)+'px';
+        var infoHgt = (window.innerHeight - 130)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $('.infoContent').innerHeight(infoHgt);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 70)+'px';
+            infoHgt = (window.innerHeight - 130)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+            $('.infoContent').innerHeight(infoHgt);
+        });
+        //获取本地存储值
+        if(window.sessionStorage.getItem('peopleName')){
+            $('.xiUser').text(window.sessionStorage.getItem('peopleName'));
+        }
+        peopleId = window.sessionStorage.getItem('peopleId');
+        groupid = window.sessionStorage.getItem('groupId')
+        if(groupid =='170725144059'){
+            groupId = window.sessionStorage.getItem('rootGroupid')
+        }else{
+            groupId = window.sessionStorage.getItem('groupId');
+        }
+
+        var d= {
+            msgid:'WZRPWHouseLise',
+            msgbody:[
+                {
+                    groupid:groupId,
+                    stage:'3'//报批状态值
+                }
+            ]
+        };
+        d = JSON.stringify(d);
+        console.log(d);
+        $.ajax({
+            type:"post",
+            url:baseURL,
+            async:true,
+            data:d,
+            dataType:'json',
+            success:function(data){
+                console.log(data.resultcode)
+                if(data.resultcode == '0'){
+                    $('.houseTable>tbody').empty();
+                    if(data.msgbody.length){
+                        $.each(data.msgbody,function(i,o){
+                            if(o.housestate =='1'){
+                                o.housestate = '在租'
+                            }else if(o.housestate =='2'){
+                                o.housestate = '空置'
+                            }else if(o.housestate =='3'){
+                                o.housestate = '自用'
+                            }else if(o.housestate =='4'){
+                                o.housestate = '调配'
+                            }else if(o.housestate =='5'){
+                                o.housestate = '移交'
+                            }else if(o.housestate =='6'){
+                                o.housestate = '已拆除'
+                            }else if(o.housestate =='7'){
+                                o.housestate = '其他'
+                            }
+                            var li ='<tr><td>'+(i+1)+'</td><td>'+o.houseaddress+'</td><td>'+o.acreage+'m²</td>' +
+                                '<td>'+o.groupname+'</td><td>'+o.housestate+'</td><td><button data-houseid="'+o.houseid+'" class="btn btn-primary pgBtn">评估</button></td></tr>';
+                            $('.houseTable>tbody').append(li);
+                            $('.pgBtn').unbind().on('click',seePg);
+                        });
+                    }else{
+                        $('.houseTable>tbody').append('<tr><td colspan="7">暂无数据</td></tr>');
+                    }
+
+
+                }
+            }
+        });
+//        $('#housePG').modal('show')
+        //绑定事件
+        $('.houseInfo').on('click',jumpHouseInfo);
+        $('.groupMgr').on('click',jumpGroup);
+        $('.evaluateUnit').on('click',jumpEvaluate);
+        $('.applyMgr').on('click',toggleCon);
+        $('.filesBtn').on('change',PreviewImage);
+        $('#selUnit').on('click',selUnitBtn);
+        $('#subAddHouse').on('click',subAddHouseBtn)
+        //事件函数
+        function seePg() {
+            var houseId = $(this).attr('data-houseid');
+            $('#housePG').modal('show');
+            if(groupid =='170725144059'){
+                $('.filesBtn').attr('disabled','disabled');
+                $('#subAddHouse').css('display','none');
+            }else{
+                $('#subAddHouse').css('display','inline-block');
+            }
+            var d ={
+                msgid:'WZRPWBPInfo',
+                msgbody:[
+                    {
+                        houseid:houseId,
+                        stage:'3'
+                    }
+                ]
+            };
+            d = JSON.stringify(d);
+            console.log(d)
+            $.ajax({
+                type: "post",
+                url: baseURL,
+                async: true,
+                data: d,
+                dataType:'json',
+                success: function (data) {
+                    leaseId = data.msgbody[0].leaseid;
+                    if(data.msgbody[0].aunitname){
+                        $('#seeSelUnit').val(data.msgbody[0].aunitname).attr('disabled','disabled');
+                        $('#seeSelUnit').removeClass('ysh-disappear');
+                        $('#selUnit').addClass('ysh-disappear')
+                    }
+                    if(data.msgbody[0].photoList.length){
+                        $('.filesBtn').attr('disabled','disabled');
+                        $('#subAddHouse').css('display','none');
+                        $('#imgsList').empty();
+                        $('#subAddHouse').css('display','none');
+                        $('.spbFiles').attr('disabled','disabled');
+                        $.each(data.msgbody[0].photoList,function (i,o) {
+                                var li = '<li><div id="' + id + '"><img src="' + o.photourl + '" alt=""></div><div class="form-group"><label for="" class="col-sm-3 control-label">备注</label>' +
+                                        '<div class="col-sm-9"><input type="text" class="form-control require pgRmk" value="' + o.remark + '" id=""></div>' +
+                                        '</div></li>';
+//                                    var li = '<li><div id="'+id+'"><img src="" alt=""></div><div class="form-group"><label for="" class="col-sm-3 control-label">备注</label>' +
+//                                            '<div class="col-sm-9"><input type="text" class="form-control require bpRmk" id=""></div>' +
+//                                            '</div> <a class="hide delete-btn"  data-flag="false">删除</a></li>';
+                                $('#imgsList').append(li);
+                        });
+                    }
+                }
+            });
+        }
+        function subAddHouseBtn() {
+            arrLgt = arr1.length;
+            console.log(arrLgt)
+            if(arrLgt) {
+                $.each(arr1, function (i, o) {
+                    var obj = {
+                        files: o,
+                        remark: '',
+                        isLocal: true,
+                        fileType: 'jpg',
+                        name: '评估报告及上传附件照片',
+                        useType: 'e81d4480-9467-11e7-9a80-fa163e437026',
+                    };
+                    photo1.push(obj);
+                });
+                $.each($('.pgRmk'), function (i, o) {
+                    console.log($(o).val());
+                    var j = $(o).val();
+                    photo1[i].remark = j;
+                });
+                console.log(photo1);
+                console.log(leaseId);
+                uploadFiles(photo1)
+            }
+        }
+        function selUnitBtn() {
+            if(groupid =='170725144059'){
+
+                window.wxc.xcConfirm('您不具备该操作权限！',window.wxc.xcConfirm.typeEnum.warning);
+            }else{
+                console.log(leaseId)
+                var d ={
+                    msgid:'WZRPWRandomPG',
+                    msgbody:[
+                        {
+                            leaseid:leaseId,
+                        }
+                    ]
+                };
+                d = JSON.stringify(d);
+                console.log(d);
+                $.ajax({
+                    url:baseURL,
+                    type:'post',
+                    data:d,
+                    dataType:'json',
+                    success:function(data){
+                        if(data.resultcode == '0'){
+//								$('#seeSelUnit .selTime').text();
+                            $('#seeSelUnit').val(data.msgbody[0].aunitname).attr('disabled','disabled');
+                            $('#seeSelUnit').removeClass('ysh-disappear');
+                            $('#selUnit').addClass('ysh-disappear')
+                        }
+                    }
+                });
+            }
+        }
+        function PreviewImage() {
+            var imgFile = this;
+            console.log($(this).attr('class'))
+            var pattern = /(\.*.jpg$)|(\.*.png$)|(\.*.jpeg$)|(\.*.gif$)|(\.*.bmp$)/;
+            if(!pattern.test(imgFile.value)) {
+                alert("系统仅支持jpg/jpeg/png/gif/bmp格式的照片！");
+                imgFile.focus();
+            }else{
+                //定义图片路径
+                var path;
+                //添加显示图片的HTML元素
+                id += 1;
+                if($(this).hasClass('pgFiles')){
+                    arr1.push($(this)[0].files);
+                    var li = '<li><div id="'+id+'"><img src="" alt=""></div><div class="form-group"><label for="" class="col-sm-3 control-label">备注</label>' +
+                            '<div class="col-sm-9"><input type="text" class="form-control require pgRmk" id=""></div>' +
+                            '</div> <a class="hide delete-btn"  data-flag="false">删除</a></li>';
+                    $(this).parent().siblings('.img-cont').children().append(li);
+                }
+                console.log(arr1)
+//                $(".img-cont").append("<li><div id='"+id+"'><img src='' /></div><div><p>备注</p></div><a class='hide delete-btn'>删除</a></li>");
+                //判断浏览器类型
+                if(document.all){
+                    //兼容IE
+                    imgFile.select();
+                    path = document.selection.createRange().text;
+                    document.getElementById(id).innerHTML="";
+
+                    document.getElementById(id).style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true',sizingMethod='scale',src=\"" + path + "\")";//使用滤镜效果
+                }else{
+                    //兼容其他浏览器
+                    path = URL.createObjectURL(imgFile.files[0]);
+                    document.getElementById(id).innerHTML = "<img src='"+path+"' width='210' height='160' />";
+                }
+                console.log(path)
+                //重置表单
+//                resetForm(imgFile);
+            }
+        }
+
+//重置表单,允许用户连续添加相同的图片
+        function resetForm(imgFile){
+            $(imgFile).parents('.houseForm')[0].reset();
+        }
+
+//控制"按钮"显示与隐藏
+        $(".img-cont").off("mouseenter","div").on("mouseenter","li",function(){
+            var that=this;
+            var dom=$(that).children("a");
+            dom.removeClass("hide");
+            //为点击事件解绑，防止重复执行
+            dom.off("click");
+            console.log($(dom).attr('data-flag'))
+            if($(dom).attr('data-flag') == 'true'){
+                dom.on("click",function(){
+                    var pid  = $(dom).attr('data-pid');
+                    console.log(pid)
+                    var d  = {
+                        msgid:'WZRPMDelPhoto',
+                        msgbody:[{
+                            photoid:pid
+                        }]
+                    };
+                    d = JSON.stringify(d);
+                    console.log(d)
+//                    $.ajax({
+//                        type:"post",
+//                        url:baseURL,
+//                        async:true,
+//                        data:d,
+//                        dataType:'json',
+//                        success:function(data){
+//                            if(data.resultcode =='0'){
+//                                //删除当前图片
+//                    dom.parent().remove();
+////							mui.back()
+//                            }
+//                        }
+//                    });
+
+                });
+
+            }else{
+                dom.on("click",function(){
+                    //删除当前图片
+                    dom.parent().remove();
+                });
+            }
+
+        }).off("mouseleave","div").on("mouseleave","li",function(){
+            var that=this;
+            $(that).children("a").addClass("hide");
+        })
+        function uploadFiles(arr) {
+            var photo = arr;
+            $.each(photo,function (i,o) {
+                var usetype = o.useType;
+                var formdata = new FormData();
+                var rmk = o.remark;
+                formdata.append('file',o.files[0]);
+                var queryString = '?linkid='+leaseId+'&pkid='+usetype+'&remark='+rmk+'&peopleid='+peopleId;
+                // 上传附件
+                $.ajax({
+                    url:uploadURL+queryString,type:'POST',
+                    data:formdata,
+                    processData:false,
+                    contentType:false,
+                    dataType:'json',
+                    success:function(data){
+                        arrLgt --;
+                        if(!arrLgt ){
+                            toastr.success('操作成功！');
+                            drawTable();
+                            $('#houseModal').modal('hide');
+                        }
+                    }
+                });
+            });
+        }
+        function drawTable() {
+            var d= {
+                msgid:'WZRPWHouseLise',
+                msgbody:[
+                    {
+                        groupid:groupId,
+                        stage:'3'//报批状态值
+                    }
+                ]
+            };
+            d = JSON.stringify(d);
+            console.log(d);
+            $.ajax({
+                type:"post",
+                url:baseURL,
+                async:true,
+                data:d,
+                dataType:'json',
+                success:function(data){
+                    console.log(data.resultcode)
+                    if(data.resultcode == '0'){
+                        $('.houseTable>tbody').empty();
+                        if(data.msgbody.length){
+                            $.each(data.msgbody,function(i,o){
+                                if(o.housestate =='1'){
+                                    o.housestate = '在租'
+                                }else if(o.housestate =='2'){
+                                    o.housestate = '空置'
+                                }else if(o.housestate =='3'){
+                                    o.housestate = '自用'
+                                }else if(o.housestate =='4'){
+                                    o.housestate = '调配'
+                                }else if(o.housestate =='5'){
+                                    o.housestate = '移交'
+                                }else if(o.housestate =='6'){
+                                    o.housestate = '已拆除'
+                                }else if(o.housestate =='7'){
+                                    o.housestate = '其他'
+                                }
+                                var li ='<tr><td>'+(i+1)+'</td><td>'+o.houseaddress+'</td><td>'+o.acreage+'m²</td>' +
+                                        '<td>'+o.groupname+'</td><td>'+o.housestate+'</td><td><button data-houseid="'+o.houseid+'" class="btn btn-primary pgBtn">评估</button></td></tr>';
+                                $('.houseTable>tbody').append(li);
+                                $('.pgBtn').unbind().on('click',seePg);
+                            });
+                        }else{
+                            $('.houseTable>tbody').append('<tr><td colspan="7">暂无数据</td></tr>');
+                        }
+
+
+                    }
+                }
+            });
+        }
+        function toggleCon() {
+            if($('.applyList').hasClass('ysh-disappear')){
+                $('.Apply').css('height','422px');
+                $('.applyList').removeClass('ysh-disappear');
+            }else{
+                $('.applyList').addClass('ysh-disappear');
+                $('.Apply').css('height','60px');
+            }
+        }
+        function jumpHouseInfo() {
+            window.location.href='houseInfo.html'
+        }
+        function jumpGroup() {
+            if(groupid == '170725144059'){
+                window.location.href='groupMgr.html'
+            }else{
+                window.wxc.xcConfirm('您不具备此操作权限', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function jumpEvaluate() {
+            if(groupid == '170725144059'){
+                window.location.href='evaluateUnit.html'
+            }else{
+                window.wxc.xcConfirm('您不具备此操作权限', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

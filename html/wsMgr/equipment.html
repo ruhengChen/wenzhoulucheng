@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三门峡黄河公铁两用桥信息系统</title>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="../../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/userMgr.css">
+    <style>
+        .eqContainer{
+            padding-left: 0;
+        }
+        #eqTable>thead th,#eqTable>tbody td{
+            text-align: center;
+        }
+        #tableToolBar>span.useEquipment{
+            width:60px
+        }
+    </style>
+</head>
+<body>
+<header class="ysh-smxHead">
+    <div class="ysh-smxTitle">
+        <img class="smxLogo" src="../../images/home/logo.png" alt="">
+        <h5>三门峡黄河公铁两用桥信息系统</h5>
+    </div>
+    <!--<div id="btnLogin" class="ysh-XTList">-->
+        <!--<button id="loginBtn" class="btn btn-login">登录</button>-->
+    <!--</div>-->
+
+    <ul id="loginOk" class="ysh-XTList ">
+        <li><a href="javascript:;">退出系统</a></li>
+        <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+        <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+    </ul>
+</header>
+<div class="ysh-menu">
+    <ul class="ysh-menuList">
+        <li><a href="../main.html">首页</a></li>
+        <li><a  href="../itemGK/itemIntro.html">工程概况</a></li>
+        <li><a  href="../userMgr.html">人员管理</a></li>
+        <li class="wsMgr">
+            <a style=" background: rgb(0,133,106);" href="javascript:;">物设管理</a>
+            <ul class="wsCont ysh-disappear">
+                <li><a href="equipment.html">机械设备</a></li>
+                <li><a href="materialMgr.html">材料设备</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">进度管理</a>
+
+            <ul class="jdCont ysh-disappear">
+                <li><a href="../processMgr/itemUnit.html">项目单位</a></li>
+                <li><a href="../processMgr/sgPlan.html">总施工进度</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="../safeMgr/safeUserMgr.html">安全管理</a>
+        </li>
+        <li>
+            <a  href="javascript:;">质量管理</a>
+            <ul class="zlCont ysh-disappear">
+                <li><a class="reportMgr" href="../zlMgr/reportMgr.html">检测报告</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;">风险管理</a></li>
+        <li><a href="../jsMgr/datumMgr.html">技术管理</a></li>
+        <li><a href="javascript:;">试验管理</a></li>
+        <li><a href="javascript:;">视频监控</a></li>
+        <li class="sysMgr">
+            <a href="javascript:;">系统管理</a>
+            <ul class="sysCont ysh-disappear">
+                <li><a class="attrMgr" href="../sysMgr/attrMgr.html">属性管理</a></li>
+                <li><a class="attrMgr" href="../sysMgr/materialTypeMgr.html">材料类型</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="container eqContainer">
+    <!--<div class="sidebar">-->
+        <!--<ul id="treeUser" class="ztree"></ul>-->
+    <!--</div>-->
+    <div class="mainContent">
+        <div id="tableToolBar">
+            <span class="addUser addEquipment"><b></b>增加</span>
+            <span class="editUser editEquipment"><b></b>修改</span>
+            <span class="delUser delEquipment"><b></b>删除</span>
+            <span class="seeUser seeEquipment"><b></b>查看</span>
+            <span class="seeUser useEquipment">使用记录</span>
+            <span class="seeUser lqEquipment">领取</span>
+            <span class="seeUser ghEquipment">归还</span>
+            <!--<button class="btn btn-default addUser">增加</button>-->
+            <!--<button class="btn btn-default editUser">修改</button>-->
+            <!--<button class="btn btn-default delUser">删除</button>-->
+            <!--<button class="btn btn-default seeUser">查看</button>-->
+        </div>
+        <!--<table id="ysh-unitTable"></table>-->
+        <div class="table-container">
+            <table id="eqTable" class="table table-striped planTable">
+                <thead>
+                <tr>
+                    <th style="">序号</th>
+                    <th style="">归属部门</th>
+                    <th style="" >设备名称</th>
+                    <th style="">设备类型</th>
+                    <th>进场日期</th>
+                    <th>技术状况</th>
+                    <th>拟用何处</th>
+                    <th style="">型号</th>
+                    <th style="">规格</th>
+                    <th style="">来源</th>
+                    <th style="">使用人</th>
+                    <th style="">生产厂家</th>
+                    <th style="">编号</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="9">暂无数据，请稍后...</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--设备管理增加修改模态框-->
+<div class="modal fade" id="EqModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="eqModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="MName" data-mId="" class="col-sm-3 control-label">设备名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="MName">
+                            <!--<input type="text" class="form-control" id="MName" :duplex="@eqM_Info.MNAME">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="belongDept" class="col-sm-3 control-label">归属部门</label>
+                        <div class="col-sm-9">
+                            <select name="" class="form-control" id="belongDept"></select>
+                            <!--<input type="text" class="form-control" id="belongDept" >-->
+                            <!--<input type="text" class="form-control" id="MNo" :duplex="@eqM_Info.MNO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inDate" data-mId="" class="col-sm-3 control-label">进场日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inDate">
+                            <!--<input type="text" class="form-control" id="MName" :duplex="@eqM_Info.MNAME">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="JSState" data-mId="" class="col-sm-3 control-label">技术状态</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="JSState">
+                            <!--<input type="text" class="form-control" id="MName" :duplex="@eqM_Info.MNAME">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="USEComment" data-mId="" class="col-sm-3 control-label">拟用用处</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="USEComment">
+                            <!--<input type="text" class="form-control" id="MName" :duplex="@eqM_Info.MNAME">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="MFactory" class="col-sm-3 control-label">生产厂家</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="MFactory" >
+                            <!--<input type="text" class="form-control" id="MNo" :duplex="@eqM_Info.MNO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TID" class="col-sm-3 control-label">设备类型</label>
+                        <div class="col-sm-9">
+                            <!--<input type="text" class="form-control" id="TID" >-->
+                            <select name="" class="form-control" id="TID">
+                                <option value="">请选择</option>
+                                <option value=""></option>
+                            </select>
+                            <!--<input type="text" class="form-control" id="MNo" :duplex="@eqM_Info.MNO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="MNo" class="col-sm-3 control-label">编号</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="MNo" >
+                            <!--<input type="text" class="form-control" id="MNo" :duplex="@eqM_Info.MNO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="MModel" class="col-sm-3 control-label">型号</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="MModel">
+                            <!--<input type="text" class="form-control" id="MModel" :duplex="@eqM_Info.MModel">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="MSpec" class="col-sm-3 control-label">规格</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="MSpec">
+                            <!--<input type="text" class="form-control" id="MSpec" :duplex="@eqM_Info.MSpec">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="MREK" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="MREK">
+                            <!--<input type="text" class="form-control" id="MSpec" :duplex="@eqM_Info.MSpec">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="MOrigin" class="col-sm-3 control-label">设备来源</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="" id="MOrigin">
+                                <option id="BUY" value="BUY" checked="checked">采购</option>
+                                <option id="RENT" value="RENT" >租赁</option>
+                                <option id="OWN" value="OWN">自带</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="buy" style="display: block">
+                        <div class="form-group">
+                            <label for="BUYSupplier" class="col-sm-3 control-label">供应商</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="BUYSupplier" >
+                                <!--<input type="text" class="form-control" id="BUYSupplier" :duplex="@eqM_Info.BUYSupplier">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BUYLinkMan" class="col-sm-3 control-label">联系人</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="BUYLinkMan" >
+                                <!--<input type="text" class="form-control" id="BUYLinkMan" :duplex="@eqM_Info.BUYLinkMan">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BUYLinkTel" class="col-sm-3 control-label">联系人电话</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="BUYLinkTel">
+                                <!--<input type="text" class="form-control" id="BUYLinkTel" :duplex="@eqM_Info.BUYLinkTel">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BUYDate" class="col-sm-3 control-label">采购日期</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control buyMDate" id="BUYDate" >
+                                <!--<input type="text" class="form-control" id="BUYDate" :duplex="@eqM_Info.BUYDate">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BUYMoney" class="col-sm-3 control-label">采购金额</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="BUYMoney">
+                                <!--<input type="text" class="form-control" id="BUYMoney" :duplex="@eqM_Info.BUYMoney">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BUYAgreementNo" class="col-sm-3 control-label">采购合同编号</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="BUYAgreementNo" >
+                                <!--<input type="text" class="form-control" id="BUYAgreementNo" :duplex="@eqM_Info.BUYAgreementNo">-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rent" style="display: none">
+                        <div class="form-group">
+                            <label for="Renter" class="col-sm-3 control-label">出租单位</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="Renter">
+                                <!--<input type="text" class="form-control" id="Renter" :duplex="@eqM_Info.Renter">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="RentLinkMan" class="col-sm-3 control-label">联系人</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="RentLinkMan">
+                                <!--<input type="text" class="form-control" id="RentLinkMan" :duplex="@eqM_Info.RentLinkMan">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="RentLinkTel" class="col-sm-3 control-label">联系电话</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="RentLinkTel">
+                                <!--<input type="text" class="form-control" id="RentLinkTel" :duplex="@eqM_Info.RentLinkTel">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="RentStartDate" class="col-sm-3 control-label">租赁起始日期</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control rentMStartDate" id="RentStartDate">
+                                <!--<input type="text" class="form-control" id="RentStartDate" :duplex="@eqM_Info.RentStartDate">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="RentEndDate" class="col-sm-3 control-label">租赁结束日期</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control rentMEndDate" id="RentEndDate" >
+                                <!--<input type="text" class="form-control" id="RentEndDate" :duplex="@eqM_Info.RentEndDate">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="RentMoney" class="col-sm-3 control-label">租金</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="RentMoney" >
+                                <!--<input type="text" class="form-control" id="RentMoney" :duplex="@eqM_Info.RentMoney">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="RentAgreementNo" class="col-sm-3 control-label">合同编号</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="RentAgreementNo" >
+                                <!--<input type="text" class="form-control" id="RentAggrementNo" :duplex="@eqM_Info.RentAggrementNo">-->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary addSb" id="addEqModal">确定</button>
+                <button type="button" class="btn btn-primary editSb" id="editEqModal">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--设备管理查看模态框-->
+<div id="equipDataModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="eqDataLabel">设备详情</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="basicData active"><a href="#jbxx" aria-controls="jbxx" role="tab" data-toggle="tab">基本信息</a></li>
+                    <li class="buyData" role="presentation"><a href="#cgxx" aria-controls="cgxx" role="tab" data-toggle="tab">采购信息</a></li>
+                    <li class="rentData" role="presentation"><a href="#zlxx" aria-controls="zlxx" role="tab" data-toggle="tab">租赁信息</a></li>
+                    <!--<li role="presentation"><a href="#wbxx" aria-controls="wbxx" role="tab" data-toggle="tab">维保信息</a></li>-->
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="jbxx">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="dataMName" class="col-sm-3 control-label">设备名称</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataMName">
+                                    <!--<input type="text" class="form-control" id="dataMName" :duplex="@eqM_Info.MNAME">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inDate" data-mId="" class="col-sm-3 control-label">进场日期</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="datainDate">
+                                    <!--<input type="text" class="form-control" id="MName" :duplex="@eqM_Info.MNAME">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="JSState" data-mId="" class="col-sm-3 control-label">技术状态</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataJSState">
+                                    <!--<input type="text" class="form-control" id="MName" :duplex="@eqM_Info.MNAME">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="USEComment" data-mId="" class="col-sm-3 control-label">拟用用处</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataUSEComment">
+                                    <!--<input type="text" class="form-control" id="MName" :duplex="@eqM_Info.MNAME">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataMFactory" class="col-sm-3 control-label">生产厂家</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataMFactory" >
+                                    <!--<input type="text" class="form-control" id="MNo" :duplex="@eqM_Info.MNO">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataMTID" class="col-sm-3 control-label">设备类型</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataMTID">
+                                    <!--<select name="" id="dataMTID">-->
+                                    <!--<option value=""></option>-->
+                                    <!--</select>-->
+                                    <!--<input type="text" class="form-control" id="dataMTID" :duplex="@eqM_Info.MNAME">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataMNo" class="col-sm-3 control-label">编号</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataMNo">
+                                    <!--<input type="text" class="form-control" id="dataMNo" :duplex="@eqM_Info.MNO">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataMModel" class="col-sm-3 control-label">型号</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataMModel">
+                                    <!--<input type="text" class="form-control" id="dataMModel" :duplex="@eqM_Info.MModel">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataMSpec" class="col-sm-3 control-label">规格</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataMSpec">
+                                    <!--<input type="text" class="form-control" id="dataMSpec" :duplex="@eqM_Info.MSpec">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataMRMK" class="col-sm-3 control-label">备注</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataMRMK">
+                                    <!--<input type="text" class="form-control" id="dataMSpec" :duplex="@eqM_Info.MSpec">-->
+                                </div>
+                            </div>
+                            <!--<div class="form-group">-->
+                            <!--<label for="dataMOrigin" class="col-sm-3 control-label">设备来源</label>-->
+                            <!--<div class="col-sm-9">-->
+                            <!--<select class="form-control" name="" id="dataMOrigin" :change="originChange">-->
+                            <!--<option value="Buy" checked="checked">采购</option>-->
+                            <!--<option value="Rent" >租赁</option>-->
+                            <!--</select>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="cgxx">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="dataBUYSupplier" class="col-sm-3 control-label">供应商</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataBUYSupplier">
+                                    <!--<input type="text" class="form-control" id="dataBUYSupplier"-->
+                                    <!--:duplex="@eqM_Info.BUYSupplier">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataBUYLinkMan" class="col-sm-3 control-label">联系人</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataBUYLinkMan">
+                                    <!--<input type="text" class="form-control" id="dataBUYLinkMan"-->
+                                    <!--:duplex="@eqM_Info.BUYLinkMan">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataBUYLinkTel" class="col-sm-3 control-label">联系人电话</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataBUYLinkTel">
+                                    <!--<input type="text" class="form-control" id="dataBUYLinkTel"-->
+                                    <!--:duplex="@eqM_Info.BUYLinkTel">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataBUYDate" class="col-sm-3 control-label">采购日期</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataBUYDate">
+                                    <!--<input type="text" class="form-control" id="dataBUYDate"-->
+                                    <!--:duplex="@eqM_Info.BUYDate">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataBUYMoney" class="col-sm-3 control-label">采购金额</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataBUYMoney">
+                                    <!--<input type="text" class="form-control" id="dataBUYMoney"-->
+                                    <!--:duplex="@eqM_Info.BUYMoney">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataBUYAgreementNo" class="col-sm-3 control-label">采购合同编号</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataBUYAgreementNo">
+                                    <!--<input type="text" class="form-control" id="dataBUYAgreementNo"-->
+                                    <!--:duplex="@eqM_Info.BUYAgreementNo">-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="zlxx">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="dataRenter" class="col-sm-3 control-label">出租单位</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataRenter">
+                                    <!--<input type="text" class="form-control" id="dataRenter" :duplex="@eqM_Info.Renter">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataRentLinkMan" class="col-sm-3 control-label">联系人</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataRentLinkMan" >
+                                    <!--<input type="text" class="form-control" id="dataRentLinkMan" :duplex="@eqM_Info.RentLinkMan">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataRentLinkTel" class="col-sm-3 control-label">联系电话</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataRentLinkTel">
+                                    <!--<input type="text" class="form-control" id="dataRentLinkTel" :duplex="@eqM_Info.RentLinkTel">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataRentStartDate" class="col-sm-3 control-label">租赁起始日期</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataRentStartDate">
+                                    <!--<input type="text" class="form-control" id="dataRentStartDate" :duplex="@eqM_Info.RentStartDate">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataRentEndDate" class="col-sm-3 control-label">租赁结束日期</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataRentEndDate">
+                                    <!--<input type="text" class="form-control" id="dataRentEndDate" :duplex="@eqM_Info.RentEndDate">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataRentMoney" class="col-sm-3 control-label">租金</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataRentMoney">
+                                    <!--<input type="text" class="form-control" id="dataRentMoney" :duplex="@eqM_Info.RentMoney">-->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataRentAggrementNo" class="col-sm-3 control-label">合同编号</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="dataRentAggrementNo">
+                                    <!--<input type="text" class="form-control" id="dataRentAggrementNo" :duplex="@eqM_Info.RentAggrementNo">-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!--<div role="tabpanel" class="tab-pane" id="wbxx">-->
+                        <!--<form class="form-horizontal">-->
+                            <!--暂未开发-->
+                        <!--</form>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--使用记录模态框-->
+<div id="useHistoryModal" data-pid="" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="certModalTitle" >使用记录</h4>
+            </div>
+            <div class="modal-body" style="height: 430px;overflow-x: hidden;overflow-y: auto">
+                    <!--<div id="Use-toolbar" style="">-->
+                        <!--<button class="btn btn-default addCert">增加</button>-->
+                        <!--<button class="btn btn-default editCert">修改</button>-->
+                        <!--<button class="btn btn-default delCert">删除</button>-->
+                        <!--&lt;!&ndash;<button class="btn btn-default seeUseMaterial">查看</button>&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<table id="eventTable"></table>-->
+                    <div class="table-container">
+                        <table data-pid="" id="useHistoryTable" style="overflow: auto"
+                               class="table table-striped planTable">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>使用者</th>
+                                <th>开始日期</th>
+                                <th>结束日期</th>
+                                <th>备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="5">暂无使用记录</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--领取设备-->
+<div class="modal fade" id="eqUseModal" data-mid=""  tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="eqUseModalLabel">领取设备</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+                    <div class="form-group">
+                        <label for="dept" class="col-sm-3 control-label">部门</label>
+                        <div class="col-sm-9">
+                            <!--<input type="text" class="form-control" id="dept">-->
+                            <select name="" id="dept" class="form-control"></select>
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deptPeople" class="col-sm-3 control-label">人员</label>
+                        <div class="col-sm-9">
+                            <select name="" id="deptPeople" class="form-control"></select>
+                            <!--<input type="file" class="form-control" id="deptPeople">-->
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="subUseEq">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/jquery-2.1.4.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<scripT src="../../plugins/daterangepicker/moment.js"></scripT>
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../../js/global.js"></script>
+<script>
+    (function ($) {
+        var date = new Date(), baseURL=window.global.SMXprogramURL,uName,protocols,eqType={},eqId="",
+        protocols={
+            getEqType:baseURL+'machine/SHQMachineTypeGet',
+            getEqByID:baseURL+'',
+            getEq:baseURL+'machine/SHQMachineGet',
+            delEq:baseURL+'machine/SHQMachineDel',
+            addEq:baseURL+'machine/SHQMachineAdd',
+            editEq:baseURL+'machine/SHQMachineEdit',
+            getUseHis:baseURL+'machine/SHQMachinePersonHis',
+            endUse:baseURL+'machine/SHQMachinePersonDel',
+            setUse:baseURL+'machine/SHQMachinePersonSet',
+            getDept:baseURL+'safemodel/SHQDepartmentGet',
+            getPeople:baseURL+'safemodel/SHQPersonGet',
+        },last,today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate(),
+            startTime = today,
+            endTime = today;
+        last = (date.getFullYear()-20)+'-'+(date.getMonth()+1)+'-'+date.getDate();
+        var mainHeight = (window.innerHeight - 140)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 140)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+        });
+        uName  = sessionStorage.getItem('PNAME');
+        if(uName){
+            $('#btnLogin').css('display','none');
+            $('#loginOk').removeClass('ysh-disappear');
+            $('#loginOk .xiUser').text(uName);
+        }
+        $('.buyMDate,.rentMStartDate,.rentMEndDate,#inDate').daterangepicker({
+            locale: {
+                format : 'YYYY-MM-DD',
+                separator: ' ~ ',
+                weekLabel: '星期',
+            },
+            startDate:startTime,
+            singleDatePicker:true,
+            timePicker:true,
+            timePicker24Hour:true
+        });
+        $.ajax({
+            url:protocols.getEqType,
+            type:'get',
+            cache:'false',
+            success:function (data) {
+                if(!data.code){
+                    eqType.rows = data.rows
+                }else{
+                    alert(data.msg)
+                }
+            },
+            error:function (data) {
+                alert(data.msg)
+            }
+        });
+        //表格数据渲染
+        $.ajax({
+            url:protocols.getEq,
+            type:'get',
+            cache:'false',
+            success:function (data) {
+                if(!data.code){
+                    $('#eqTable>tbody').empty();
+                    $.each(data.rows,function (i,o) {
+                        if(o.MOrigin == 'BUY'){
+                            o.MOrigin = '采购';
+                        }else if(o.MOrigin == 'RENT'){
+                            o.MOrigin = '租赁';
+                        }else  if(o.MOrigin == 'OWN'){
+                            o.MOrigin = '自带';
+                        }
+                        $.each(eqType.rows,function (index,obj) {
+                            if(obj.MTID == o.MTID){
+                                o.MTID = obj.MTName;
+                            }
+                        });
+                        var t = '<tr data-eqId="'+o.MID+'" data-dpid="'+o.DPID+'" data-use="'+o.IsUse+'" data-pname="'+o.PName+'">' +
+                            '<td>'+(i+1)+'</td><td>'+o.DPName+'</td><td>'+o.MName+'</td><td>'+o.MTID+'</td><td>'+o.InDate+'</td><td>'+o.JSState+'</td><td>'+o.USEComment+'</td>' +
+                            '<td>'+o.MModel+'</td><td>'+o.MSpec+'</td><td>'+o.MOrigin+'</td><td class="pName">'+o.PName+'</td><td>'+o.Factory+'</td><td>'+o.MNo+'</td></tr>';
+                        $('#eqTable').append(t);
+                        //table选中
+                        $('#eqTable>tbody td').unbind().on('click',function () {
+                            $(this).parent().addClass('table-selected');
+                            $(this).parent().siblings().removeClass('table-selected');
+                            eqId = $(this).parent().attr('data-eqid');
+                        });
+                    });
+                }else{
+                    alert(data.msg)
+                }
+            },
+            error:function (data) {
+                alert(data.msg)
+            }
+        });
+        $.ajax({
+            url:protocols.getDept,
+            type:'get',
+            success:function (data) {
+                if(!data.code){
+                    $('#dept').empty();
+                    $('#dept').append('<option>请选择部门</option>')
+                    $.each(data.rows,function (i,o) {
+                        var li = '<option data-dpid="'+o.DPID+'" value="'+o.DPID+'">'+o.DPName+'</option>';
+                        $('#belongDept').append(li);
+                    });
+                }
+            }
+        });
+
+        //绑定事件
+        $('.ysh-menuList a').on('click',showList);
+        $('.wsCont a,.jdCont a').on('click',hideList);
+        document.onclick = function(){
+            $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+        }
+        //来源改变事件
+        $('#MOrigin').on('change',originChange);
+        $('#dept').on('change',deptChange);
+        //新增设备信息
+        $('.addEquipment').on('click',addEq);
+        //修改设备信息
+        $('.editEquipment').on('click',editEq);
+        //删除设备信息
+        $('.delEquipment').on('click',delEq);
+        //查看设备信息
+        $('.seeEquipment').on('click',seeEq);
+        //机械设备
+        $('#addEqModal').on('click',addEqModal);
+        $('#editEqModal').on('click',editEqModal);
+        //使用记录
+        $('.useEquipment').on('click',useEpBtn);
+        $('.lqEquipment').on('click',setUseBtn);
+        $('.ghEquipment').on('click',endUseBtn);
+        $('#subUseEq').on('click',subUseEqBtn);
+        //函数
+        function originChange() {
+            if($('#MOrigin>option:checked').val() == 'BUY'){
+                $('.rent').css('display','none');
+                $('.buy').css('display','block');
+            }else if($('#MOrigin>option:checked').val() == 'RENT'){
+                $('.buy').css('display','none');
+                $('.rent').css('display','block')
+            }else{
+                $('.buy').css('display','none');
+                $('.rent').css('display','none')
+            }
+        }
+        function addEq() {
+            $('#eqModalLabel').text('添加机械设备');
+            $('#addEqModal').css('display','inline-block');
+            $('#editEqModal').css('display','none');
+            $.ajax({
+                url:protocols.getEqType,
+                type:'get',
+                cache:'false',
+                success:function (data) {
+                    if(!data.code){
+                        $('#TID').empty();
+                        var s  = '<option>请选择设备</option>';
+                        $('#TID').append(s)
+                        $.each(data.rows,function (i,o) {
+                            var o = '<option id="o.MTID" value="'+o.MTID+'">'+o.MTName+'</option>';
+                            $('#TID').append(o);
+                        })
+                        $('#EqModal input').val('')
+                        $('#EqModal').modal('show');
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            });
+
+        }
+        //编辑机械设备
+        function editEq() {
+            if(eqId ==''){
+              //  alert('请先选择机械设备');
+                 window.wxc.xcConfirm('请先选择机械设备', window.wxc.xcConfirm.typeEnum.confirm);
+            }else{
+                $('#eqModalLabel').text('修改机械设备');
+                $('#addEqModal').css('display','none');
+                $('#editEqModal').css('display','inline-block');
+                $.ajax({
+                    url:protocols.getEqType,
+                    type:'get',
+                    cache:'false',
+                    success:function (data) {
+                        if(!data.code){
+                            $('#TID').empty();
+                            var s  = '<option>请选择设备</option>';
+                            $('#TID').append(s)
+                            $.each(data.rows,function (i,o) {
+                                var o = '<option id="'+o.MTID+'" value="'+o.MTID+'">'+o.MTName+'</option>';
+                                $('#TID').append(o);
+                            });
+                            $.ajax({
+                                url:protocols.getEq,
+                                type:'get',
+                                success:function (data) {
+                                    if(!data.code){
+                                        $.each(data.rows, function (i, o) {
+                                            if(o.MID == eqId){
+                                                if (o.MOrigin == 'BUY') {
+                                                    console.log(o.DPID)
+                                                    $('#belongDept').val(o.DPID);
+                                                    $('.buy').css('display','block');
+                                                    $('.rent').css('display','none');
+                                                    $('#MName').attr('data-mId',o.MID);
+                                                    $('#MName').val(o.MName);
+//                                                    alert(o.MTID)
+                                                    var s = '#'+o.MTID;
+//                                                    alert(s)
+                                                    $(s).attr("selected",true);
+                                                    $('#MFactory').val(o.Factory);
+                                                    $('#MNo').val(o.MNo);
+                                                    $('#inDate').val(o.InDate);
+                                                    $('#JSState').val(o.JSSate);
+                                                    $('#USEComment').val(o.USEComment);
+                                                    $('#MModel').val(o.MModel);
+                                                    $('#MSpec').val(o.MSpec);
+                                                    $('#MOrigin>option#BUY').attr("selected",true);
+                                                    $('#MREK').val(o.Remark);
+                                                    $('#BUYSupplier').val(o.BUYSupplier);
+                                                    $('#BUYLinkMan').val(o.BUYLinkMan);
+                                                    $('#BUYLinkTel').val(o.BUYLinkTel);
+                                                    $('#BUYMoney').val(o.BUYMoney);
+                                                    $('#BUYDate').val(o.BUYDate);
+                                                    $('#BUYAgreementNo').val(o.BUYAgreementNo);
+                                                    $('#Renter').val('');
+                                                    $('#RentLinkMan').val('');
+                                                    $('#RentLinkTel').val('');
+                                                    $('#RentMoney').val('');
+                                                    $('#RentStartDate').val('');
+                                                    $('#RentEndDate').val('');
+                                                    $('#RentAgreementNo').val('');
+                                                }
+                                                else if (o.MOrigin == 'RENT'){
+                                                    console.log(o.DPID)
+                                                    $('#belongDept').val(o.DPID);
+                                                    $('.buy').css('display','none');
+                                                    $('.rent').css('display','block');
+                                                    $('#MName').attr('data-mId',o.MID);
+                                                    $('#MName').val(o.MName);
+                                                    var s = '#'+o.MTID;
+                                                    $(s).attr("selected",true);
+                                                    $('#inDate').val(o.InDate);
+                                                    $('#JSState').val(o.JSSate);
+                                                    $('#USEComment').val(o.USEComment);
+                                                    $('#MFactory').val(o.Factory);
+                                                    $('#MNo').val(o.MNo);
+                                                    $('#MModel').val(o.MModel);
+                                                    $('#MSpec').val(o.MSpec);
+                                                    $('#MOrigin>option#RENT').attr("selected",true); ;
+                                                    $('#MREK').val(o.Remark);
+                                                    $('#Renter').val(o.Renter);
+                                                    $('#RentLinkMan').val(o.RentLinkMan);
+                                                    $('#RentLinkTel').val(o.RentLinkTel);
+                                                    $('#RentMoney').val(o.RentMoney);
+                                                    $('#RentStartDate').val(o.RentStartDate);
+                                                    $('#RentEndDate').val(o.RentEndDate);
+                                                    $('#RentAgreementNo').val(o.RentAgreementNo);
+                                                    $('#BUYSupplier').val();
+                                                    $('#BUYLinkMan').val();
+                                                    $('#BUYLinkTel').val();
+                                                    $('#BUYMoney').val();
+                                                    $('#BUYDate').val();
+                                                    $('#BUYAgreementNo').val();
+                                                }
+                                                else if (o.MOrigin == 'OWN'){
+                                                    $('.buy').css('display','none');
+                                                    $('.rent').css('display','none');
+                                                    $('#MName').attr('data-mId',o.MID);
+                                                    $('#MName').val(o.MName);
+                                                    var s = '#'+o.MTID;
+                                                    $(s).attr("selected",true);
+                                                    console.log(o.DPID)
+                                                    $('#belongDept').val(o.DPID);
+                                                    $('#MFactory').val(o.Factory);
+                                                    $('#MNo').val(o.MNo);
+                                                    $('#MModel').val(o.MModel);
+                                                    $('#MSpec').val(o.MSpec);
+                                                    $('#MOrigin>option#OWN').attr("selected",true); ;
+                                                    $('#MREK').val(o.Remark);
+                                                    $('#Renter').val('');
+                                                    $('#RentLinkMan').val('');
+                                                    $('#RentLinkTel').val('');
+                                                    $('#RentMoney').val('');
+                                                    $('#RentStartDate').val('');
+                                                    $('#RentEndDate').val('');
+                                                    $('#RentAgreementNo').val();
+                                                    $('#BUYSupplier').val('');
+                                                    $('#BUYLinkMan').val('');
+                                                    $('#BUYLinkTel').val('');
+                                                    $('#BUYMoney').val('');
+                                                    $('#BUYDate').val('');
+                                                    $('#BUYAgreementNo').val('');
+                                                }
+                                            }
+
+                                        });
+                                    }else{
+                                        alert(data.msg)
+                                    }
+                                },
+                                error:function (data) {
+                                    alert(data.msg)
+                                }
+                            });
+                        }else{
+                            alert(data.msg)
+                        }
+                    },
+                    error:function (data) {
+                        alert(data.msg)
+                    }
+                });
+
+                $('#EqModal').modal('show');
+            }
+
+        }
+        //查看机械设备
+        function seeEq() {
+            if (eqId == ''){
+//                alert('请先选择机械设备');
+                window.wxc.xcConfirm('请先选择机械设备', window.wxc.xcConfirm.typeEnum.confirm);
+            }else{
+                $.ajax({
+                    url:protocols.getEq,
+                    type:'get',
+                    success:function (data) {
+                        if(!data.code){
+                            $.each(data.rows, function (i, o) {
+                                //alert(o.MTID)
+                                $.each(eqType.rows,function (index,obj) {
+                                    if(obj.MTID == o.MTID){
+                                        o.MTID = obj.MTName;
+                                    }
+                                });
+                                if(o.MID == eqId){
+                                    if (o.MOrigin == 'BUY') {
+                                        $('.rentData').css('display','none');
+                                        $('.buyData').css('display','block');
+                                        $('#cgxx').css('display','block');
+                                        $('#zlxx').css('display','none');
+                                        $('.basicData').addClass('active');
+                                        $('.basicData').siblings().removeClass('active');
+                                        $('#jbxx').addClass('active');
+                                        $('#jbxx').siblings().removeClass('active');
+                                        $('#dataMName').attr('data-mId',o.MID);
+                                        $('#dataMName').val(o.MName);
+                                        $('#dataMTID').val(o.MTID);
+                                        $('#datainDate').val(o.InDate);
+                                        $('#dataJSState').val(o.JSSate);
+                                        $('#dataUSEComment').val(o.USEComment);
+                                        $('#dataMFactory').val(o.Factory);
+                                        $('#dataMNo').val(o.MNo);
+                                        $('#dataMModel').val(o.MModel);
+                                        $('#dataMSpec').val(o.MSpec);
+//                                        $('#MOrigin>option#BUY').attr('checked','checked');
+                                        $('#dataMRMK').val(o.Remark);
+                                        $('#dataBUYSupplier').val(o.BUYSupplier);
+                                        $('#dataBUYLinkMan').val(o.BUYLinkMan);
+                                        $('#dataBUYLinkTel').val(o.BUYLinkTel);
+                                        $('#dataBUYMoney').val(o.BUYMoney);
+                                        $('#dataBUYDate').val(o.BUYDate);
+                                        $('#dataBUYAgreementNo').val(o.BUYAgreementNo);
+                                    }
+                                    else if(o.MOrigin == 'RENT'){
+                                        $('.rentData').css('display','block');
+                                        $('.buyData').css('display','none');
+                                        $('#cgxx').css('display','none');
+                                        $('#zlxx').css('display','block');
+                                        $('.basicData').addClass('active');
+                                        $('.basicData').siblings().removeClass('active');
+                                        $('#jbxx').addClass('active');
+                                        $('#jbxx').siblings().removeClass('active');
+                                        $('#dataMName').attr('data-mId',o.MID);
+                                        $('#dataMName').val(o.MName);
+                                        $('#dataMTID').val(o.MTID)
+//                                        $('#dataTID').val()
+                                        $('#inDate').val(o.InDate);
+                                        $('#JSState').val(o.JSSate);
+                                        $('#USEComment').val(o.USEComment);
+                                        $('#dataMFactory').val(o.Factory);
+                                        $('#dataMNo').val(o.MNo);
+                                        $('#dataMModel').val(o.MModel);
+                                        $('#dataMSpec').val(o.MSpec);
+                                        //$('#MOrigin>option#RENT').attr('checked','true');
+                                        $('#dataMRMK').val(o.Remark);
+                                        $('#dataRenter').val(o.Renter);
+                                        $('#dataRentLinkMan').val(o.RentLinkMan);
+                                        $('#dataRentLinkTel').val(o.RentLinkTel);
+                                        $('#dataRentMoney').val(o.RentMoney);
+                                        $('#dataRentStartDate').val(o.RentStartDate);
+                                        $('#dataRentEndDate').val(o.RentEndDate);
+                                        $('#dataRentAgreementNo').val(o.RentAgreementNo);
+
+                                    }
+                                    else if( o.MOrigin == 'OWN'){
+                                        $('.rentData').css('display','none');
+                                        $('.buyData').css('display','none');
+                                        $('#cgxx').css('display','none');
+                                        $('#zlxx').css('display','block');
+                                        $('.basicData').addClass('active');
+                                        $('.basicData').siblings().removeClass('active');
+                                        $('#jbxx').addClass('active');
+                                        $('#jbxx').siblings().removeClass('active');
+                                        $('#dataMName').attr('data-mId',o.MID);
+                                        $('#dataMName').val(o.MName);
+                                        $('#dataMTID').val(o.MTID)
+//                                        $('#dataTID').val()
+                                        $('#dataMFactory').val(o.Factory);
+                                        $('#dataMNo').val(o.MNo);
+                                        $('#dataMModel').val(o.MModel);
+                                        $('#dataMSpec').val(o.MSpec);
+                                        //$('#MOrigin>option#RENT').attr('checked','true');
+                                        $('#dataMRMK').val(o.Remark);
+                                    }
+
+                                }
+                                $('#equipDataModal').modal('show')
+                            });
+                        }else{
+                            alert(data.msg)
+                        }
+                    },
+                    error:function (data) {
+                        alert(data.msg)
+                    }
+                });
+            }
+
+        }
+        //删除机械设备
+        function delEq() {
+            if(eqId ==''){
+//                alert('请先选择机械设备');
+                window.wxc.xcConfirm('请先选择机械设备', window.wxc.xcConfirm.typeEnum.confirm);
+            }else{
+                window.wxc.xcConfirm('确认机械设备', window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+                        $.ajax({
+                            url: protocols.delEq,
+                            type: 'post',
+                            data: {
+                                ID: eqId,
+                            },
+                            success: function (data) {
+                                if (!data.code) {
+                                    toastr.success(data.msg)
+                                    tableDraw();
+                                }
+                            },
+                            error: function (data) {
+                                alert(dat.msg)
+                            }
+                        });
+                    }
+                });
+//                if(confirm("确认删除?")) {
+//                    $.ajax({
+//                        url: protocols.delEq,
+//                        type: 'post',
+//                        data: {
+//                            ID: eqId,
+//                        },
+//                        success: function (data) {
+//                            if (!data.code) {
+//                                toastr.success(data.msg)
+//                                tableDraw();
+//                            }
+//                        },
+//                        error: function (data) {
+//                            alert(dat.msg)
+//                        }
+//                    });
+//                }
+            }
+        }
+        //表格渲染
+        function tableDraw() {
+            $.ajax({
+                url:protocols.getEq,
+                type:'get',
+                cache:'false',
+                success:function (data) {
+                    if(!data.code){
+                        $('#eqTable>tbody').empty();
+                        $.each(data.rows,function (i,o) {
+                            if(o.MOrigin == 'BUY'){
+                                o.MOrigin = '采购';
+                            }else if(o.MOrigin == 'RENT'){
+                                o.MOrigin = '租赁';
+                            }else  if(o.MOrigin == 'OWN'){
+                                o.MOrigin = '自带';
+                            }
+                            $.each(eqType.rows,function (index,obj) {
+                                if(obj.MTID == o.MTID){
+                                    o.MTID = obj.MTName;
+                                }
+                            });
+                            var t = '<tr data-eqId="'+o.MID+'" data-dpid="'+o.DPID+'" data-use="'+o.IsUse+'" data-pname="'+o.PName+'">' +
+                                    '<td>'+(i+1)+'</td><td>'+o.DPName+'</td><td>'+o.MName+'</td><td>'+o.MTID+'</td><td>'+o.InDate+'</td><td>'+o.JSState+'</td><td>'+o.USEComment+'</td>' +
+                                    '<td>'+o.MModel+'</td><td>'+o.MSpec+'</td><td>'+o.MOrigin+'</td><td class="pName">'+o.PName+'</td><td>'+o.Factory+'</td><td>'+o.MNo+'</td></tr>';
+                                 $('#eqTable').append(t);
+                            //table选中
+                            $('#eqTable>tbody td').unbind().on('click',function () {
+                                $(this).parent().addClass('table-selected');
+                                $(this).parent().siblings().removeClass('table-selected');
+                                eqId = $(this).parent().attr('data-eqid');
+                            });
+                        });
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            });
+        }
+        //新增机械设备
+        function addEqModal() {
+            var eQId = getUnitId();
+            var d ={};
+
+            if(($('#MOrigin>option:checked').val()) =='BUY'){
+                d={
+                    ID:eQId,
+                    NAME:$('#MName').val(),
+                    INDATE:$('#inDate').val(),
+                    JSSTATE:$('#JSState').val(),
+                    USECOMMENT:$('#USEComment').val(),
+                    TID: $('#TID>option:checked').val(),
+                    DPID:$('#belongDept>option:checked').val(),
+                    FACTORY:$('#MFactory').val(),
+                    NO:$('#MNo').val(),
+                    MODEL:$('#MModel').val(),
+                    SPEC:$('#MSpec').val(),
+                    ORIGIN:$('#MOrigin>option:checked').val(),
+                    RMK:$('#MREK').val(),
+                    BSUPPLIER:$('#BUYSupplier').val(),
+                    BLINKMAN:$('#BUYLinkMan').val(),
+                    BLINKTEL:$('#BUYLinkTel').val(),
+                    BMONEY:$('#BUYMoney').val(),
+                    BDATE:$('#BUYDate').val(),
+                    BAGREENTNO:$('#BUYAgreementNo').val(),
+                    RENTER:'',
+                    RLINKMAN:'',
+                    RLINKTEL:'',
+                    RMONEY:'',
+                    RSTART:'',
+                    REND:'',
+                    RAGREEMENTNO:'',
+                }
+            }else if(($('#MOrigin>option:checked').val()) =='RENT'){
+                d={
+                    ID:eQId,
+                    NAME:$('#MName').val(),
+                    TID: $('#TID>option:checked').val(),
+                    DPID:$('#belongDept>option:checked').val(),
+                    FACTORY:$('#MFactory').val(),
+                    NO:$('#MNo').val(),
+                    MODEL:$('#MModel').val(),
+                    SPEC:$('#MSpec').val(),
+                    ORIGIN:$('#MOrigin>option:checked').val(),
+                    RMK:$('#MREK').val(),
+                    BSUPPLIER:'',
+                    BLINKMAN:'',
+                    BLINKTEL:'',
+                    BMONEY:'',
+                    BDATE:'',
+                    BAGREEMENTNO:'',
+                    RENTER:$('#Renter').val(),
+                    RLINKMAN:$('#RentLinkMan').val(),
+                    RLINKTEL:$('#RentLinkTel').val(),
+                    RMONEY:$('#RentMoney').val(),
+                    RSTART:$('#RentStartDate').val(),
+                    REND:$('#RentEndDate').val(),
+                    RAGREEMENTNO:$('#RentAgreementNo').val(),
+                    INDATE:$('#inDate').val(),
+                    JSSTATE:$('#JSState').val(),
+                    USECOMMENT:$('#USEComment').val(),
+                }
+            }else if(($('#MOrigin>option:checked').val()) =='OWN'){
+                d={
+                    ID:eQId,
+                    NAME:$('#MName').val(),
+                    TID: $('#TID>option:checked').val(),
+                    DPID:$('#belongDept>option:checked').val(),
+                    FACTORY:$('#MFactory').val(),
+                    NO:$('#MNo').val(),
+                    MODEL:$('#MModel').val(),
+                    SPEC:$('#MSpec').val(),
+                    ORIGIN:$('#MOrigin>option:checked').val(),
+                    RMK:$('#MREK').val(),
+                    BSUPPLIER:'',
+                    BLINKMAN:'',
+                    BLINKTEL:'',
+                    BMONEY:'',
+                    BDATE:'',
+                    BAGREEMENTNO:'',
+                    RENTER:'',
+                    RLINKMAN:'',
+                    RLINKTEL:'',
+                    RMONEY:'',
+                    RSTART:'',
+                    REND:'',
+                    RAGREEMENTNO:'',
+                    INDATE:$('#inDate').val(),
+                    JSSTATE:$('#JSState').val(),
+                    USECOMMENT:$('#USEComment').val(),
+                }
+            }
+            $.ajax({
+                url:protocols.addEq,
+                data:d,
+                type:'post',
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $('#EqModal').modal('hide');
+                        window.location.reload();
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            })
+        }
+        //编辑机械设备
+        function editEqModal() {
+//            var eQId = getUnitId();
+            var d ={};
+
+//            alert( $('#MName').attr('data-mid'))
+            if(($('#MOrigin>option:checked').val()) =='BUY'){
+                d={
+                    ID: $('#MName').attr('data-mId'),
+                    NAME:$('#MName').val(),
+                    TID: $('#TID>option:checked').val(),
+                    DPID:$('#belongDept>option:checked').val(),
+                    FACTORY:$('#MFactory').val(),
+                    NO:$('#MNo').val(),
+                    MODEL:$('#MModel').val(),
+                    SPEC:$('#MSpec').val(),
+                    ORIGIN:$('#MOrigin>option:checked').val(),
+                    RMK:$('#MREK').val(),
+                    BSUPPLIER:$('#BUYSupplier').val(),
+                    BLINKMAN:$('#BUYLinkMan').val(),
+                    BLINKTEL:$('#BUYLinkTel').val(),
+                    BMONEY:$('#BUYMoney').val(),
+                    BDATE:$('#BUYDate').val(),
+                    BAGREENTNO:$('#dataBUYAgreementNo').val(),
+                    RENTER:'',
+                    RLINKMAN:'',
+                    RLINKTEL:'',
+                    RMONEY:'',
+                    RSTART:'',
+                    REND:'',
+                    RAGREEMENTNO:'',
+                }
+            }else if($('#MOrigin>option:checked').val() =='RENT'){
+                d={
+                    ID: $('#MName').attr('data-mId'),
+                    NAME:$('#MName').val(),
+                    TID: $('#TID>option:checked').val(),
+                    DPID:$('#belongDept>option:checked').val(),
+                    FACTORY:$('#MFactory').val(),
+                    NO:$('#MNo').val(),
+                    MODEL:$('#MModel').val(),
+                    SPEC:$('#MSpec').val(),
+                    ORIGIN:$('#MOrigin>option:checked').val(),
+                    RMK:$('#MREK').val(),
+                    BSUPPLIER:'',
+                    BLINKMAN:'',
+                    BLINKTEL:'',
+                    BMONEY:'',
+                    BDATE:'',
+                    BAGREEMENTNO:'',
+                    RENTER:$('#Renter').val(),
+                    RLINKMAN:$('#RentLinkMan').val(),
+                    RLINKTEL:$('#RentLinkTel').val(),
+                    RMONEY:$('#RentMoney').val(),
+                    RSTART:$('#RentStartDate').val(),
+                    REND:$('#RentEndDate').val(),
+                    RAGREEMENTNO:$('#RentAgreementNo').val(),
+                }
+            }else if(($('#MOrigin>option:checked').val()) =='OWN'){
+                d={
+                    ID:$('#MName').attr('data-mId'),
+                    NAME:$('#MName').val(),
+                    TID: $('#TID>option:checked').val(),
+                    DPID:$('#belongDept>option:checked').val(),
+                    FACTORY:$('#MFactory').val(),
+                    NO:$('#MNo').val(),
+                    MODEL:$('#MModel').val(),
+                    SPEC:$('#MSpec').val(),
+                    ORIGIN:$('#MOrigin>option:checked').val(),
+                    RMK:$('#MREK').val(),
+                    BSUPPLIER:'',
+                    BLINKMAN:'',
+                    BLINKTEL:'',
+                    BMONEY:'',
+                    BDATE:'',
+                    BAGREEMENTNO:'',
+                    RENTER:'',
+                    RLINKMAN:'',
+                    RLINKTEL:'',
+                    RMONEY:'',
+                    RSTART:'',
+                    REND:'',
+                    RAGREEMENTNO:'',
+                    INDATE:$('#inDate').val(),
+                    JSSTATE:$('#JSState').val(),
+                    USECOMMENT:$('#USEComment').val(),
+                }
+            }
+            console.log(d)
+            $.ajax({
+                url:protocols.editEq,
+                data:d,
+                type:'post',
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $('#EqModal').modal('hide');
+                      window.location.reload();
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            })
+        }
+
+        //使用记录
+        function useEpBtn() {
+            var mId = $('#eqTable>tbody>tr.table-selected').attr('data-eqid');
+            if(mId){
+                $.ajax({
+                    url:protocols.getUseHis,
+                    type:'post',
+                    data:{
+                        MID:mId
+                    },
+                    success:function (data) {
+                        if(!data.code){
+                            $('#useHistoryTable>tbody').empty();
+                            if(data.rows.length >0){
+                                $.each(data.rows,function (i,o) {
+                                    var t  ='<tr>' +
+                                            '<td>'+(i+1)+'</td><td>'+o.PName+'</td><td>'+o.StartDate+'</td>' +
+                                            '<td>'+o.EndDate+'</td><td>'+o.Remark+'</td></tr>';
+                                    $('#useHistoryTable>tbody').append(t);
+                                });
+                                $('#useHistoryModal').modal('show');
+                            }else{
+                                window.wxc.xcConfirm('该设备没有使用记录！！', window.wxc.xcConfirm.typeEnum.warning);
+                            }
+                        }else{
+                            window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                        }
+                    }
+                })
+            }else{
+                window.wxc.xcConfirm('请选择机械设备', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+       //结束使用
+        function endUseBtn() {
+            var mId = $('#eqTable>tbody>tr.table-selected').attr('data-eqid');
+            var isUse = $('#eqTable>tbody>tr.table-selected').attr('data-use');
+            if(mId){
+                if(isUse =='0'){
+                    window.wxc.xcConfirm('当前设备未被使用，无法归还', window.wxc.xcConfirm.typeEnum.confirm);
+                }else{
+                    var useName  = $('#eqTable>tbody>tr.table-selected>td.pName').text();
+                    console.log(useName)
+                    window.wxc.xcConfirm('当前使用者'+useName+',是否归还?', window.wxc.xcConfirm.typeEnum.confirm,{
+                       onOk: function () {
+                           $.ajax({
+                               type:'post',
+                               url:protocols.endUse,
+                               data:{
+                                   MID:mId
+                               },
+                               success:function (data) {
+                                   if(!data.code){
+                                       toastr.success(data.msg);
+                                       drawTable();
+                                   }else{
+                                       window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                                   }
+                               }
+                           });
+                       }
+                    })
+
+                }
+            }else{
+                window.wxc.xcConfirm('请选择机械设备', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        //设置使用
+        function setUseBtn() {
+            var mId = $('#eqTable>tbody>tr.table-selected').attr('data-eqid');
+            var isUse = $('#eqTable>tbody>tr.table-selected').attr('data-use');
+            var pName = $('#eqTable>tbody>tr.table-selected').attr('data-pname');
+            if(mId){
+                if(isUse == '0'){
+                    $('#eqUseModal').attr('data-mId',mId);
+                    $.ajax({
+                        url:protocols.getDept,
+                        type:'get',
+                        success:function (data) {
+                            if(!data.code){
+                                $('#dept').empty();
+                                $('#dept').append('<option>请选择部门</option>')
+                                $.each(data.rows,function (i,o) {
+                                    var li = '<option data-dpid="'+o.DPID+'">'+o.DPName+'</option>';
+                                    $('#dept').append(li);
+                                });
+                            }
+                        }
+                    });
+                    $.ajax({
+                        url:protocols.getPeople,
+                        type:'post',
+                        data:{
+                            ID:'AAAABF86DDCD4168B28918EBA93CDA60'
+                        },
+                        success:function (data) {
+                            if(!data.code){
+                                $('#deptPeople').empty();
+                                $('#deptPeople').append('<option>请选择人员</option>')
+                                $.each(data.rows,function (i,o) {
+                                    var li = '<option data-pid="'+o.PID+'">'+o.PName+'</option>';
+                                    $('#deptPeople').append(li)
+                                });
+                            }
+                        }
+                    });
+                    $('#eqUseModal').modal('show')
+                }else{
+                    var s  ='当前使用者'+pName+'，是否更换使用者'
+                    window.wxc.xcConfirm(s, window.wxc.xcConfirm.typeEnum.confirm,{
+                        onOk:function () {
+                            $('#eqUseModal').attr('data-mId',mId);
+                            $.ajax({
+                                url:protocols.getDept,
+                                type:'get',
+                                success:function (data) {
+                                    if(!data.code){
+                                        $('#dept').empty();
+                                        $('#dept').append('<option>请选择部门</option>')
+                                        $.each(data.rows,function (i,o) {
+                                            var li = '<option data-dpid="'+o.DPID+'">'+o.DPName+'</option>';
+                                            $('#dept').append(li)
+                                        });
+                                    }
+                                }
+                            });
+                            $.ajax({
+                                url:protocols.getPeople,
+                                type:'post',
+                                data:{
+                                    ID:'AAAABF86DDCD4168B28918EBA93CDA60'
+                                },
+                                success:function (data) {
+                                    if(!data.code){
+                                        $('#deptPeople').empty();
+                                        $('#deptPeople').append('<option>请选择人员</option>')
+                                        $.each(data.rows,function (i,o) {
+                                            var li = '<option data-pid="'+o.PID+'">'+o.PName+'</option>';
+                                            $('#deptPeople').append(li)
+                                        });
+                                    }
+                                }
+                            });
+                            $('#eqUseModal').modal('show')
+                        }
+                    });
+                }
+
+            }else{
+                window.wxc.xcConfirm('请选择机械设备', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        //部门改变
+        function deptChange() {
+         var deptId = $('#dept>option:checked').attr('data-dpid');
+            $.ajax({
+                url:protocols.getPeople,
+                type:'post',
+                data:{
+                    ID:deptId
+                },
+                success:function (data) {
+                  if(!data.code){
+                      if(!data.code){
+                          $('#deptPeople').empty();
+                          $('#deptPeople').append('<option>请选择人员</option>')
+                          $.each(data.rows,function (i,o) {
+                              var li = '<option data-pid="'+o.PID+'">'+o.PName+'</option>';
+                              $('#deptPeople').append(li)
+                          });
+                      }
+                  } else{
+                      window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                  }
+
+                }
+            })
+        }
+        function subUseEqBtn() {
+            console.log($('#eqUseModal').attr('data-mId'));
+            var pid = $('#deptPeople>option:checked').attr('data-pid');
+            $.ajax({
+                url:protocols.setUse,
+                data:{
+                    MID:$('#eqUseModal').attr('data-mId'),
+                    PID:pid,
+                },
+                type:'post',
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $.ajax({
+                            url:protocols.getEq,
+                            type:'get',
+                            cache:'false',
+                            success:function (data) {
+                                if(!data.code){
+                                    $('#eqTable>tbody').empty();
+                                    $.each(data.rows,function (i,o) {
+                                        if(o.MOrigin == 'BUY'){
+                                            o.MOrigin = '采购';
+                                        }else if(o.MOrigin == 'RENT'){
+                                            o.MOrigin = '租赁';
+                                        }else  if(o.MOrigin == 'OWN'){
+                                            o.MOrigin = '自带';
+                                        }
+                                        $.each(eqType.rows,function (index,obj) {
+                                            if(obj.MTID == o.MTID){
+                                                o.MTID = obj.MTName;
+                                            }
+                                        });
+                                        var t = '<tr data-eqId="'+o.MID+'" data-dpid="'+o.DPID+'" data-use="'+o.IsUse+'" data-pname="'+o.PName+'">' +
+                                                '<td>'+(i+1)+'</td><td>'+o.DPName+'</td><td>'+o.MName+'</td><td>'+o.MTID+'</td><td>'+o.Factory+'</td>' +
+                                                '<td>'+o.MNo+'</td><td>'+o.MModel+'</td><td>'+o.MSpec+'</td><td>'+o.MOrigin+'</td><td>'+o.PName+'</td></tr>';
+                                        $('#eqTable').append(t);
+                                        //table选中
+                                        $('#eqTable>tbody td').unbind().on('click',function () {
+                                            $(this).parent().addClass('table-selected');
+                                            $(this).parent().siblings().removeClass('table-selected');
+                                            eqId = $(this).parent().attr('data-eqid');
+                                        });
+                                    });
+                                    $('#eqUseModal').modal('hide');
+                                }else{
+                                    alert(data.msg)
+                                }
+                            },
+                            error:function (data) {
+                                alert(data.msg)
+                            }
+                        });
+                    }
+                }
+            })
+        }
+        //二级列表显示
+        function showList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            if($(this).parent().has('ul')){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                $(this).siblings('ul').removeClass('ysh-disappear');
+            }
+        }
+        function hideList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            $(this).parent().parent().addClass('ysh-disappear');
+
+        }
+        function drawTable() {
+            $.ajax({
+                url:protocols.getEq,
+                type:'get',
+                cache:'false',
+                success:function (data) {
+                    if(!data.code){
+                        $('#eqTable>tbody').empty();
+                        $.each(data.rows,function (i,o) {
+                            if(o.MOrigin == 'BUY'){
+                                o.MOrigin = '采购';
+                            }else if(o.MOrigin == 'RENT'){
+                                o.MOrigin = '租赁';
+                            }else  if(o.MOrigin == 'OWN'){
+                                o.MOrigin = '自带';
+                            }
+                            $.each(eqType.rows,function (index,obj) {
+                                if(obj.MTID == o.MTID){
+                                    o.MTID = obj.MTName;
+                                }
+                            });
+                            var t = '<tr data-eqId="'+o.MID+'" data-dpid="'+o.DPID+'" data-use="'+o.IsUse+'" data-pname="'+o.PName+'">' +
+                                    '<td>'+(i+1)+'</td><td>'+o.DPName+'</td><td>'+o.MName+'</td><td>'+o.MTID+'</td><td>'+o.Factory+'</td>' +
+                                    '<td>'+o.MNo+'</td><td>'+o.MModel+'</td><td>'+o.MSpec+'</td><td>'+o.MOrigin+'</td><td>'+o.PName+'</td></tr>';
+                            $('#eqTable').append(t);
+                            //table选中
+                            $('#eqTable>tbody td').unbind().on('click',function () {
+                                $(this).parent().addClass('table-selected');
+                                $(this).parent().siblings().removeClass('table-selected');
+                                eqId = $(this).parent().attr('data-eqid');
+                            });
+                        });
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            });
+        }
+        //32Id随机值
+        function getUnitId() {
+            var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+            var res = "";
+            for(var i = 0; i < 32 ; i ++) {
+                var id = Math.ceil(Math.random()*35);
+                res += chars[id];
+            }
+            return res;
+
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三门峡黄河公铁两用桥信息系统</title>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href='../../plugins/zTree/css/blueStyle/blueStyle.css'>
+    <link rel="stylesheet" href="../../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/userMgr.css">
+    <style>
+        .eqContainer{
+            padding-left: 0;
+        }
+        #eqTable>thead th,#eqTable>tbody td{
+            text-align: center;
+        }
+        #tableToolBar>span.useEquipment{
+            width:60px
+        }
+    </style>
+</head>
+<body>
+<header class="ysh-smxHead">
+    <div class="ysh-smxTitle">
+        <img class="smxLogo" src="../../images/home/logo.png" alt="">
+        <h5>三门峡黄河公铁两用桥信息系统</h5>
+    </div>
+    <ul id="loginOk" class="ysh-XTList">
+        <li><a href="javascript:;">退出系统</a></li>
+        <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+        <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+    </ul>
+</header>
+
+<div class="ysh-menu">
+    <ul class="ysh-menuList">
+        <li><a href="../main.html">首页</a></li>
+        <li><a  href="../itemGK/itemIntro.html">工程概况</a></li>
+        <li><a  href="../userMgr.html">人员管理</a></li>
+        <li class="wsMgr">
+            <a href="javascript:;">物设管理</a>
+            <ul class="wsCont ysh-disappear">
+                <li><a href="../wsMgr/equipment.html">机械设备</a></li>
+                <li><a href="../wsMgr/materialMgr.html">材料设备</a></li>
+            </ul>
+        </li>
+        <li>
+            <a  href="javascript:;l">进度管理</a>
+            <ul class="jdCont ysh-disappear">
+                <li><a href="../processMgr/itemUnit.html">项目单位</a></li>
+                <li><a href="../processMgr/sgPlan.html">总施工进度</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="../safeMgr/safeUserMgr.html">安全管理</a>
+        </li>
+        <li>
+            <a href="javascript:;">质量管理</a>
+            <ul class="zlCont ysh-disappear">
+                <li><a class="reportMgr" href="../zlMgr/reportMgr.html">检测报告</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;">风险管理</a></li>
+        <li><a style=" background: rgb(0,133,106);"  href="datumMgr.html">技术管理</a></li>
+        <li><a href="javascript:;">试验管理</a></li>
+        <li><a href="javascript:;">视频监控</a></li>
+        <li class="sysMgr">
+            <a  href="javascript:;">系统管理</a>
+            <ul class="sysCont ysh-disappear">
+                <li><a class="attrMgr" href="../sysMgr/attrMgr.html">属性管理</a></li>
+                <li><a class="attrMgr" href="../sysMgr/materialTypeMgr.html">材料类型</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="container eqContainer">
+    <!--<div class="sidebar">-->
+    <!--<ul id="treeUser" class="ztree"></ul>-->
+    <!--</div>-->
+    <div class="mainContent">
+        <div id="tableToolBar">
+            <span class="addUser addDatum"><b></b>增加</span>
+            <span class="editUser editDatum"><b></b>修改</span>
+            <span class="delUser delDatum"><b></b>删除</span>
+            <!--<span class="seeUser seeDatum"><b></b>查看</span>-->
+            <span class="seeUser filesMgr" style="width: 90px">附件管理</span>
+            <!--<button class="btn btn-default addUser">增加</button>-->
+            <!--<button class="btn btn-default editUser">修改</button>-->
+            <!--<button class="btn btn-default delUser">删除</button>-->
+            <!--<button class="btn btn-default seeUser">查看</button>-->
+        </div>
+        <!--<table id="ysh-unitTable"></table>-->
+        <div class="table-container">
+            <table id="eqTable" class="table table-striped planTable">
+                <thead>
+                <tr>
+                    <th style="">序号</th>
+                    <th style="">资料名称</th>
+                    <th style="">资料类型</th>
+                    <th style="">备注</th>
+                    <!--<th style="">操作</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="5">正在加载数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--资料增改-->
+<div class="modal fade" id="DatumModal" data-datumid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="DatumModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal datumForm" data-pid="">
+
+                    <div class="form-group">
+                        <label for="datumName" class="col-sm-3 control-label">资料名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="datumName">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="datumType" class="col-sm-3 control-label">资料类型</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="datumType">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="datumRmk" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="datumRmk" >
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="userSex" class="col-sm-3 control-label">性别</label>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<select name="" id="userSex" class="form-control">-->
+                                <!--<option value="">请选择性别</option>-->
+                                <!--<option id="woman" value="女">女</option>-->
+                                <!--<option id="man" value="男">男</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="IDCARD" class="col-sm-3 control-label">身份证号</label>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<input type="text" class="form-control" id="IDCARD" >-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="userBorn" class="col-sm-3 control-label">出生日期</label>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<input type="text" class="form-control" id="userBorn" >-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="Nation" class="col-sm-3 control-label">民族</label>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<input type="text" class="form-control" id="Nation" >-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="subAddDatum">确定</button>
+                <button type="button" class="btn btn-primary" id="subEditDatum">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="filesModal" data-datumid="" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="certModalTitle" >附件管理</h4>
+            </div>
+            <div class="modal-body" style="height: 430px;overflow-x: hidden;overflow-y: auto">
+                    <div id="Use-toolbar" style="">
+                        <button class="btn btn-default addFiles">新增</button>
+                        <!--<button class="btn btn-default editFiles">修改</button>-->
+                        <button class="btn btn-default delFiles">删除</button>
+                        <!--<button class="btn btn-default seeUseMaterial">查看</button>-->
+                    </div>
+                    <!--<table id="eventTable"></table>-->
+                    <div class="table-container">
+                        <table data-pid="" id="certTable" style=""
+                               class="table table-striped filesTable">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>文件名</th>
+                                <th>上传日期</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="6">正在加载数据...</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--附件上传-->
+<div class="modal fade" id="fileUploadModal" data-datumid="" data-pid="" data-certid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="fileModalLabel">文件上传</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+                    <div class="form-group">
+                        <label for="fileRemark" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="fileRemark">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file" class="col-sm-3 control-label">文件</label>
+                        <div class="col-sm-9">
+                            <input type="file" class="form-control" id="file">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="uploadFile">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/jquery-2.1.4.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../plugins/zTree/js/jquery.ztree.all.min.js"></script>
+<script src="../../plugins/daterangepicker/moment.js"></script>
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../../js/global.js"></script>
+<script>
+    (function ($) {
+        var  baseURL=window.global.SMXprogramURL,protocols,uName;
+        protocols = {
+            getDatum:baseURL+'datum/SHQDatumGet',//获取资料
+            addDatum:baseURL+'datum/SHQDatumAdd',//增加资料
+            editDatum:baseURL+'datum/SHQDatumEdit',//编辑资料
+            delDatum:baseURL+'datum/SHQDatumDel' ,//删除资料
+            uploadFile:baseURL+'upload/uploadfile',//上传文件
+            delFiles:baseURL+'upload/SHQAttachDel',//删除文件
+        };
+        var mainHeight = (window.innerHeight - 140)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 140)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+        });
+        uName  = sessionStorage.getItem('PNAME');
+        if(uName){
+            $('#btnLogin').css('display','none');
+            $('#loginOk').removeClass('ysh-disappear');
+            $('#loginOk .xiUser').text(uName);
+        }
+        //初始化表格
+        $.ajax({
+            url:protocols.getDatum,
+            type:'get',
+            success:function (data) {
+                if(!data.code){
+                    $('#eqTable tbody').empty();
+                    if(data.rows.length){
+                        $.each(data.rows,function (i,o) {
+//                            var td  = '<tr data-datumid="'+o.DatumID+'"><td>'+(i+1)+'</td><td class="dName">'+o.DName+'</td>' +
+//                                    '<td class="dType">'+o.DType+'</td><td class="dRmk">'+o.Remark+'</td><td><a href="javascript:;" class="btn btn-default downLoad">下载</a></td></tr>';
+                            var td  = '<tr data-datumid="'+o.DatumID+'"><td>'+(i+1)+'</td><td class="dName">'+o.DName+'</td>' +
+                                    '<td class="dType">'+o.DType+'</td><td class="dRmk">'+o.Remark+'</td></tr>';
+
+                            $('#eqTable tbody').append(td);
+                            //table选中
+                            $('#eqTable>tbody>tr>td:not(:last-child)').unbind().on('click',function () {
+                                $(this).parent().addClass('table-selected');
+                                $(this).parent().siblings().removeClass('table-selected');
+                                eqId = $(this).parent().attr('data-eqid');
+                            });
+//                            $('.downLoad').unbind().on('click',function (e) {
+//                                window.event?window.event.cancelBubble:e.stopPropagation();
+//                                alert('数据中暂无文件地址，无法下载')
+//                            })
+                        })
+                    }else{
+                        var t  = '<tr><td colspan=5">暂无资料</td></tr>';
+                        $('#eqTable tbody').append(t);
+                    }
+
+                }
+            }
+        });
+        //绑定事件
+        $('.ysh-menuList a').on('click',showList);
+        $('.wsCont a').on('click',hideList);
+        document.onclick = function(){
+            $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+        }
+        //资料
+        $('.addDatum').on('click',addDatumBtn);
+        $('.editDatum').on('click',editDatumBtn);
+        $('.delDatum').on('click',delDatumBtn);
+        $('#subAddDatum').on('click',subAddDatumBtn);
+        $('#subEditDatum').on('click',subEditDatumBtn);
+        $('.filesMgr').on('click',filesMgr);
+        $('.addFiles').on('click',addFilesBtn);
+        $('.delFiles').on('click',delFilesBtn);
+        $('#uploadFile').on('click',uploadFilesBtn);
+        //功能函数
+        //二级列表显示
+        function showList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            if($(this).parent().has('ul')){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                $(this).siblings('ul').removeClass('ysh-disappear');
+            }
+        }
+        function hideList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            $(this).parent().parent().addClass('ysh-disappear');
+
+        }
+        function addDatumBtn() {
+            $('#DatumModalLabel').text('新增材料');
+            $('#DatumModal input').val('');
+            $('#subAddDatum').css('display','inline-block');
+            $('#subEditDatum').css('display','none');
+            $('#DatumModal').modal('show');
+        }
+        function editDatumBtn() {
+            var datumId = $('#eqTable tbody>tr.table-selected').attr('data-datumid')
+            if(datumId){
+                $('#DatumModalLabel').text('修改材料');
+                var datumName  = $('#eqTable tbody>tr.table-selected>td.dName').text();
+                var datumType = $('#eqTable tbody>tr.table-selected>td.dType').text();
+                var datumRmk = $('#eqTable tbody>tr.table-selected>td.dRmk').text();
+                $('#DatumModal').attr('data-datumid',datumId);
+                $('#datumName').val(datumName);
+                $('#datumType').val(datumType);
+                $('#datumRmk').val(datumRmk);
+                $('#subAddDatum').css('display','none');
+                $('#subEditDatum').css('display','inline-block');
+                $('#DatumModal').modal('show');
+            }else{
+                window.wxc.xcConfirm('请选择资料！',window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function delDatumBtn() {
+            var datumId = $('#eqTable tbody>tr.table-selected').attr('data-datumid');
+            if(datumId){
+                window.wxc.xcConfirm('确认删除该资料？',window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+                        console.log(datumId)
+                        $.ajax({
+                            url:protocols.delDatum,
+                            type:'post',
+                            data:{
+                                DATUMID:datumId
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    drawTablle()
+                                }
+                            }
+                        });
+                    }
+                })
+            }else{
+                window.wxc.xcConfirm('请选择资料！',window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function subAddDatumBtn() {
+            var datumId  = getUnitId();
+            var datumName = $('#datumName').val();
+            var datumType = $('#datumType').val();
+            var datumRmk = $('#datumRmk').val();
+            $.ajax({
+                url:protocols.addDatum,
+                type:'post',
+                data:{
+                    DATUMID:datumId,
+                    DNAME:datumName,
+                    DTYPE:datumType,
+                    REMARK:datumRmk,
+                },
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        drawTablle();
+                        $('#DatumModal').modal('hide');
+                    }else{
+                        window.wxc.xcConfirm(data.msg,window.wxc.xcConfirm.typeEnum.warning);
+                    }
+                }
+            });
+        }
+        function subEditDatumBtn() {
+            var datumId = $('#DatumModal').attr('data-datumid');
+            var datumName = $('#datumName').val();
+            var datumType = $('#datumType').val();
+            var datumRmk = $('#datumRmk').val();
+            $.ajax({
+                url:protocols.editDatum,
+                type:'post',
+                data:{
+                    DATUMID:datumId,
+                    DNAME:datumName,
+                    DTYPE:datumType,
+                    REMARK:datumRmk,
+                },
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        drawTablle();
+                        $('#DatumModal').modal('hide');
+                    }else{
+                        window.wxc.xcConfirm(data.msg,window.wxc.xcConfirm.typeEnum.warning);
+                    }
+                }
+            });
+        }
+
+        function filesMgr() {
+            var datumId  =  $('#eqTable tbody>tr.table-selected').attr('data-datumid');
+            if(datumId){
+                $.ajax({
+                    url:protocols.getDatum,
+                    type:'get',
+                    success:function (data) {
+                        if(!data.code){
+                            $.each(data.rows,function (i,o) {
+                              if(o.DatumID == datumId){
+                                  $('.filesTable tbody').empty();
+                                  if(o.ATTACH.length){
+                                      $.each(o.ATTACH,function (ind,obj) {
+                                          var t  ='<tr data-aid="'+obj.AID+'"><td>'+(i+1)+'</td><td>'+obj.AName+'</td><td>'+obj.Indate+'</td>' +
+                                                  '<td>'+obj.Remark+'</td><td><a class="btn btn-default" href="http://'+obj.FileUrl+'" target="blank" download="'+obj.AName+'">下载</a></td></tr>';
+                                          $('.filesTable tbody').append(t)
+                                      });
+                                      $('.filesTable tbody td').on('click',function (i,o) {
+                                          $(this).parent().addClass('table-selected');
+                                          $(this).parent().siblings().removeClass('table-selected');
+                                      });
+                                  }else{
+                                      $('.filesTable tbody').append('<tr><td colspan="6">暂无数据</td></tr>')
+                                  }
+                              }
+                            });
+                            $('#filesModal').attr('data-datumid',datumId);
+                            console.log(datumId)
+                            $('#filesModal').modal('show');
+                        }
+                    }
+                })
+            }else{
+                window.wxc.xcConfirm('请选择文件！',window.wxc.xcConfirm.typeEnum.warning);
+            }
+
+        }
+        function drawTablle() {
+            $.ajax({
+                url:protocols.getDatum,
+                type:'get',
+                success:function (data) {
+                    if(!data.code){
+                        $('#eqTable tbody').empty();
+                        if(data.rows.length){
+                            $.each(data.rows,function (i,o) {
+                                var td  = '<tr data-datumid="'+o.DatumID+'"><td>'+(i+1)+'</td><td class="dName">'+o.DName+'</td>' +
+                                        '<td class="dType">'+o.DType+'</td><td class="dRmk">'+o.Remark+'</td></tr>';
+//                                var td  = '<tr data-datumid="'+o.DatumID+'"><td>'+(i+1)+'</td><td class="dName">'+o.DName+'</td>' +
+//                                        '<td class="dType">'+o.DType+'</td><td class="dRmk">'+o.Remark+'</td><td><button class="btn btn-default">下载</button></td></tr>';
+                                $('#eqTable tbody').append(td);
+                                //table选中
+                                $('#eqTable>tbody>tr>td:not(:last-child)').unbind().on('click',function () {
+                                    $(this).parent().addClass('table-selected');
+                                    $(this).parent().siblings().removeClass('table-selected');
+                                    eqId = $(this).parent().attr('data-eqid');
+                                });
+                            })
+                        }else{
+                            var t  = '<tr><td colspan=5">暂无资料</td></tr>';
+                            $('#eqTable tbody').append(t);
+                        }
+
+                    }
+                }
+            });
+        }
+        function addFilesBtn() {
+            var datumId  =  $('#filesModal').attr('data-datumid');
+            $('#fileUploadModal').attr('data-datumId',datumId);
+            console.log( $('#fileUploadModal').attr('data-datumId'));
+            $('#fileUploadModal input').val('');
+            $('#fileUploadModal').modal('show');
+        }
+        function delFilesBtn() {
+            var  aId  = $('.filesTable tbody>tr.table-selected').attr('data-aid');
+            if(aId){
+                console.log(aId)
+                window.wxc.xcConfirm('是否删除该文件？',window.wxc.xcConfirm.warning,{
+                    onOk:function () {
+//                       var = $('#fileUploadModal').attr('data-datumid');
+                        $.ajax({
+                            url:protocols.delFiles,
+                            type:'post',
+                            data:{
+                                AID:aId
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    $('.filesTable tbody').empty();
+                                    var c  = $('#filesModal').attr('data-datumid');
+                                    console.log(c);
+                                    drawFiles(c);
+//                                    $('#fileModal').modal('hide');
+                                }else{
+                                    window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                                }
+                            }
+                        });
+                    }
+                })
+            }else{
+                window.wxc.xcConfirm('请选择文件', window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function uploadFilesBtn() {
+            var aId = getUnitId();
+            aFlag ='datum';
+            var formdata = new FormData();
+            formdata.append('uploadFile',$('#file')[0].files[0]);
+            var ownerId = $('#fileUploadModal').attr('data-datumid');
+            console.log(ownerId)
+            var quertString = '?AID='+aId+'&AFLAG='+aFlag+'&OWNER='+ownerId+'&RMK='+$('#fileRemark').val();
+            $.ajax({
+                url:protocols.uploadFile+quertString,
+                data:formdata,
+                processData:false,
+                contentType:false,
+                type:'post',
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $('.filesTable tbody').empty();
+                        var c  = $('#fileUploadModal').attr('data-datumid');
+                        console.log(c);
+                        drawFiles(c);
+                        $('#fileUploadModal').modal('hide');
+                    }else{
+                        window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                    }
+                }
+            })
+        }
+        function drawFiles(dId) {
+            var datumId  = dId;
+            $.ajax({
+                url:protocols.getDatum,
+                type:'get',
+                success:function (data) {
+                    if(!data.code){
+                        $.each(data.rows,function (i,o) {
+                            if(o.DatumID == datumId){
+                                $('.filesTable tbody').empty();
+                                if(o.ATTACH.length){
+                                    $.each(o.ATTACH,function (ind,obj) {
+                                        var t  ='<tr data-aid="'+o.AID+'"><td>'+(i+1)+'</td><td>'+obj.AName+'</td><td>'+obj.Indate+'</td>' +
+                                                '<td>'+obj.Remark+'</td><td><a class="btn btn-default" href="http://"'+obj.FileUrl+' target="blank" download="'+obj.AName+'">下载</a></td></tr>';
+                                        $('.filesTable tbody').append(t)
+                                    });
+                                    $('.filesTable tbody td').on('click',function (i,o) {
+                                        $(this).parent().addClass('table-selected');
+                                        $(this).parent().siblings().removeClass('table-selected');
+                                    });
+                                }else{
+                                    $('.filesTable tbody').append('<tr><td colspan="6">暂无数据</td></tr>')
+                                }
+
+
+                            }
+                        });
+                        $('#filesModal').attr('data-datumid',datumId);
+                        console.log(datumId)
+                        $('#filesModal').modal('show');
+                    }
+                }
+            })
+        }
+        //32Id随机值
+        function getUnitId() {
+            var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+            var res = "";
+            for(var i = 0; i < 32 ; i ++) {
+                var id = Math.ceil(Math.random()*35);
+                res += chars[id];
+            }
+            return res;
+
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

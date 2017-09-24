@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三门峡黄河公铁两用桥信息系统</title>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href='../../plugins/zTree/css/blueStyle/blueStyle.css'>
+    <link rel="stylesheet" href="../../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/userMgr.css">
+    <style>
+        .table-container {
+            height: calc(100% - 130px);
+        }
+        .peopleContainer{
+            height: calc(100% - 80px);
+        }
+        #peopleTable thead th,#peopleTable tbody td{
+            text-align: center;
+        }
+        .ysh-caption>span{
+            display: block;
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .leftData,.rightData{
+            margin-right: 5px;
+            padding: 8px 10px;
+            border:1px solid #c4c4c4;
+            height:400px;
+        }
+        .leftData{
+            float: left;
+            width:63%;
+        }
+        .rightData{
+            float: left;
+            margin-right: 0;
+            width: calc(37% - 10px);
+        }
+        .fieList>li{
+            /*float: left;*/
+            margin: 10px 15px 10px;
+            width:250px;
+            height: 110px;
+            border:1px solid #999;
+        }
+        .fieList>li>a{
+            display: block;
+            padding-top: 5px;
+            margin: auto;
+            width: 40px;height: 50px;
+            /*border: 1px dotted #555555;*/
+            text-align: center;
+        }
+        .fieList>li>p{
+            margin-top: 5px;
+            text-align: center;
+        }
+        .fieList>li>a>span{
+            font-size: 38px;
+            color: #FBDC7C;
+        }
+        .li-selected{
+            background-color: #059C7E;
+        }
+        .ysh-caption>div{text-align:right;}
+        .chj-detail>span{display:block;text-align:left;}
+        .chj-badges{text-align:right;margin-top:20px;}
+        .chj-badges>span{margin-left:10px;}
+        .chj-green{color:green;}
+        .chj-red{color:red;}
+        .chj-blue{color:#3299CC;}
+        .chj-fixed-bottom{position:fixed;bottom:0;left:0;right:0;z-index:1000;height:30px;background-color: #3299CC;text-align:center;line-height: 30px;color:#fff;}
+    </style>
+</head>
+<body>
+<header class="ysh-smxHead">
+    <div class="ysh-smxTitle">
+        <img class="smxLogo" src="../../images/home/logo.png" alt="">
+        <h5>三门峡黄河公铁两用桥信息系统</h5>
+    </div>
+    <ul id="loginOk" class="ysh-XTList">
+        <li><a href="javascript:;">退出系统</a></li>
+        <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+        <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+    </ul>
+</header>
+
+<div class="ysh-menu">
+    <ul class="ysh-menuList">
+        <li><a href="../main.html">首页</a></li>
+        <li><a  href="../itemGK/itemIntro.html">工程概况</a></li>
+        <li><a  href="../userMgr.html">人员管理</a></li>
+        <li class="wsMgr">
+            <a href="javascript:;">物设管理</a>
+            <ul class="wsCont ysh-disappear">
+                <li><a href="../wsMgr/equipment.html">机械设备</a></li>
+                <li><a href="../wsMgr/materialMgr.html">材料设备</a></li>
+            </ul>
+        </li>
+        <li>
+            <a  href="javascript:;">进度管理</a>
+            <ul class="jdCont ysh-disappear">
+                <li><a href="../processMgr/itemUnit.html">项目单位</a></li>
+                <li><a href="../processMgr/sgPlan.html">总施工进度</a></li>
+            </ul>
+        </li>
+        <li>
+            <a style=" background: rgb(0,133,106);"  href="safeUserMgr.html">安全管理</a>
+            <!--<ul class="aqCont ysh-disappear">-->
+            <!--<li><a class="safeUserMgr" href="safeUserMgr.html">安全管理人员</a></li>-->
+            <!--<li><a class="tzUserMgr" href="tzUserMgr.html">特种作业人员</a></li>-->
+            <!--<li><a href="cyryMgr.html" class="cyUserMgr">从业人员保险</a></li>-->
+            <!--<li><a href="aqjgMgr.html" class="safeJGMgr">安全组织机构</a></li>-->
+            <!--<li><a href="jxsbMgr.html" class="jxsbMgr">机械设备管理</a></li>-->
+            <!--<li><a href="gzzdMgr.html" class="gzzdMgr">规章制度</a></li>-->
+            <!--</ul>-->
+        </li>
+        <li>
+            <a href="javascript:;">质量管理</a>
+            <ul class="zlCont ysh-disappear">
+                <li><a class="reportMgr" href="../zlMgr/reportMgr.html">检测报告</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;">风险管理</a></li>
+        <li><a href="../jsMgr/datumMgr.html">技术管理</a></li>
+        <li><a href="javascript:;">试验管理</a></li>
+        <li><a href="javascript:;">视频监控</a></li>
+        <li class="sysMgr">
+            <a href="javascript:;">系统管理</a>
+            <ul class="sysCont ysh-disappear">
+                <li><a class="attrMgr" href="../sysMgr/attrMgr.html">属性管理</a></li>
+                <li><a class="attrMgr" href="../sysMgr/materialTypeMgr.html">材料类型</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="container parentContainer">
+    <span  class="glyphicon glyphicon-step-backward openState" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-step-forward closeState ysh-disappear" aria-hidden="true"></span>
+    <div class="sidebar item-sidebar">
+
+        <ul class="itemList">
+
+            <li><a class="" href="safeUserMgr.html">安全管理人员</a></li>
+            <li><a class="" href="tzUserMgr.html">特种作业人员</a></li>
+            <li><a class="" href="ryda.html">人员档案</a></li>
+            <li><a class="" href="aqsczrs.html">安全生产责任书</a></li>
+            <li><a href="aqsclh.html">安全生产例会</a></li>
+            <li><a href="jypx.html">教育培训</a></li>
+            <li><a href="aqscfy.html">安全生产费用</a></li>
+            <li><a href="xfss.html">消防设施</a></li>
+            <li><a href="aqjsjd.html">安全技术交底</a></li>
+            <li><a href="lsydjc.html">临时用电检查</a></li>
+            <li class="safeWord">
+                <a class="safeWordMgr" href="javascript:;">安全生产文档</a>
+                <ul class="applyList ysh-disappear">
+                    <li><a class="" href="aqscjfsy.html">安全生产经费使用计划</a></li>
+                    <li><a class="" href="gysb.html">关于上报我部安全组织机构报告</a></li>
+                    <li><a class="" href="xmfz.html">项目负责人待办生产制度</a></li>
+                    <li><a class="" href="aqsg.html">安全事故隐患排查治理办法</a></li>
+                    <li><a class="" href="aqscjf.html">安全生产奖罚考核制度</a></li>
+                    <li><a class="ysh-liActive" href="aqfxfz.html">安全风险组管控指导意见</a></li>
+                    <li><a class="" href="zdwx.html">重大危险源管理方案</a></li>
+                    <li><a class="" href="xmwxy.html">项目危险源</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="container ">
+        <div class="sidebar treeSideBar">
+            <!--<div class="treeToolBar">-->
+            <!--<span class="addTree"></span>-->
+            <!--<span class="editTree"></span>-->
+            <!--<span class="delTree"></span>-->
+            <!--<span class="seeTree"></span>-->
+            <!--</div>-->
+            <div class="treeContain">
+                <ul id="treeUser" class="ztree"></ul>
+            </div>
+
+        </div>
+        <div class="mainContent">
+            <div id="tableToolBar" class="tableTitle"></div>
+
+            <!--<table id="ysh-unitTable"></table>-->
+            <div class="table-container">
+                <table id="userTable" class="table table-striped planTable">
+                    <thead>
+                    <tr>
+                        <th style="">序号</th>
+                        <th  style="">姓名</th>
+                        <th style="">职务</th>
+                        <th style="">联系方式</th>
+                        <th style="">证件编号</th>
+                        <th style="">备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="9">请选择部门</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="tableToolBar">
+                <span class="addUser filesInfo" style="width: 90px">安全证书管理</span>
+                <!--<span class="editUser"><b></b>修改</span>-->
+                <!--<span class="delUser"><b></b>删除</span>-->
+
+                <!--<span class="sort">排序</span>-->
+                <span class="certMgr setSafe" style="width: 90px">设置安全人员</span>
+                <span class="certMgr cancelSafe" style="width: 90px">取消安全人员</span>
+                <span class="seeUser" style="width: 90px"><b></b>查看详情</span>
+                <!--<button class="btn btn-default addUser">增加</button>-->
+                <!--<button class="btn btn-default editUser">修改</button>-->
+                <!--<button class="btn btn-default delUser">删除</button>-->
+                <!--<button class="btn btn-default seeUser">查看</button>-->
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="../../js/jquery-2.1.4.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../plugins/zTree/js/jquery.ztree.all.min.js"></script>
+<script src="../../plugins/daterangepicker/moment.js"></script>
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../../js/global.js"></script>
+<script>
+    (function ($) {
+        //全局变量
+        var baseURL=window.global.SMXprogramURL,last, zNodes=[],dpId='',tableSelector='#ysh-unitTable',uName,ztree,
+                dpNo,nodeLength,pId,ownerId,
+                date = new Date(),last,vm,protocols,clUseMID='',clInMID='',
+                today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate(),
+                startTime = today,
+                endTime = today, last = (date.getFullYear()-20)+'-'+(date.getMonth()+1)+'-'+date.getDate();
+        var mainHeight = (window.innerHeight - 160)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 160)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+        });
+
+        //绑定事件
+        $('.ysh-menuList a').on('click',showList);
+        $('.wsCont a').on('click',hideList);
+        document.onclick = function(){
+            $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+        }
+        $('.safeWordMgr').on('click',toggleOn);
+        //二级列表显示
+        function showList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            if($(this).parent().has('ul')){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                $(this).siblings('ul').removeClass('ysh-disappear');
+            }
+        }
+        function hideList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            $(this).parent().parent().addClass('ysh-disappear');
+
+        }
+        function openMenu() {
+            $('.item-sidebar').css('display','none');
+            $('.parentContainer').css('padding-left','5px');
+            $('.treeSideBar').css('left','15px')
+            $('.closeState').removeClass('ysh-disappear');
+            $(this).addClass('ysh-disappear')
+        }
+        function closeMenu() {
+            $('.item-sidebar').css('display','block');
+            $('.parentContainer').css('padding-left','215px');
+            $('.treeSideBar').css('left','230px')
+            $('.openState').removeClass('ysh-disappear');
+            $(this).addClass('ysh-disappear')
+        }
+        function toggleOn() {
+            if($('.applyList').hasClass('ysh-disappear')){
+                $('.safeWord').css('height','422px');
+                $('.applyList').removeClass('ysh-disappear');
+            }else{
+                $('.applyList').addClass('ysh-disappear');
+                $('.safeWord').css('height','60px');
+            }
+        }
+        //32Id随机值
+        function getUnitId() {
+            var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+            var res = "";
+            for(var i = 0; i < 32 ; i ++) {
+                var id = Math.ceil(Math.random()*35);
+                res += chars[id];
+            }
+            return res;
+
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

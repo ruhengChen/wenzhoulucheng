@@ -1,0 +1,15 @@
+.main{
+    margin: auto;
+    width:80%;
+}
+.main>.row,.main>.row>.panel{
+    height: 100%;
+    border: none;
+}
+.main .panel-body{
+    height: calc(100% - 42px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    border:1px solid #E5F1FC;
+    border-top-color: transparent;
+}

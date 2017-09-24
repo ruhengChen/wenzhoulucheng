@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三门峡黄河公铁两用桥信息系统</title>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">-->
+    <link rel="stylesheet" href="../../plugins/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href='../../plugins/zTree/css/blueStyle/blueStyle.css'>
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/userMgr.css">
+    <style>
+        .planContainer{
+            padding-left: 0;
+        }
+        .itemPlanTable thead th,.itemPlanTable tbody td,.itemScheduleTable thead th,.itemScheduleTable tbody td{
+            text-align: center;
+        }
+        .chartContainer{
+            width:805px;
+            height: 530px;
+            border: 1px solid #dddddd;
+            /*overflow: auto;*/
+        }
+    </style>
+</head>
+<body>
+<header class="ysh-smxHead">
+    <div class="ysh-smxTitle">
+        <img class="smxLogo" src="../../images/home/logo.png" alt="">
+        <h5>三门峡黄河公铁两用桥信息系统</h5>
+    </div>
+    <ul id="loginOk" class="ysh-XTList">
+        <li><a href="javascript:;">退出系统</a></li>
+        <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+        <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+    </ul>
+</header>
+<div class="ysh-menu">
+    <ul class="ysh-menuList">
+        <li><a href="../main.html">首页</a></li>
+        <li><a href="../itemGK/itemIntro.html">工程概况</a></li>
+        <li ><a  href="../userMgr.html">人员管理</a></li>
+
+        <li class="wsMgr">
+            <a href="javascript:;">物设管理</a>
+            <ul class="wsCont ysh-disappear">
+                <li><a href="../wsMgr/equipment.html">机械设备</a></li>
+                <li><a href="../wsMgr/materialMgr.html">材料设备</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">进度管理</a>
+            <ul class="jdCont ysh-disappear">
+                <li><a href="itemUnit.html">项目单位</a></li>
+                <li><a href="sgPlan.html">总施工进度</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="../safeMgr/safeUserMgr.html">安全管理</a>
+        </li>
+        <li>
+            <a  href="javascript:;">质量管理</a>
+            <ul class="zlCont ysh-disappear">
+                <li><a class="reportMgr" href="../zlMgr/reportMgr.html">检测报告</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;">风险管理</a></li>
+        <li><a href="../jsMgr/datumMgr.html">技术管理</a></li>
+        <li><a href="javascript:;">试验管理</a></li>
+        <li><a href="javascript:;">视频监控</a></li>
+        <li class="sysMgr">
+            <a href="javascript:;">系统管理</a>
+            <ul class="sysCont ysh-disappear">
+                <li><a class="attrMgr" href="../sysMgr/attrMgr.html">属性管理</a></li>
+                <li><a class="attrMgr" href="../sysMgr/materialTypeMgr.html">材料类型</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="container planContainer">
+    <div class="mainContent">
+        <!--<div class="sidebar">-->
+            <!--&lt;!&ndash;<div class="treeToolBar">&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="addTree addSg"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="editTree editSg"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="delTree delSg"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="seeTree"></span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--<div class="treeContain">-->
+                <!--<ul id="treeUnit" class="ztree"></ul>-->
+            <!--</div>-->
+
+        <!--</div>-->
+        <div id="tableToolBar">
+            <span class="addUser addZItemPlan"><b></b>增加</span>
+            <span class="editUser editZItemPlan"><b></b>修改</span>
+            <span class="delUser delZItemPlan"><b></b>删除</span>
+            <span class="seeUser seeItemData" ><b></b>详情</span>
+            <span class="seeUser chartZItem" style="width: 90px">数据图</span>
+            <!--<button class="btn btn-default addUser">增加</button>-->
+            <!--<button class="btn btn-default editUser">修改</button>-->
+            <!--<button class="btn btn-default delUser">删除</button>-->
+            <!--<button class="btn btn-default seeUser">查看</button>-->
+        </div>
+        <div class="table-container">
+            <table class="table table-striped itemPlanTable">
+                <thead>
+                <tr>
+                    <th style="">序号</th>
+                    <th style="">项目名称</th>
+                    <th style= "">单位</th>
+                    <th style="">设计总量</th>
+                    <th style="">实际总量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="6">暂无数据，请稍后...</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--项目总工程增删改模态框-->
+<div class="modal fade" id="zScheduleModal" data-zitemid="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="zScheduleModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form id="sgForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="zItemName" class="col-sm-3 control-label">项目名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="zItemName" data-sgId="" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zItemScale" class="col-sm-3 control-label">项目单位</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="zItemScale" >
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="planTotalNum" class="col-sm-3 control-label">设计总量</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="planTotalNum" >
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addZItem">确定</button>
+                <button type="button" class="btn btn-primary" id="editZItem">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--项目分仅需增删改-->
+<div id="scheduleModal" data-zitemid="" data-zitemname="" aria-hidden="true" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="scheduleModalLabel" ></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <div id="Use-toolbar">
+                    <button class="btn btn-default addSchedule">增加</button>
+                    <button class="btn btn-default editSchedule">修改</button>
+                    <button class="btn btn-default delSchedule">删除</button>
+                    <button class="btn btn-default seeItemChart">数据图</button>
+                </div>
+                <!--<table id="eventTable"></table>-->
+                <div class="table-container">
+                    <table  data-ownerid=""
+                           class="table table-striped itemScheduleTable">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>项目名称</th>
+                                <th>周期（月份）</th>
+                                <th>计划量</th>
+                                <th>实际用量</th>
+                                <th>单位</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr >
+                                <td colspan="5">
+                                    正在加载数据...
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--项目分工程增删改模态框-->
+<div class="modal fade" id="itemScheduleModal" data-itemid="" data-period="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="itemScheduleModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="itemPeriod" class="col-sm-3 control-label">周期(月份)</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="itemPeriod" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="planTotalNum" class="col-sm-3 control-label">周期计划量</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="planNum" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                        </div>
+                    </div>
+                    <div class="form-group itemActual">
+                        <label for="actualNum" class="col-sm-3 control-label">周期实际量</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="actualNum" data-sgId="" value="" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addItem">确定</button>
+                <button type="button" class="btn btn-primary" id="editItem">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--总项目图表-->
+<div class="modal fade" id="zScheduleChart" data-zitemid="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="margin:10% auto;width: 830px;height: 600px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="zScheduleChartLabel"></h4>
+            </div>
+            <div class="modal-body" style="">
+                <div class="chartContainer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--项目图表-->
+<div class="modal fade" id="scheduleChart" data-zitemid="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="margin:10% auto;width: 830px;height: 600px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="scheduleChartLabel"></h4>
+            </div>
+            <div class="modal-body" style="">
+                <div class="chartContainer itemChart">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/jquery-2.1.4.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../plugins/zTree/js/jquery.ztree.all.min.js"></script>
+<script src="../../plugins/daterangepicker/moment.js"></script>
+<!--<script src="../../plugins/daterangepicker/daterangepicker.js"></script>-->
+<script src="../../plugins/bootstrap-datepicker/bootstrap-datepicker/js/bootstrap-datetimepicker.min.forseller.js"></script>
+<script src="../../plugins/EChart/echarts.min.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../../js/global.js"></script>
+<script>
+    (function ($) {
+        var date = new Date(),baseURL=window.global.SMXprogramURL, zNodes=[],sgId='',tableSelector='#ysh-unitTable',
+                buNo,nodeLength,planTimeAllContent={},actuallyAllContent={},ZItemChart,itemChart,zChartOption,itemChartOption,
+                protocols={
+                    getZSchedule:baseURL +'buildunit/SHQScheduleZGet',
+                    addZSchedule:baseURL +'buildunit/SHQScheduleZAdd',
+                    editZSchedule:baseURL +'buildunit/SHQScheduleZEdit',
+                    delZSchedule:baseURL +'buildunit/SHQScheduleZDel',
+                    getItemSchedule:baseURL +'buildunit/SHQScheduleItemGet',
+                    addItemSchedule:baseURL +'buildunit/SHQScheduleItemAdd',
+                    editItemSchedule:baseURL +'buildunit/SHQScheduleItemEdit',
+                    delItemSchedule:baseURL +'buildunit/SHQScheduleItemDel',
+                },ztree,uName,last,today = date.getFullYear()+'-'+(date.getMonth()+1),
+                startTime = today,
+                endTime = today;
+        last = (date.getFullYear()-20)+'-'+(date.getMonth()+1)+'-'+date.getDate();
+        var mainHeight = (window.innerHeight - 140)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 140)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+        });
+        uName  = sessionStorage.getItem('PNAME');
+        if(uName){
+            $('#btnLogin').css('display','none');
+            $('#loginOk').removeClass('ysh-disappear');
+            $('#loginOk .xiUser').text(uName);
+        }
+
+        //配置datepicker
+        $("#itemPeriod").datetimepicker({
+            format: 'yyyy-mm',
+            autoclose: true,
+            todayBtn: true,
+            startView: 'year',
+            minView:'year',
+            maxView:'decade',
+            language:  'zh-CN'
+        });
+        //初始化表格
+        $.ajax({
+           url:protocols.getZSchedule,
+            type:'get',
+            success:function (data) {
+                if(!data.code){
+                    $('.itemPlanTable tbody').empty();
+                    var xAxis = [],actualNum =[],planNum=[],actualData=[],planData=[],numUnit=[];
+
+                    if(data.rows.length){
+                        $.each(data.rows,function (i,o) {
+                            xAxis.push(o.ItemName);
+                            actualNum.push((o.percent*100));
+                            planNum.push('100');
+                            actualData.push(o.ActualNum);
+                            planData.push(o.PlanTotalNum);
+                            numUnit.push(o.ItemUnit)
+                            var t = '<tr data-itemid="'+o.ItemID+'"><td>'+(i+1)+'</td><td class="itemName">'+o.ItemName+'</td>' +
+                                    '<td>'+o.ItemUnit+'</td><td>'+o.PlanTotalNum+'</td><td>'+o.ActualNum+'</td></tr>'
+                            $('.itemPlanTable tbody').append(t)
+                        });
+                        $('.itemPlanTable tbody td').unbind().on('click',function () {
+                            $(this).parent().addClass('table-selected');
+                            $(this).parent().siblings().removeClass('table-selected');
+                        });
+                        console.log(xAxis)
+                        //总图表的配置项
+                        zChartOption = {
+                            title: {
+                                text: '总项目施工进度'
+                            },
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    backgroundColor: 'rgba(245, 245, 245, 0.8)',
+                                    borderWidth: 1,
+                                    borderColor: '#ccc',
+                                    padding: 10,
+                                    textStyle: {
+                                        color: '#000'
+                                    },
+                                    position: function (pos, params, el, elRect, size) {
+                                        var obj = {top: 10};
+                                        obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                                        return obj;
+                                    },
+                                    extraCssText: 'width: 170px',
+                                    label:{
+                                        backgroundColor: '#777',
+                                        formatter:function (params) {
+                                            var s  =''
+//                                            console.log(actualData);
+//                                            console.log(planData)
+//                                            console.log(params.seriesData)
+                                            if(params.seriesData.length){
+//                                            console.log(params.seriesData[0].dataIndex)
+                                                $.each(actualData,function (i,o) {
+                                                    if(i == params.seriesData[0].dataIndex){
+                                                        s +='实际用量'+o+numUnit[i]+' ';
+                                                    }
+                                                });
+                                                $.each(planData,function (i,o) {
+                                                    if(i == params.seriesData[0].dataIndex){
+                                                        s +='计划用量'+o+numUnit[i];
+                                                    }
+                                                });
+                                                return s;
+                                            }
+
+                                    }
+                                    }
+                                },
+                            },
+                            legend: {
+                                data: [ '实际用量']
+//                                data: [ '实际用量','计划用量']
+                            },
+                            toolbox:{
+                                show:true,
+                                feature:{
+                                    dataview:{show:true,readOnly:false},
+                                    magicType:{show:true,type:['line','bar']},
+                                    restore : {show: true},
+                                    saveAsImage : {show: true}
+                                }
+                            },
+                            calculable : true,
+                            xAxis: [
+                                {
+                                    axisLabel: {
+                                        interval: 0,
+//                                        rotate:-10,
+                                        formatter: function (val) {
+                                            return val.split("").join("\n");
+                                        }
+                                    },
+                                    boundaryGap: true,
+                                    data: xAxis,
+
+                                }
+                            ],
+                            grid: { // 控制图的大小，调整下面这些值就可以，
+                                left: '10%',
+                                bottom: '210px',
+//                                x: 40,
+//                                x2: 100,
+//                                y2: 210,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                            },
+                            yAxis: [
+                                {
+                                    type : 'value',
+                                    axisLabel : {
+                                        formatter : '{value}%'
+                                    },
+                                    splitLine:{
+                                        show:false
+                                    },
+                                    data:data,
+                                    min:0,
+                                    max:100
+                                }
+                            ],
+                            dataZoom: [
+                                {
+                                    type: 'slider',
+                                    show: true,
+                                    xAxisIndex: [0],
+                                    start: 1,
+                                    end: 35
+                                },
+                                {
+                                    type: 'slider',
+                                    show: true,
+                                    yAxisIndex: [0],
+                                    left: '93%',
+                                    start: 1,
+                                    end: 100
+                                },
+                                {
+                                    type: 'inside',
+                                    xAxisIndex: [0],
+                                    start: 1,
+                                    end: 35
+                                },
+                                {
+                                    type: 'inside',
+                                    yAxisIndex: [0],
+                                    start: 1,
+                                    end: 36
+                                }
+                            ],
+                            series: [
+//                                {
+//                                    name: '计划用量',
+//                                    type: 'bar',
+//                                    data: planNum,
+//                                    itemStyle:{
+//                                        normal: {
+////                                            lineStyle:{
+//                                            color: '#6ED5C0',
+////                                            }
+//                                        },
+//
+//                                    },
+//                                },
+                                {
+                                    name: '实际用量',
+                                    type: 'bar',
+                                    data: actualNum,
+                                    itemStyle:{
+                                        normal: {
+//                                            lineStyle:{
+                                            color: '#65C4FA',
+//                                            }
+                                        }
+                                    },
+
+                                },
+                            ]
+                        }
+//
+                    }else{
+                        $('.itemPlanTable tbody').append('<tr><td colspan="6">暂无数据</td></tr>')
+                    }
+
+                }
+            }
+        });
+
+        //绑定事件
+        $('.ysh-menuList a').on('click',showList);
+        $('.wsCont a').on('click',hideList);
+        document.onclick = function(){
+            $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+        }
+        //总进度
+        $('.addZItemPlan').on('click',addZItemPlanBtn);
+        $('.editZItemPlan').on('click',editZItemPlanBtn);
+        $('.delZItemPlan').on('click',delZItemPlanBtn);
+        $('.seeItemData').on('click',seeItemData);
+        //增改总进度
+        $('#addZItem').on('click',addZItemBtn);
+        $('#editZItem').on('click',editZItemBtn);
+        //分进度
+        $('.addSchedule').on('click',addScheduleBtn);
+        $('.editSchedule').on('click',editScheduleBtn);
+        $('.delSchedule').on('click',delScheduleBtn);
+        //增改分进度
+        $('#addItem').on('click',addItemBtn);
+        $('#editItem').on('click',editItemBtn);
+        //图表
+        $('.chartZItem').on('click',chartZItemBtn);
+        $('.seeItemChart').on('click',seeItemChartBtn)
+        //功能函数
+        //总项目
+        function addZItemPlanBtn() {
+            $('#zScheduleModal input').val('');
+            $('#zScheduleModalLabel').text('增加项目计划');
+            $('#addZItem').css('display','inline-block');
+            $('#editZItem').css('display','none');
+            $('#zScheduleModal').modal('show');
+        }
+        function editZItemPlanBtn() {
+            var itemId  =$('.itemPlanTable tbody>tr.table-selected').attr('data-itemid');
+            if(itemId){
+                $('#zScheduleModal').attr('data-zitemid',itemId);
+                $.ajax({
+                    url:protocols.getZSchedule,
+                    type:'get',
+                    success:function (data) {
+                        if(!data.code){
+                            $('#zScheduleModalLabel').text('修改项目计划');
+                            $('#addZItem').css('display','none');
+                            $('#editZItem').css('display','inline-block');
+                            $('#zScheduleModal').modal('show');
+                          $.each(data.rows,function (i,o) {
+                              if(o.ItemID == itemId){
+                                  $('#zItemName').val(o.ItemName);
+                                  $('#zItemScale').val(o.ItemUnit);
+                                  $('#planTotalNum').val(o.PlanTotalNum);
+
+                              }
+                          })
+                        }else{
+                            window.wxc.xcConfirm(data.msg,window.wxc.xcConfirm.typeEnum.warning);
+                        }
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择项目！',window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function delZItemPlanBtn() {
+            var itemId  =$('.itemPlanTable tbody>tr.table-selected').attr('data-itemid');
+            if(itemId){
+                window.wxc.xcConfirm('确认删除该项目？',window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+//                        alert(itemId);
+                        $.ajax({
+                            url:protocols.delZSchedule,
+                            type:'post',
+                            data:{
+                                ITEMID:itemId
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    drawTable();
+                                }else{
+                                    toastr.error(data.msg);
+                                }
+                            }
+                        })
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择项目！',window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function seeItemData() {
+            var zitemId  =$('.itemPlanTable tbody>tr.table-selected').attr('data-itemid');
+            var zitemName = $('.itemPlanTable tbody>tr.table-selected>td.itemName').text();
+            if(zitemId){
+                var itemId = getUnitId();
+                var xAxis = [],actualNum =[],planNum=[],actualData=[],planData=[],numUnit='';
+                $('#scheduleModal').attr('data-zitemid',zitemId);
+                $('#scheduleModal').attr('data-zitemname',zitemName)
+                $('.scheduleModalLabel').text(zitemName+'具体分施工进度')
+                $('#scheduleModal').modal('show');
+                console.log(zitemId)
+                $.ajax({
+                    url:protocols.getItemSchedule,
+                    data:{
+                        ITEMID:zitemId
+                    },
+                    type:'post',
+                    success:function (data) {
+                        if(!data.code){
+                            var xAxis = [],actualNum =[],planNum=[],actualData=[],planData=[],numUnit=[];
+                            $('.itemScheduleTable tbody').empty();
+                            if(data.rows.length){
+                                $.each(data.rows,function (i,o) {
+                                    planData.push(o.PlanNum);
+                                    actualData.push(o.ActualNum);
+                                    xAxis.push(o.Period);
+                                    numUnit = o.ItemUnit;
+                                    var t  = '<tr data-siid="'+o.SIID+'"><td>'+(i+1)+'</td><td>'+o.ItemName+'</td>' +
+                                            '<td class="period">'+o.Period+'</td><td>'+o.PlanNum+'</td><td>'+o.ActualNum+'</td>' +
+                                            '<td>'+o.ItemUnit+'</td></tr>'
+                                    $('.itemScheduleTable tbody').append(t);
+                                });
+                                $('.itemScheduleTable tbody td').unbind().on('click',function () {
+                                    $(this).parent().addClass('table-selected');
+                                    $(this).parent().siblings().removeClass('table-selected');
+                                });
+                                //总图表的配置项
+                                zChartOption = {
+                                    title: {
+                                        text: '总项目施工进度'
+                                    },
+                                    tooltip: {
+                                        trigger: 'axis',
+                                        axisPointer: {
+                                            type: 'cross',
+                                            backgroundColor: 'rgba(245, 245, 245, 0.8)',
+                                            borderWidth: 1,
+                                            borderColor: '#ccc',
+                                            padding: 10,
+                                            textStyle: {
+                                                color: '#000'
+                                            },
+                                            position: function (pos, params, el, elRect, size) {
+                                                var obj = {top: 10};
+                                                obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                                                return obj;
+                                            },
+                                            extraCssText: 'width: 170px',
+                                            label:{
+                                                backgroundColor: '#777',
+                                                formatter:function (params) {
+                                                    var s  =''
+//                                            console.log(actualData);
+//                                            console.log(planData)
+//                                            console.log(params.seriesData)
+                                                    if(params.seriesData.length){
+//                                            console.log(params.seriesData[0].dataIndex)
+                                                        $.each(actualData,function (i,o) {
+                                                            if(i == params.seriesData[0].dataIndex){
+                                                                s +='实际用量'+o+numUnit[i]+' ';
+                                                            }
+                                                        });
+                                                        $.each(planData,function (i,o) {
+                                                            if(i == params.seriesData[0].dataIndex){
+                                                                s +='计划用量'+o+numUnit[i];
+                                                            }
+                                                        });
+                                                        return s;
+                                                    }
+
+                                                }
+                                            }
+                                        },
+                                    },
+                                    legend: {
+                                        data: [ '实际用量']
+//                                        data: [ '实际用量','计划用量']
+                                    },
+                                    toolbox:{
+                                        show:true,
+                                        feature:{
+                                            dataview:{show:true,readOnly:false},
+                                            magicType:{show:true,type:['line','bar']},
+                                            restore : {show: true},
+                                            saveAsImage : {show: true}
+                                        }
+                                    },
+                                    calculable : true,
+                                    xAxis: [
+                                        {
+                                            axisLabel: {
+                                                interval: 0,
+//                                        rotate:-10,
+                                                formatter: function (val) {
+                                                    return val.split("").join("\n");
+                                                }
+                                            },
+                                            boundaryGap: true,
+                                            data: xAxis,
+
+                                        }
+                                    ],
+                                    grid: { // 控制图的大小，调整下面这些值就可以，
+                                        left: '10%',
+                                        bottom: '210px',
+//                                x: 40,
+//                                x2: 100,
+//                                y2: 210,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                                    },
+                                    yAxis: [
+                                        {
+                                            type : 'value',
+                                            axisLabel : {
+                                                formatter : '{value}%'
+                                            },
+                                            splitLine:{
+                                                show:false
+                                            },
+                                            data:data,
+                                            min:0,
+                                            max:100
+                                        }
+                                    ],
+                                    dataZoom: [
+                                        {
+                                            type: 'slider',
+                                            show: true,
+                                            xAxisIndex: [0],
+                                            start: 1,
+                                            end: 35
+                                        },
+                                        {
+                                            type: 'slider',
+                                            show: true,
+                                            yAxisIndex: [0],
+                                            left: '93%',
+                                            start: 1,
+                                            end: 100
+                                        },
+                                        {
+                                            type: 'inside',
+                                            xAxisIndex: [0],
+                                            start: 1,
+                                            end: 35
+                                        },
+                                        {
+                                            type: 'inside',
+                                            yAxisIndex: [0],
+                                            start: 1,
+                                            end: 36
+                                        }
+                                    ],
+                                    series: [
+//                                        {
+//                                            name: '计划用量',
+//                                            type: 'bar',
+//                                            data: planNum,
+//                                            itemStyle:{
+//                                                normal: {
+////                                            lineStyle:{
+//                                                    color: '#6ED5C0',
+////                                            }
+//                                                },
+//
+//                                            },
+//                                        },
+                                        {
+                                            name: '实际用量',
+                                            type: 'bar',
+                                            data: actualNum,
+                                            itemStyle:{
+                                                normal: {
+//                                            lineStyle:{
+                                                    color: '#65C4FA',
+//                                            }
+                                                }
+                                            },
+
+                                        },
+                                    ]
+                                }
+                            }else{
+                                $('.itemScheduleTable tbody').append('<tr><td colspan="5">暂无数据</td></tr>')
+                            }
+                            //分图表的配置项
+                            itemChartOption = {
+                                title: {
+                                    text: zitemName+'具体分施工进度'
+                                },
+                                tooltip: {
+                                    trigger: 'axis',
+                                    axisPointer: {
+                                        type: 'cross',
+                                        backgroundColor: 'rgba(245, 245, 245, 0.8)',
+                                        borderWidth: 1,
+                                        borderColor: '#ccc',
+                                        padding: 10,
+                                        textStyle: {
+                                            color: '#000'
+                                        },
+                                        position: function (pos, params, el, elRect, size) {
+                                            var obj = {top: 10};
+                                            obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                                            return obj;
+                                        },
+                                        extraCssText: 'width: 170px',
+                                        label:{
+                                            backgroundColor: '#777',
+                                            formatter:function (params) {
+                                                var s  =''
+//                                            console.log(actualData);
+//                                            console.log(planData)
+//                                            console.log(params.seriesData)
+                                                if(params.seriesData.length){
+//                                            console.log(params.seriesData[0].dataIndex)
+                                                    $.each(actualData,function (i,o) {
+                                                        if(i == params.seriesData[0].dataIndex){
+                                                            s +='实际用量'+o+numUnit+' ';
+                                                        }
+                                                    });
+                                                    $.each(planData,function (i,o) {
+                                                        if(i == params.seriesData[0].dataIndex){
+                                                            s +='计划用量'+o+numUnit;
+                                                        }
+                                                    });
+                                                    return s;
+                                                }
+
+                                            }
+                                        }
+                                    },
+                                },
+                                legend: {
+                                    data: [ '实际用量','计划用量']
+//                                    data: [ '实际用量']
+                                },
+                                toolbox:{
+                                    show:true,
+                                    feature:{
+                                        dataview:{show:true,readOnly:false},
+                                        magicType:{show:true,type:['line','bar']},
+                                        restore : {show: true},
+                                        saveAsImage : {show: true}
+                                    }
+                                },
+                                calculable : true,
+                                xAxis: [
+                                    {
+                                        axisLabel: {
+                                            interval: 0,
+//                                        rotate:-10,
+//                                            formatter: function (val) {
+//                                                return val.split("").join("\n");
+//                                            }
+                                        },
+                                        boundaryGap: true,
+                                        data: xAxis,
+
+                                    }
+                                ],
+                                grid: { // 控制图的大小，调整下面这些值就可以，
+                                    left: '10%',
+                                    bottom: '210px',
+//                                x: 40,
+//                                x2: 100,
+//                                y2: 210,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                                },
+                                yAxis: [
+                                    {
+                                        type : 'value',
+
+                                        splitLine:{
+                                            show:false
+                                        },
+                                        data:data,
+
+                                    }
+                                ],
+                                dataZoom: [
+                                    {
+                                        type: 'slider',
+                                        show: true,
+                                        xAxisIndex: [0],
+                                        start: 1,
+                                        end: 35
+                                    },
+                                    {
+                                        type: 'slider',
+                                        show: true,
+                                        yAxisIndex: [0],
+                                        left: '93%',
+                                        start: 1,
+                                        end: 100
+                                    },
+                                    {
+                                        type: 'inside',
+                                        xAxisIndex: [0],
+                                        start: 1,
+                                        end: 35
+                                    },
+                                    {
+                                        type: 'inside',
+                                        yAxisIndex: [0],
+                                        start: 1,
+                                        end: 36
+                                    }
+                                ],
+                                series: [
+                                    {
+                                        name: '计划用量',
+                                        type: 'bar',
+                                        data: planData,
+                                        itemStyle:{
+                                            normal: {
+//                                            lineStyle:{
+                                                color: '#6ED5C0',
+//                                            }
+                                            },
+
+                                        },
+                                    },
+                                    {
+                                        name: '实际用量',
+                                        type: 'bar',
+                                        data: actualData,
+                                        itemStyle:{
+                                            normal: {
+//                                            lineStyle:{
+                                                color: '#65C4FA',
+//                                            }
+                                            }
+                                        },
+
+                                    },
+                                ]
+                            }
+                        }
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择项目！',window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function addZItemBtn() {
+            var itemId = getUnitId();
+            console.log(itemId);
+            $.ajax({
+                url:protocols.addZSchedule,
+                type:'post',
+                data:{
+                    ITEMID:itemId,
+                    ITEMNAME:$('#zItemName').val(),
+                    ITEMUNIT:$('#zItemScale').val(),
+                    PLANTOTALNUM:$('#planTotalNum').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        drawTable();
+                        toastr.success(data.msg);
+                        $('#zScheduleModal').modal('hide');
+                    }else{
+                        toastr.error(data.msg)
+                    }
+                }
+            });
+        }
+        function editZItemBtn() {
+            var itemId  = $('#zScheduleModal').attr('data-zitemid');
+            console.log(itemId);
+            $.ajax({
+                url:protocols.editZSchedule,
+                type:'post',
+                data:{
+                    ITEMID:itemId,
+                    ITEMNAME:$('#zItemName').val(),
+                    ITEMUNIT:$('#zItemScale').val(),
+                    PLANTOTALNUM:$('#planTotalNum').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        drawTable();
+                        toastr.success(data.msg);
+                        $('#zScheduleModal').modal('hide');
+                    }else{
+                        toastr.error(data.msg)
+                    }
+                }
+            });
+        }
+        //分施工
+        function addScheduleBtn() {
+            var itemid =  $('#scheduleModal').attr('data-zitemid');
+            $('.itemActual').css('display','none');
+            $('#itemScheduleModal input').val('');
+            $('#itemScheduleModal').attr('data-itemid',itemid)
+            $('#itemScheduleModalLabel').text('增加具体计划');
+            $('#addItem').css('display','inline-block');
+            $('#editItem').css('display','none');
+            $('#itemScheduleModal').modal('show');
+
+        }
+        function editScheduleBtn() {
+            var itemId =  $('#scheduleModal').attr('data-zitemid');
+            var period = $('.itemScheduleTable tbody>tr.table-selected>td.period').text();
+            var SIID = $('.itemScheduleTable tbody>tr.table-selected').attr('data-siid');
+            if(SIID){
+                $.ajax({
+                    url:protocols.getItemSchedule,
+                    data:{
+                        ITEMID:itemId
+                    },
+                    type:'post',
+                    success:function (data) {
+                        if(!data.code){
+                            $('.itemActual').css('display','block');
+                            $('#itemScheduleModalLabel').text('修改具体计划');
+                            $('#addItem').css('display','none');
+                            $('#editItem').css('display','inline-block');
+                            $('#itemScheduleModal').modal('show');
+                            $.each(data.rows,function (i,o) {
+                                if(o.SIID == SIID){
+                                    $('#itemPeriod').val(o.Period);
+                                    $('#itemScheduleModal').attr('data-itemid',o.ItemID);
+                                    $('#planNum').val(o.PlanNum);
+                                    $('#actualNum').val(o.ActualNum);
+                                }
+                            });
+                        }
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择具体计划！',window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function delScheduleBtn() {
+            var itemid =  $('#scheduleModal').attr('data-zitemid');
+            var period = $('.itemScheduleTable tbody>tr.table-selected>td.period').text();
+            if(period){
+                window.wxc.xcConfirm('确认删除该信息！',window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+                        $.ajax({
+                            url:protocols.delItemSchedule,
+                            data:{
+                                PERIOD:period,
+                                ITEMID:itemid,
+                            },
+                            type:'post',
+                            success:function (data) {
+                                if(!data.code){
+                                    drawItemTable(itemid);
+                                    toastr.success(data.msg);
+                                }else{
+                                    toastr.error(data.msg)
+                                }
+                            }
+                        })
+                    }
+                });
+
+            }else{
+                window.wxc.xcConfirm('请选择具体计划！',window.wxc.xcConfirm.typeEnum.warning);
+            }
+        }
+        function addItemBtn() {
+            var itemId  = $('#itemScheduleModal').attr('data-itemid');
+            console.log(itemId);
+            console.log($('#itemPeriod').val());
+            console.log($('#planNum').val())
+            $.ajax({
+                url:protocols.addItemSchedule,
+                data:{
+                    PERIOD:$('#itemPeriod').val(),
+                    ITEMID:itemId,
+                    PLANNUM:$('#planNum').val(),
+                },
+                type:'post',
+                success:function (data) {
+                    if(!data.code){
+                        drawItemTable(itemId)
+                        $('#itemScheduleModal').modal('hide');
+                        toastr.success(data.msg);
+                    }else{
+                        toastr.error(data.msg)
+                    }
+                }
+            });
+        }
+        function editItemBtn() {
+            var itemId  = $('#itemScheduleModal').attr('data-itemid'),actualNum;
+            console.log(itemId);
+            console.log($('#itemPeriod').val());
+            console.log($('#planNum').val());
+            console.log($('#actualNum').val());
+            if($('#actualNum').val() ==''){
+                actualNum ='0'
+            }else{
+               actualNum  = $('#actualNum').val()
+            }
+
+            $.ajax({
+                url:protocols.editItemSchedule,
+                data:{
+                    PERIOD:$('#itemPeriod').val(),
+                    ITEMID:itemId,
+                    PLANNUM:$('#planNum').val() ,
+                    ACTUALNUM:actualNum
+                },
+                type:'post',
+                success:function (data) {
+                    if(!data.code){
+                        drawItemTable(itemId)
+                        $('#itemScheduleModal').modal('hide');
+                        toastr.success(data.msg);
+                    }else{
+                        toastr.error(data.msg)
+                    }
+                }
+            });
+        }
+        //图表
+        function chartZItemBtn() {
+            $('#zScheduleChart').modal('show');
+            ZItemChart = echarts.init($('.chartContainer')[0]);
+            ZItemChart.setOption(zChartOption)
+        }
+        function seeItemChartBtn() {
+            $('#scheduleChart').modal('show');
+            ItemChart = echarts.init($('.itemChart')[0]);
+            ItemChart.setOption(itemChartOption)
+        }
+        //二级列表显示
+        function showList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            if($(this).parent().has('ul')){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                $(this).siblings('ul').removeClass('ysh-disappear');
+            }
+        }
+        function hideList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            $(this).parent().parent().addClass('ysh-disappear');
+        }
+        function drawTable() {
+            $.ajax({
+                url:protocols.getZSchedule,
+                type:'get',
+                success:function (data) {
+                    if(!data.code){
+                        var xAxis = [],actualNum =[],planNum=[],actualData=[],planData=[],numUnit=[];
+                        $('.itemPlanTable tbody').empty();
+                        if(data.rows.length){
+                            xAxis.push(o.ItemName);
+                            actualNum.push((o.percent*100));
+                            planNum.push('100');
+                            actualData.push(o.ActualNum);
+                            planData.push(o.PlanTotalNum);
+                            numUnit.push(o.ItemUnit)
+                            $.each(data.rows,function (i,o) {
+                                var t = '<tr data-itemid="'+o.ItemID+'"><td>'+(i+1)+'</td><td class="itemName">'+o.ItemName+'</td>' +
+                                        '<td>'+o.ItemUnit+'</td><td>'+o.PlanTotalNum+'</td><td>'+o.ActualNum+'</td></tr>'
+                                $('.itemPlanTable tbody').append(t)
+                            });
+                            $('.itemPlanTable tbody td').unbind().on('click',function () {
+                                $(this).parent().addClass('table-selected');
+                                $(this).parent().siblings().removeClass('table-selected');
+                            })
+                        }else{
+                            $('.itemPlanTable tbody').append('<tr><td colspan="6">暂无数据</td></tr>')
+                        }
+                    }
+                }
+            });
+        }
+       function drawItemTable(item) {
+           var zitemId = item;
+           $.ajax({
+               url:protocols.getItemSchedule,
+               data:{
+                   ITEMID:zitemId
+               },
+               type:'post',
+               success:function (data) {
+                   if(!data.code){
+                       var xAxis = [],actualNum =[],planNum=[],actualData=[],planData=[],numUnit='',zitemName='';
+                       $('.itemScheduleTable tbody').empty();
+                       if(data.rows.length){
+                           $.each(data.rows,function (i,o) {
+                               planData.push(o.PlanNum);
+                               actualData.push(o.ActualNum);
+                               xAxis.push(o.Period);
+                               numUnit = o.ItemUnit;
+                               zitemName = o.ItemName;
+                               var t  = '<tr data-siid="'+o.SIID+'"><td>'+(i+1)+'</td><td>'+o.ItemName+'</td>' +
+                                       '<td class="period">'+o.Period+'</td><td>'+o.PlanNum+'</td>' +
+                                       '<td>'+o.ActualNum+'</td><td>'+o.ItemUnit+'</td></tr>'
+                               $('.itemScheduleTable tbody').append(t);
+                           });
+                           $('.itemScheduleTable tbody td').unbind().on('click',function () {
+                               $(this).parent().addClass('table-selected');
+                               $(this).parent().siblings().removeClass('table-selected');
+                           })
+                           //分图表的配置项
+                           itemChartOption = {
+                               title: {
+                                   text: zitemName+'具体分施工进度'
+                               },
+                               tooltip: {
+                                   trigger: 'axis',
+                                   axisPointer: {
+                                       type: 'cross',
+                                       backgroundColor: 'rgba(245, 245, 245, 0.8)',
+                                       borderWidth: 1,
+                                       borderColor: '#ccc',
+                                       padding: 10,
+                                       textStyle: {
+                                           color: '#000'
+                                       },
+                                       position: function (pos, params, el, elRect, size) {
+                                           var obj = {top: 10};
+                                           obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                                           return obj;
+                                       },
+                                       extraCssText: 'width: 170px',
+                                       label:{
+                                           backgroundColor: '#777',
+                                           formatter:function (params) {
+                                               var s  =''
+//                                            console.log(actualData);
+//                                            console.log(planData)
+//                                            console.log(params.seriesData)
+                                               if(params.seriesData.length){
+//                                            console.log(params.seriesData[0].dataIndex)
+                                                   $.each(actualData,function (i,o) {
+                                                       if(i == params.seriesData[0].dataIndex){
+                                                           s +='实际用量'+o+numUnit+' ';
+                                                       }
+                                                   });
+                                                   $.each(planData,function (i,o) {
+                                                       if(i == params.seriesData[0].dataIndex){
+                                                           s +='计划用量'+o+numUnit;
+                                                       }
+                                                   });
+                                                   return s;
+                                               }
+
+                                           }
+                                       }
+                                   },
+                               },
+                               legend: {
+                                   data: [ '实际用量','计划用量']
+                               },
+                               toolbox:{
+                                   show:true,
+                                   feature:{
+                                       dataview:{show:true,readOnly:false},
+                                       magicType:{show:true,type:['line','bar']},
+                                       restore : {show: true},
+                                       saveAsImage : {show: true}
+                                   }
+                               },
+                               calculable : true,
+                               xAxis: [
+                                   {
+                                       axisLabel: {
+                                           interval: 0,
+//                                        rotate:-10,
+//                                            formatter: function (val) {
+//                                                return val.split("").join("\n");
+//                                            }
+                                       },
+                                       boundaryGap: true,
+                                       data: xAxis,
+
+                                   }
+                               ],
+                               grid: { // 控制图的大小，调整下面这些值就可以，
+                                   left: '10%',
+                                   bottom: '210px',
+//                                x: 40,
+//                                x2: 100,
+//                                y2: 210,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                               },
+                               yAxis: [
+                                   {
+                                       type : 'value',
+
+                                       splitLine:{
+                                           show:false
+                                       },
+                                       data:data,
+
+                                   }
+                               ],
+                               dataZoom: [
+                                   {
+                                       type: 'slider',
+                                       show: true,
+                                       xAxisIndex: [0],
+                                       start: 1,
+                                       end: 35
+                                   },
+                                   {
+                                       type: 'slider',
+                                       show: true,
+                                       yAxisIndex: [0],
+                                       left: '93%',
+                                       start: 1,
+                                       end: 100
+                                   },
+                                   {
+                                       type: 'inside',
+                                       xAxisIndex: [0],
+                                       start: 1,
+                                       end: 35
+                                   },
+                                   {
+                                       type: 'inside',
+                                       yAxisIndex: [0],
+                                       start: 1,
+                                       end: 36
+                                   }
+                               ],
+                               series: [
+                                   {
+                                       name: '计划用量',
+                                       type: 'bar',
+                                       data: planData,
+                                       itemStyle:{
+                                           normal: {
+//                                            lineStyle:{
+                                               color: '#6ED5C0',
+//                                            }
+                                           },
+
+                                       },
+                                   },
+                                   {
+                                       name: '实际用量',
+                                       type: 'bar',
+                                       data: actualData,
+                                       itemStyle:{
+                                           normal: {
+//                                            lineStyle:{
+                                               color: '#65C4FA',
+//                                            }
+                                           }
+                                       },
+
+                                   },
+                               ]
+                           }
+                       }else{
+                           $('.itemScheduleTable tbody').append('<tr><td colspan="5">暂无数据</td></tr>')
+                       }
+                   }
+               }
+           })
+       }
+        //32Id随机值
+        function getUnitId() {
+            var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+            var res = "";
+            for(var i = 0; i < 32 ; i ++) {
+                var id = Math.ceil(Math.random()*35);
+                res += chars[id];
+            }
+            return res;
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>

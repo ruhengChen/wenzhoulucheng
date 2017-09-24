@@ -1,0 +1,352 @@
+/*
+    name: YSH,
+    itemName:三门峡黄河公铁两用桥信息系统
+    by 浙江启程电子科技股份有限公司
+*/
+.ysh-disappear{
+    display:none;
+}
+.ysh-appear{
+    display: block;
+}
+.ysh-smxHead{
+    margin: 0 auto;
+    width: 1200px;
+    height: 80px;
+    /*border: 1px solid red;*/
+}
+.ysh-smxTitle{
+    display: inline-block;
+    width: 40%;
+    height: 80px;
+    line-height: 80px;
+    /*border:1px solid blue;*/
+}
+.smxLogo{
+    display: inline-block;
+    margin: 15px 10px 15px 0;
+    width: 50px;
+    height: 38px;
+}
+.ysh-smxTitle>h5{
+    display: inline-block;
+    font-size: 18px;
+    font-family: "Microsoft yahei";
+    color: #059c7e;
+}
+
+.ysh-XTList{
+    position: relative;
+    float: right;
+    width:40%;
+    height: 80px;
+    line-height: 80px;
+    margin-bottom: 0;
+    /*border: 1px solid blue;*/
+}
+.ysh-XTList>button{
+    position: absolute;
+    right:20px;
+    top:25px;
+    width: 64px;
+    height: 30px;
+    line-height: 20px;
+    border-color: #b2b2b2;
+    color:#b2b2b2;
+    background-color: #ffffff;
+}
+.ysh-XTList>button:hover{
+    border-color: #059C7E;
+    color: #059c7e;
+}
+.ysh-XTList>li{
+    float: right;
+    margin-left: 46px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 13px;
+    color: #999999;
+    font-family: "Microsoft yahei";
+}
+.ysh-XTList>li>a{
+    text-decoration: none;
+    font-size: 13px;
+    color: #999999;
+}
+.ysh-XTList>li:last-child{
+    margin: 0;
+}
+.ysh-menu{
+    width: 100%;
+    height: 60px;
+    /*border: 1px solid blue;*/
+    background-color: #059c7e;
+}
+/*一级导航*/
+.ysh-menuList{
+    /*position: relative;*/
+    /*padding: 0 120px;*/
+    margin: 0 auto;
+    width: 1200px;
+    height: 60px;
+    background-color: #059c7e;
+
+}
+.ysh-menuList>li{
+    float: left;
+}
+.ysh-menuList li>a:hover{
+    background: rgb(0,133,106);
+}
+.ysh-menuList>li>a{
+    display: inline-block;
+    width: 100px;
+    height: 60px;
+    line-height: 60px;
+    color: #ffffff;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+    background-color: #059c7e;
+}
+/*二级导航*/
+.wsCont,.jdCont,.sysCont,.zlCont,.aqCont{
+    position: absolute;
+    width: 100px;
+    background: rgb(5,156,126);
+    /*opacity: 0.85;*/
+}
+.wsCont>li,.jdCont>li,.sysCont>li,.zlCont>li,.aqCont>li{
+    width: 100px;
+    height: 34px;
+    background: rgb(5,156,126);
+    /*opacity: 0.85;*/
+}
+.wsCont>li>a,.jdCont>li>a,.sysCont>li>a,.zlCont>li>a,.aqCont>li>a{
+    display: block;
+    width: 100%;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    color:#ffffff;
+    font-size: 16px;
+    text-decoration: none;
+    background: rgb(5,156,126)
+}
+.ysh-menuImg{
+    width:100%;
+    height: 340px;
+}
+.ysh-menuImg:hover{
+    cursor: pointer;
+}
+.ysh-menuImg>img{
+    width: 100%;
+    height: 100%;
+}
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+/*.sidebar {*/
+    /*display: none;*/
+/*}*/
+@media (min-width: 768px) {
+    .sidebar {
+        width:220px;
+        position: fixed;
+        top: 140px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        /*padding: 20px;*/
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        background-color: #f5f4f7;
+        border-right: 1px solid #eee;
+    }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: -20px;
+}
+.nav-sidebar > li > a {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+    color: #fff;
+    background-color: #099a69;
+}
+.container{
+    padding-left: 215px;
+    width: 100%;
+    /*height: calc(100% - 140px);*/
+}
+.mainContent{
+    padding-left: 30px;
+    width: 100%;
+}
+.table>tbody>tr.table-selected{
+    background-color: #059c7e;
+}
+/*登录框*/
+#loginModal .modal-dialog{
+    position: absolute;top:20%;right: 0;bottom: 0;left: 16%;
+}
+#loginModal .modal-content{
+    padding: 0px 15px 15px 30px;
+    width: 432px;
+    height: 290px;
+}
+#loginModal .modal-header{
+    height: 50px;
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+#loginModal .modal-header>h4{
+    line-height: 25px;
+    font-size: 14px;
+    font-family: "Microsoft yahei";
+    color: #444444;
+    font-weight: bold;
+}
+#loginModal .modal-body>form>.form-group{
+    width: 328px;
+    height: 46px;
+    margin-bottom: 15px;
+}
+#loginModal .modal-body>form>.form-group>input{
+    padding-left: 10px;
+    width: 328px;
+    height: 46px;
+    line-height: 46px;
+    font-size: 16px;
+    color: #999999;
+    background-color: #f6f6f6;
+}
+.btnCheckLogin{
+    width: 328px;
+    height: 46px;
+    background-color: #059C7E;
+    color: #ffffff;
+    font-size: 18px;
+    text-align: center;
+}
+.btnCheckLogin:hover{
+    color: #ffffff;
+    background-color: rgb(0,133,106);
+}
+/*工程概况公共css*/
+.item-sidebar{
+    /*width: ;*/
+    /*position: relative;*/
+    background-color: #00856A;
+}
+.itemList{
+    width: 100%;
+}
+.openState,.closeState{
+    position: absolute;
+    top: 50%;
+    left:197px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.7em;
+    text-align: right;
+    z-index: 10000;
+}
+.closeState{
+    left: -20px;
+}
+.openState:hover,.closeState:hover{
+    cursor: pointer;
+}
+.itemList>li>a{display: inline-block;padding-left: 30px;}
+.itemList>li,.itemList>li>a{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+}
+.itemList>li>a>b{
+    position: relative;
+    display: inline-block;
+    top:5px;
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+}
+.itemList>li>a.itemIntro>b{
+    background: url(../images/itemGk/itemIntro_off.png);
+}
+.itemList>li>a.itemIntro:hover b{
+    background: url(../images/itemGk/itemIntro_on.png);
+}
+.itemList>li>a.itemXg>b{
+    background: url(../images/itemGk/itemXg_off.png);
+}
+.itemList>li>a.itemXg:hover b{
+    background: url(../images/itemGk/itemXg_on.png);
+}
+.itemList>li>a.itemJg>b{
+    background: url(../images/itemGk/itemJg_off.png);
+}
+.itemList>li>a.itemJg:hover b{
+    background: url(../images/itemGk/itemJg_on.png);
+}
+.itemList>li>a.itemRules>b{
+    background: url(../images/itemGk/itemRules_off.png);
+}
+.itemList>li>a.itemRules:hover b{
+    background: url(../images/itemGk/itemRules_on.png);
+}
+.itemList>li>a:hover{
+    background-color: #FBFBFB;
+    color: #059c7e;
+}
+.itemContent{
+    padding-left: 20px;
+}
+.treeContain{
+    height: calc(100% - 50px);
+    overflow-y: auto;
+}
+.treeSideBar{
+    left:230px;
+}
+.applyList>li,.applyList>li>a{
+    display: block;
+    padding-left: 25px;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    color: #ffffff;
+    text-align: left;
+    font-size:14px;
+    background-color: #035A48;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.applyList>li{
+    border-top:1px solid #404a54;
+    border-bottom:1px solid #404a54;
+}
+.applyList>li>a:hover{
+    color: #404a54;
+    background-color: #ffffff;
+    border-top: 1px solid #404a54;
+    border-bottom: 1px solid #404a54;
+}
+.ysh-liActive{
+    background-color: #f4c417;
+}

@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三门峡黄河公铁两用桥信息系统</title>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href='../../plugins/zTree/css/blueStyle/blueStyle.css'>
+    <link rel="stylesheet" href="../../plugins/jquery/alert/css/xcConfirm.css">
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/userMgr.css">
+    <style>
+        .table-container {
+            height: calc(100% - 130px);
+        }
+        .childContainer{
+            height: calc(100% - 5px);
+        }
+        .fileContainer{
+            height: calc(100% - 40px);
+        }
+        .tableToolBar>span.getAttachment{
+            width: 80px;
+        }
+        .leftData,.rightData{
+            margin-right: 5px;
+            padding: 8px 10px;
+            border:1px solid #c4c4c4;
+            height:400px;
+        }
+        .leftData{
+            float: left;
+            width:63%;
+        }
+        .rightData{
+            float: left;
+            margin-right: 0;
+            width: calc(37% - 10px);
+        }
+        .fieList>li{
+            /*float: left;*/
+            margin: 10px 15px 10px;
+            width:250px;
+            height:80 ;
+            /*height: 110px;*/
+            border:1px solid #999;
+        }
+        .fieList>li>a{
+            display: block;
+            padding-top: 5px;
+            margin: auto;
+            width: 40px;height: 50px;
+            /*border: 1px dotted #555555;*/
+            text-align: center;
+        }
+        .fieList>li>p{
+            margin-top: 5px;
+            text-align: center;
+        }
+        .fieList>li>a>span{
+            font-size: 38px;
+            color: #FBDC7C;
+        }
+        .li-selected{
+            background-color: #059C7E;
+        }
+    </style>
+</head>
+<body>
+<header class="ysh-smxHead">
+    <div class="ysh-smxTitle">
+        <img class="smxLogo" src="../../images/home/logo.png" alt="">
+        <h5>三门峡黄河公铁两用桥信息系统</h5>
+    </div>
+
+
+    <ul id="loginOk" class="ysh-XTList">
+        <li><a href="javascript:;">退出系统</a></li>
+        <li><a href="javascript:;">消息<span class="xtInfo"></span></a></li>
+        <li><span class="xiUser"></span>，欢迎使用本系统！</li>
+    </ul>
+</header>
+<div class="ysh-menu">
+    <ul class="ysh-menuList">
+        <li><a href="../main.html">首页</a></li>
+        <li><a  href="../itemGK/itemIntro.html">工程概况</a></li>
+        <li><a  href="../userMgr.html">人员管理</a></li>
+        <li class="wsMgr">
+            <a  href="javascript:;">物设管理</a>
+            <ul class="wsCont ysh-disappear">
+                <li><a href="../wsMgr/equipment.html">机械设备</a></li>
+                <li><a href="../wsMgr/materialMgr.html">材料设备</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">进度管理</a>
+            <ul class="jdCont ysh-disappear">
+                <li><a href="../processMgr/itemUnit.html">项目单位</a></li>
+                <li><a href="../processMgr/sgPlan.html">总施工进度</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="../safeMgr/safeUserMgr.html">安全管理</a>
+        </li>
+        <li class="zlMgr">
+            <a style=" background: rgb(0,133,106);"  href="javascript:;">质量管理</a>
+            <ul class="zlCont ysh-disappear">
+                <li><a class="reportMgr" href="reportMgr.html">检测报告</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;">风险管理</a></li>
+        <li><a href="../jsMgr/datumMgr.html">技术管理</a></li>
+        <li><a href="javascript:;">试验管理</a></li>
+        <li><a href="javascript:;">视频监控</a></li>
+        <li class="sysMgr">
+            <a href="javascript:;">系统管理</a>
+            <ul class="sysCont ysh-disappear">
+                <li><a class="attrMgr" href="../sysMgr/attrMgr.html">属性管理</a></li>
+                <li><a class="attrMgr" href="../sysMgr/materialTypeMgr.html">材料类型</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="container">
+    <div class="sidebar">
+        <ul id="treeUnit" class="ztree"></ul>
+    </div>
+    <div class="mainContent">
+        <div id="tableToolBar" class="tableTitle"></div>
+        <!--<table id="ysh-unitTable"></table>-->
+        <div class="table-container">
+            <table id="reportTable" class="table table-striped planTable">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>检测项目</th>
+                    <th>检测部位</th>
+                    <th>报告编号</th>
+                    <th>检测日期</th>
+                    <th>检测单位</th>
+                    <th>检测人员</th>
+                    <th>是否合格</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="9">请选择项目工程</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="tableToolBar">
+            <span class="addUser addReport"><b></b>增加</span>
+            <span class="editUser editReport"><b></b>修改</span>
+            <span class="delUser delReport"><b></b>删除</span>
+            <span class="seeUser getAttachment"><b></b>查看详情</span>
+            <!--<button class="btn btn-default addUser">增加</button>-->
+            <!--<button class="btn btn-default editUser">修改</button>-->
+            <!--<button class="btn btn-default delUser">删除</button>-->
+            <!--<button class="btn btn-default seeUser">查看</button>-->
+        </div>
+    </div>
+</div>
+<!--检测增加修改模态框-->
+<div class="modal fade"  id="reportModal" tabindex="-1" data-crid="" role="dialog" aria-labelledby="myModalLabel"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="reportModalLabel"></h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form id="sgForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="jcName" class="col-sm-3 control-label">检测项目</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="jcName" data-sgId="" value="">
+                            <!--<input type="text" class="form-control" id="sgName" data-sgId="" :duplex="@sgUnit_Info.NAME">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jcPosition" class="col-sm-3 control-label">检测部位</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="jcPosition" data-sgId="" value="">
+                            <!--<input type="text" class="form-control" id="sgName" data-sgId="" :duplex="@sgUnit_Info.NAME">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportNo" class="col-sm-3 control-label">报告编号</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="reportNo" >
+                            <!--<input type="text" class="form-control" id="sgBNo" :duplex="@sgUnit_Info.UNO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jcDate" class="col-sm-3 control-label">检测日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control jcDate" id="jcDate" >
+                            <!--<input type="text" class="form-control ysh-pStartTime" id="pstartDate" :duplex="@sgUnit_Info.PSTART">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jcUnit" class="col-sm-3 control-label">检测单位</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="jcUnit">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jcPeople" class="col-sm-3 control-label">检测人员</label>
+                        <div class="col-sm-9">
+                            <!--<input type="text" class="form-control" id="sgManager" :duplex="@sgUnit_Info.MANAGER">-->
+                            <input type="text" class="form-control" id="jcPeople" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="isHG" class="col-sm-3 control-label">是否合格</label>
+                        <div class="col-sm-9">
+                            <select name="" id="isHG" class="form-control">
+                                <option class="hg" value="1" checked="checked">合格</option>
+                                <option class="bhg" value="0">不合格</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportRemark" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="reportRemark" >
+                            <!--<input type="text" class="form-control" id="remark" :duplex="@sgUnit_Info.REK">-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addReportModal">确定</button>
+                <button type="button" class="btn btn-primary" id="editReportModal">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--查看详情模态框-->
+<div id="reportInfoModal" data-pid="" data-crid="" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="reportInfoTitle" ></h4>
+            </div>
+            <div class="modal-body" style="height: 430px;overflow-x: hidden;overflow-y: auto">
+                <div class="leftData">
+                    <!--<div id="Use-toolbar" style="">-->
+                        <!--<button class="btn btn-default addCert">增加</button>-->
+                        <!--<button class="btn btn-default editCert">修改</button>-->
+                        <!--<button class="btn btn-default delCert">删除</button>-->
+                        <!--&lt;!&ndash;<button class="btn btn-default seeUseMaterial">查看</button>&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<table id="eventTable"></table>-->
+                    <div class="table-container childContainer">
+                        <table data-pid="" id="reportAllDataTable" style="overflow: auto"
+                               class="table table-striped planTable">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>值</th>
+                            </tr>
+                            </thead>
+                            <tbody class="allBasicAttr">
+                                <tr>
+                                    <td>1</td>
+                                    <td>检测项目</td>
+                                    <td class="jcXM"></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>检测部位</td>
+                                    <td class="jcBW"></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>报告编号</td>
+                                    <td class="bgBH"></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>检测日期</td>
+                                    <td class="jcRQ"></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>检测单位</td>
+                                    <td class="jcDW"></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>检测人员</td>
+                                    <td class="jcRY"></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>是否合格</td>
+                                    <td class="sgHG"></td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>备注</td>
+                                    <td class="RMK"></td>
+                                </tr>
+                            <tbody class="allOtherAttr">
+
+                            </tbody>
+                            <!--<tr>-->
+                                <!--<td colspan="3">暂无数据</td>-->
+                            <!--</tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="rightData">
+                    <div  style="">
+                        <div id="Use-toolbar" style="">
+                        <button class="btn btn-default addReportFiles">上传</button>
+                        <!--<button class="btn btn-default editCert">修改</button>-->
+                        <button class="btn btn-default delReportFiles">删除</button>
+                        <!--<button class="btn btn-default seeUseMaterial">下载</button>-->
+                        </div>
+                    </div>
+                    <div class="table-container fileContainer">
+                        <ul class="fieList">
+                            <!--<li >-->
+                                <!--<a href="http://183.129.255.154:8085/SMXprogram/upload/S70428-11541020170904093949.jpg"  target="blank" download="S70428-11541020170904093949.jpg">-->
+                                    <!--<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>-->
+                                    <!--<p  >测试</p>-->
+                                <!--</a>-->
+                                <!--&lt;!&ndash;<img class="imgFile" src="../images/home/ff.png" alt="">&ndash;&gt;-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="http://183.129.255.154:8085/SMXprogram/upload/新建 Microsoft Word 文档20170904100428.docx"  target="blank" download="新建 Microsoft Word 文档20170904100428.docx">-->
+                                    <!--<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>-->
+                                <!--</a>-->
+                                <!--&lt;!&ndash;<img class="imgFile" src="../images/home/ff.png" alt="">&ndash;&gt;-->
+                            <!--</li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--附件上传-->
+<div class="modal fade" id="fileModal" data-pid="" data-certid="" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="fileModalLabel">文件上传</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow-x: hidden;overflow-y: auto">
+                <form class="form-horizontal userForm" data-pid="">
+                    <div class="form-group">
+                        <label for="fileRemark" class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="fileRemark">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file" class="col-sm-3 control-label">文件</label>
+                        <div class="col-sm-9">
+                            <input type="file" class="form-control" id="file">
+                            <!--<input type="text" class="form-control" id="materialInDate" :duplex="@material_Info.NO">-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="uploadFile">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/jquery-2.1.4.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../plugins/zTree/js/jquery.ztree.all.min.js"></script>
+<scripT src="../../plugins/daterangepicker/moment.js"></scripT>
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="../../plugins/jquery/alert/js/xcConfirm.js"></script>
+<script src="../../js/global.js"></script>
+<script>
+    (function ($) {
+        var date = new Date(),baseURL=window.global.SMXprogramURL, zNodes=[],sgId='',tableSelector='#ysh-unitTable',
+                buNo,nodeLength,crName='',ownerId='',
+                protocols={
+                    getUnit:baseURL +'buildunit/SHQBuildUnitGet',
+                    getReport:baseURL+'qualityiInspection/SHQCReportGet',
+                    addReport:baseURL+'qualityiInspection/SHQCReportAdd',
+                    editReport:baseURL+'qualityiInspection/SHQCReportEdit',
+                    delReport:baseURL+'qualityiInspection/SHQCReportDel',
+                    uploadFile:baseURL+'upload/uploadfile',
+                    getFiles:baseURL+'upload/getfile',
+                    delFiles:baseURL+'upload/SHQAttachDel'
+                },ztree,uName,last,today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate(),
+                startTime = today,
+                endTime = today;
+        last = (date.getFullYear()-20)+'-'+(date.getMonth()+1)+'-'+date.getDate();
+        var mainHeight = (window.innerHeight - 140)+'px';
+        $('.container,.mainContent').innerHeight(mainHeight);
+        $(window).resize(function(){
+            mainHeight = (window.innerHeight - 140)+'px';
+            $('.container,.mainContent').innerHeight(mainHeight);
+        });
+        uName  = sessionStorage.getItem('PNAME');
+        if(uName){
+            $('#btnLogin').css('display','none');
+            $('#loginOk').removeClass('ysh-disappear');
+            $('#loginOk .xiUser').text(uName);
+        }
+        $('.ysh-menuList a').on('click',showList);
+        $('.wsCont a').on('click',hideList);
+        document.onclick = function(){
+            $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+        }
+        $('.addReport').on('click',addReportBtn);
+        $('.editReport').on('click',editReportBtn);
+        $('.delReport').on('click',delReportBtn);
+        $('.getAttachment').on('click',getAttachmentBtn);
+        $('#addReportModal').on('click',subAddReportBtn);
+        $('#editReportModal').on('click',subEditReportBtn);
+        //文件上传（报告附件）
+        $('.addReportFiles').on('click',addFileModal);
+        $('.delReportFiles').on('click',delFileModal);
+        $('#uploadFile').on('click',uploadFileBtn);
+
+        //配置datepicker
+        $('.jcDate').daterangepicker({
+            locale: {
+                format : 'YYYY-MM-DD',
+                separator: ' ~ ',
+                weekLabel: '星期',
+            },
+            startDate:startTime,
+            singleDatePicker:true,
+            timePicker:true,
+            timePicker24Hour:true
+        });
+        //初始化zTree
+        var setting = {
+            data: {
+                check:{
+                    enable:true
+                },
+                key:{
+                    name:'BUName'
+                },
+                simpleData: {
+                    enable: true,
+                    idKey:'BUNo',
+                    pIdKey:'pId',
+                    rootPId:null
+                },
+                view:{
+                    showLine:true,
+                    showIcon:true
+                }
+            },
+            callback: {
+                beforeMouseDown:beforeMouseDown,
+                onMouseDown: onMouseDown,
+            }
+        };
+        //加载树数据
+        $.ajax({
+            url:protocols.getUnit,
+            type:'get',
+            cache:false,
+            data:{
+
+            },
+            success:function (data) {
+                if(!data.code){
+                    //alert(data.msg);
+                    zNodes = treeDataReconstruct(data.rows);
+
+                    //console.log(d);
+                }
+                //渲染zTree
+                ztree =  $.fn.zTree.init($("#treeUnit"), setting, zNodes);
+            },
+            error:function (data) {
+                alert(data.msg)
+            }
+        });
+        //二级列表显示
+        function showList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            if($(this).parent().has('ul')){
+                $('.jdCont,.wsCont,.sysCont,.zlCont,.aqCont').addClass('ysh-disappear');
+                $(this).siblings('ul').removeClass('ysh-disappear');
+            }
+        }
+        function hideList(e) {
+            window.event? window.event.cancelBubble = true : e.stopPropagation();
+            $(this).parent().parent().addClass('ysh-disappear');
+
+        }
+        //treeDataReconstruct();修改左边树数据结构
+        function treeDataReconstruct(data) {
+            //alert('1')
+            $.each(data,function (i,o) {
+                if(o.BUNo.length < 3){
+                    o.pId ='0'
+                }else{
+                    var s  = o.BUNo.slice(0,-3);
+                    o.pId = s;
+                }
+            });
+            return data;
+        }
+        //鼠标点击之前
+        function beforeMouseDown(treeId, treeNode) {
+            if(!treeNode){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        //鼠标点击
+        function onMouseDown(event,treeId,treeNode) {
+            console.log(treeNode);
+            sgId = treeNode.BUID;
+            buNo = treeNode.BUNo;
+            var s =treeNode.BUName;
+            console.log(s)
+            //项目标题
+            var doc = $('.tableTitle');
+            checkAllParents(treeNode,s,doc);
+            console.log(sgId);
+            $.ajax({
+                url:protocols.getReport,
+                type:'post',
+                data:{
+                    BUID:sgId,
+                },
+                success:function (data) {
+                    if(!data.code){
+                        if(data.rows.length){
+                            $('#reportTable>tbody').empty();
+                            $('.rightData .fieList').empty();
+                            $.each(data.rows,function (i,o) {
+                                if(o.IsHG =='1'){
+                                    o.IsHG ='合格';
+                                }else{
+                                    o.IsHG ='不合格';
+                                }
+                                var t = '<tr data-crid="'+o.CRID+'"><td>'+(i+1)+'</td><td class="crName">'+o.CRName+'</td>' +
+                                        '<td class="crPosition">'+o.CRPosition+'</td><td class="reportNo">'+o.ReportNo+'</td><td class="checkDate">'+o.CheckDate+'</td>' +
+                                        '<td class="jcUnit">'+o.CheckUnit+'</td><td class="jcPeople">'+o.CheckPerson+'</td>' +
+                                        '<td class="isHG">'+o.IsHG+'</td><td class="remark">'+o.Remark+'</td></tr>';
+                                $('#reportTable>tbody').append(t);
+                                $.each(o.ATTACHLIST,function (idx,obj) {
+                                    if(obj.kind =='pic'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> ' +
+                                                '</a> <p>'+obj.AName+'</li>';
+//                                        var l ='<li data-aid="'+obj.AID+'">' +
+//                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                '<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> ' +
+//                                                '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='audio'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-headphones" aria-hidden="true"></span> ' +
+                                                '</a><p>'+obj.AName+'</li>';
+//                                        var l ='<li data-aid="'+obj.AID+'">' +
+//                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                '<span class="glyphicon  glyphicon-headphones" aria-hidden="true"></span> ' +
+//                                                '</a><p>'+obj.AName+'<p>'+obj.Remark+'</p> </li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='video'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-facetime-video" aria-hidden="true"></span> ' +
+                                                '</a><p>'+obj.AName+'</p></li>';
+//                                        var l ='<li data-aid="'+obj.AID+'">' +
+//                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                '<span class="glyphicon  glyphicon-facetime-video" aria-hidden="true"></span> ' +
+//                                                '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='txt'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-pencil" aria-hidden="true"></span> ' +
+                                                '</a><p>'+obj.AName+'</p></li>';
+//                                        var l ='<li data-aid="'+obj.AID+'">' +
+//                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                '<span class="glyphicon  glyphicon-pencil" aria-hidden="true"></span> ' +
+//                                                '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='word'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-list-alt" aria-hidden="true"></span> ' +
+                                                '</a> <p>'+obj.AName+'</p></li>';
+//                                        var l ='<li data-aid="'+obj.AID+'">' +
+//                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                '<span class="glyphicon  glyphicon-list-alt" aria-hidden="true"></span> ' +
+//                                                '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='xls'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-calendar" aria-hidden="true"></span> ' +
+                                                '</a> <p>'+obj.AName+'</p></li>';
+//                                        var l ='<li data-aid="'+obj.AID+'">' +
+//                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                '<span class="glyphicon  glyphicon-calendar" aria-hidden="true"></span> ' +
+//                                                '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='other'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-folder-open" aria-hidden="true"></span> ' +
+                                                '</a><p>'+obj.AName+'</p></li>';
+//                                        var l ='<li data-aid="'+obj.AID+'">' +
+//                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                '<span class="glyphicon  glyphicon-folder-open" aria-hidden="true"></span> ' +
+//                                                '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                        $('.rightData .fieList').append(l);
+                                    }
+                                });
+                            });
+                            $('.rightData .fieList>li').on('click',function () {
+                                $(this).addClass('li-selected');
+                                $(this).siblings().removeClass('li-selected');
+                            });
+                            $('#reportTable>tbody td').on('click',function () {
+                                $(this).parent().addClass('table-selected');
+                                $(this).parent().siblings().removeClass('table-selected');
+                            })
+                        }else{
+                            $('#reportTable>tbody').empty();
+                            $('#reportTable>tbody').append('<tr><td colspan="9">该项目工程暂无数据</td></tr>');
+                        }
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg);
+                }
+            });
+        }
+        function checkAllParents(treeNode,string,doc){
+            if (!treeNode.pId) {
+                doc.text(string);
+                return string;
+
+            }else{
+                treeNode.checked=true;
+                string = treeNode.getParentNode().BUName + "-" + string;
+                checkAllParents(treeNode.getParentNode(),string,doc);
+            }
+        }
+
+        function getChildNodes(treeNode) {
+            var childNodes = ztree.transformToArray(treeNode);
+            var nodes = new Array();
+            for(i = 0; i < childNodes.length; i++) {
+                nodes[i] = childNodes[i];
+            }
+            return nodes;
+        }
+        function addReportBtn() {
+            console.log(sgId)
+            if(sgId){
+                $('#reportModal input').val('');
+
+                $('#reportModalLabel').text('添加检测报告');
+                $('#addReportModal').css('display','inline-block');
+                $('#editReportModal').css('display','none');
+                $('#reportModal').modal('show');
+            }else{
+//                alert('请选择项目');
+                window.wxc.xcConfirm('请选择项目', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function editReportBtn() {
+            if(sgId){
+                var crId  = $('#reportTable>tbody>tr.table-selected').attr('data-crid');
+                if(crId){
+                    var crName = $('#reportTable>tbody>tr.table-selected>td.crName').text();
+                    var crPosition = $('#reportTable>tbody>tr.table-selected>td.crPosition').text();
+                    var reportNo = $('#reportTable>tbody>tr.table-selected>td.reportNo').text();
+                    var jcDate = $('#reportTable>tbody>tr.table-selected>td.checkDate').text();
+                    var jcUnit = $('#reportTable>tbody>tr.table-selected>td.jcUnit').text();
+                    var jsperson = $('#reportTable>tbody>tr.table-selected>td.jcPeople').text();
+                    var hg = $('#reportTable>tbody>tr.table-selected>td.isHG').text();
+                    var remark = $('#reportTable>tbody>tr.table-selected>td.remark').text();
+                    $('#reportModal input').val('');
+                    $('#reportModal').attr('data-crid',crId);
+                    $('#jcName').val(crName);
+                    $('#jcPosition').val(crPosition);
+                    $('#reportNo').val(reportNo);
+                    $('#jcDate').val(jcDate);
+                    $('#jcUnit').val(jcUnit);
+                    $('#jcPeople').val(jsperson);
+                    $('#reportRemark').val(remark);
+                    if(hg == '合格'){
+                        $('#isHG>option.hg').attr('selected','true')
+                    }else{
+                        $('#isHG>option.bhg').attr('selected','true')
+                    }
+                    $('#reportModalLabel').text('修改检测报告');
+                    $('#addReportModal').css('display','none');
+                    $('#editReportModal').css('display','inline-block');
+                    $('#reportModal').modal('show');
+
+                }else{
+//                alert('请选择项目');
+                    window.wxc.xcConfirm('请选择报告', window.wxc.xcConfirm.typeEnum.confirm);
+                }
+            }else{
+//                alert('请选择项目');
+                window.wxc.xcConfirm('请选择项目', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function delReportBtn() {
+            var crId  = $('#reportTable>tbody>tr.table-selected').attr('data-crid');
+            console.log(crId);
+            if(crId){
+                window.wxc.xcConfirm('确认删除该报告', window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+                        $.ajax({
+                            url: protocols.delReport,
+                            type: 'post',
+                            data: {
+                                CRID: crId
+                            },
+                            success: function (data) {
+                                if (!data.code) {
+                                    $.ajax({
+                                        url: protocols.getReport,
+                                        type: 'post',
+                                        data: {
+                                            BUID: sgId,
+                                        },
+                                        success: function (data) {
+                                            if (!data.code) {
+                                                toastr.success(data.msg);
+                                                if (data.rows.length) {
+                                                    $('#reportTable>tbody').empty();
+                                                    $.each(data.rows, function (i, o) {
+                                                        if (o.IsHG == '1') {
+                                                            o.IsHG = '合格';
+                                                        } else {
+                                                            o.IsHG = '不合格';
+                                                        }
+                                                        var t = '<tr data-crid="' + o.CRID + '"><td>' + (i + 1) + '</td><td class="crName">' + o.CRName + '</td>' +
+                                                            '<td class="reportNo">' + o.ReportNo + '</td><td class="checkDate">' + o.CheckDate + '</td>' +
+                                                            '<td class="jcUnit">' + o.CheckUnit + '</td><td class="jcPeople">' + o.CheckPerson + '</td>' +
+                                                            '<td class="isHG">' + o.IsHG + '</td><td class="remark">' + o.Remark + '</td></tr>';
+                                                        $('#reportTable>tbody').append(t)
+                                                    });
+                                                    $('#reportTable>tbody td').on('click', function () {
+                                                        $(this).parent().addClass('table-selected');
+                                                        $(this).parent().siblings().removeClass('table-selected');
+                                                    })
+                                                } else {
+                                                    $('#reportTable>tbody').empty();
+                                                    $('#reportTable>tbody').append('<td colspan="9">该项目工程暂无数据</td>')
+                                                }
+
+                                            } else {
+                                                alert(data.msg)
+                                            }
+                                        },
+                                        error: function (data) {
+                                            alert(data.msg);
+                                        }
+                                    });
+                                } else {
+                                    alert(data.msg);
+                                }
+                            },
+                            error: function (data) {
+                                alert(data.msg)
+                            }
+                        });
+                    }
+                });
+
+//                if(confirm("确认删除?")) {
+//                    $.ajax({
+//                        url: protocols.delReport,
+//                        type: 'post',
+//                        data: {
+//                            CRID: crId
+//                        },
+//                        success: function (data) {
+//                            if (!data.code) {
+//                                $.ajax({
+//                                    url: protocols.getReport,
+//                                    type: 'post',
+//                                    data: {
+//                                        BUID: sgId,
+//                                    },
+//                                    success: function (data) {
+//                                        if (!data.code) {
+//                                            toastr.success(data.msg);
+//                                            if (data.rows.length) {
+//                                                $('#reportTable>tbody').empty();
+//                                                $.each(data.rows, function (i, o) {
+//                                                    if (o.IsHG == '1') {
+//                                                        o.IsHG = '合格';
+//                                                    } else {
+//                                                        o.IsHG = '不合格';
+//                                                    }
+//                                                    var t = '<tr data-crid="' + o.CRID + '"><td>' + (i + 1) + '</td><td class="crName">' + o.CRName + '</td>' +
+//                                                            '<td class="reportNo">' + o.ReportNo + '</td><td class="checkDate">' + o.CheckDate + '</td>' +
+//                                                            '<td class="jcUnit">' + o.CheckUnit + '</td><td class="jcPeople">' + o.CheckPerson + '</td>' +
+//                                                            '<td class="isHG">' + o.IsHG + '</td><td class="remark">' + o.Remark + '</td></tr>';
+//                                                    $('#reportTable>tbody').append(t)
+//                                                });
+//                                                $('#reportTable>tbody td').on('click', function () {
+//                                                    $(this).parent().addClass('table-selected');
+//                                                    $(this).parent().siblings().removeClass('table-selected');
+//                                                })
+//                                            } else {
+//                                                $('#reportTable>tbody>tr>td').text('暂无数据')
+//                                            }
+//
+//                                        } else {
+//                                            alert(data.msg)
+//                                        }
+//                                    },
+//                                    error: function (data) {
+//                                        alert(data.msg);
+//                                    }
+//                                });
+//                            } else {
+//                                alert(data.msg);
+//                            }
+//                        },
+//                        error: function (data) {
+//                            alert(data.msg)
+//                        }
+//                    });
+//                }
+            }else{
+//                alert('请选择项目下报告');
+                window.wxc.xcConfirm('请选择项目下报告', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function getAttachmentBtn() {
+            var crid  = $('#reportTable>tbody>tr.table-selected').attr('data-crid');//报告id
+            console.log(crid)
+            if(crid){
+                var jcxm =  $('#reportTable>tbody>tr.table-selected>td.crName').text();
+                var jcbw = $('#reportTable>tbody>tr.table-selected>td.crPosition').text();
+                var bgbh = $('#reportTable>tbody>tr.table-selected>td.reportNo').text();
+                var jcrq = $('#reportTable>tbody>tr.table-selected>td.checkDate').text();
+                var jcdw = $('#reportTable>tbody>tr.table-selected>td.jcUnit').text();
+                var jcry = $('#reportTable>tbody>tr.table-selected>td.jcPeople').text();
+                var ishg = $('#reportTable>tbody>tr.table-selected>td.isHG').text();
+                var rmk = $('#reportTable>tbody>tr.table-selected>td.remark').text();
+                $('#reportInfoModal').attr('data-crid',crid);
+                $('#reportAllDataTable>tbody.allBasicAttr td.jcXM').text(jcxm);
+                $('#reportAllDataTable>tbody.allBasicAttr td.jcBW').text(jcbw);
+                $('#reportAllDataTable>tbody.allBasicAttr td.bgBH').text(bgbh);
+                $('#reportAllDataTable>tbody.allBasicAttr td.jcRQ').text(jcrq);
+                $('#reportAllDataTable>tbody.allBasicAttr td.jcDW').text(jcdw);
+                $('#reportAllDataTable>tbody.allBasicAttr td.jcRY').text(jcry);
+                $('#reportAllDataTable>tbody.allBasicAttr td.sgHG').text(ishg);
+                $('#reportAllDataTable>tbody.allBasicAttr td.RMK').text(rmk);
+                drawFiles(crid);
+                $('#reportInfoModal').modal('show');
+            }else {
+                window.wxc.xcConfirm('请选择报告', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function subAddReportBtn() {
+
+            var crId = getUnitId();
+            $.ajax({
+                url:protocols.addReport,
+                type:'post',
+                data:{
+                    BUID:sgId,
+                    CRID:crId,
+                    CRNAME:$('#jcName').val(),
+                    CRPOSITION:$('#jcPosition').val(),
+                    REPORTNO:$('#reportNo').val(),
+                    CHECKDATE:$('#jcDate').val(),
+                    CHECKUNIT:$('#jcUnit').val(),
+                    PERSON:$('#jcPeople').val(),
+                    HG:$('#isHG>option:selected').val(),
+                    REMARK:$('#reportRemark').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $('#reportModal').modal('hide');
+                        drawTable();
+//                        window.location.reload();
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg)
+                }
+            })
+        }
+        function subEditReportBtn() {
+//            $('#sgForm input').val('');
+            console.log(sgId);
+            console.log( $('#reportModal').attr('data-crid'));
+            $.ajax({
+                url:protocols.editReport,
+                type:'post',
+                data:{
+                    BUID:sgId,
+                    CRID: $('#reportModal').attr('data-crid'),
+                    CRNAME:$('#jcName').val(),
+                    CRPOSITION:$('#jcPosition').val(),
+                    REPORTNO:$('#reportNo').val(),
+                    CHECKDATE:$('#jcDate').val(),
+                    CHECKUNIT:$('#jcUnit').val(),
+                    PERSON:$('#jcPeople').val(),
+                    HG:$('#isHG>option:selected').val(),
+                    REMARK:$('#reportRemark').val(),
+                },
+                success:function (data) {
+                    if(!data.code){
+                        toastr.success(data.msg);
+                        $('#reportModal').modal('hide');
+                        drawTable();
+//                        window.location.reload();
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function(data){
+                    alert(data.msg);
+                }
+            });
+        }
+      //附件上传
+        function addFileModal() {
+            ownerId =  $('#reportInfoModal').attr('data-crid');
+            console.log(ownerId)
+            if(ownerId){
+                $('#fileModal input').val('');
+                $('#fileModal').modal('show');
+            }else{
+                window.wxc.xcConfirm('请选择报告', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+        }
+        function delFileModal() {
+            var aid = $('.rightData .fieList>li.li-selected').attr('data-aid');
+            if(aid){
+                window.wxc.xcConfirm('确认删除该附件', window.wxc.xcConfirm.typeEnum.confirm,{
+                    onOk:function () {
+                        $.ajax({
+                            url:protocols.delFiles,
+                            type:'post',
+                            data:{
+                                AID:aid
+                            },
+                            success:function (data) {
+                                if(!data.code){
+                                    toastr.success(data.msg);
+                                    var c  = $('#reportInfoModal').attr('data-crid');
+                                    drawFiles(c)
+//                                    $('#fileModal').modal('hide');
+                                }else{
+                                    window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                                }
+                            }
+                        })
+                    }
+                });
+            }else{
+                window.wxc.xcConfirm('请选择附件', window.wxc.xcConfirm.typeEnum.confirm);
+            }
+
+        }
+        function uploadFileBtn() {
+            var aId = getUnitId();
+            aFlag = 'personcert';
+            var formdata = new FormData();
+            formdata.append('uploadFile',$('#file')[0].files[0]);
+            var quertString = '?AID='+aId+'&AFLAG=checkreport&OWNER='+ownerId+'&RMK='+$('#fileRemark').val();
+            $.ajax({
+                url:protocols.uploadFile+quertString,
+                processData:false,
+                contentType:false,
+                type:'post',
+                data:formdata,
+                success:function (data) {
+                    if(!data.code){
+                        var c  = $('#reportInfoModal').attr('data-crid');
+                        drawFiles(c)
+                        toastr.success(data.msg)
+                        $('#fileModal').modal('hide');
+
+                    }else{
+                        window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                    }
+                }
+            })
+        }
+        function drawTable() {
+            $.ajax({
+                url:protocols.getReport,
+                type:'post',
+                data:{
+                    BUID:sgId,
+                },
+                success:function (data) {
+                    if(!data.code){
+                        if(data.rows.length){
+                            $('#reportTable>tbody').empty();
+                            $('.rightData .fieList').empty();
+                            $.each(data.rows,function (i,o) {
+                                if(o.IsHG =='1'){
+                                    o.IsHG ='合格';
+                                }else{
+                                    o.IsHG ='不合格';
+                                }
+                                var t = '<tr data-crid="'+o.CRID+'"><td>'+(i+1)+'</td><td class="crName">'+o.CRName+'</td>' +
+                                        '<td class="crPosition">'+o.CRPosition+'</td><td class="reportNo">'+o.ReportNo+'</td><td class="checkDate">'+o.CheckDate+'</td>' +
+                                        '<td class="jcUnit">'+o.CheckUnit+'</td><td class="jcPeople">'+o.CheckPerson+'</td>' +
+                                        '<td class="isHG">'+o.IsHG+'</td><td class="remark">'+o.Remark+'</td></tr>';
+                                $('#reportTable>tbody').append(t);
+                                $.each(o.ATTACHLIST,function (idx,obj) {
+                                    if(obj.kind =='pic'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> ' +
+                                                '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='audio'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-headphones" aria-hidden="true"></span> ' +
+                                                '</a><p>'+obj.AName+'<p>'+obj.Remark+'</p> </li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='video'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-facetime-video" aria-hidden="true"></span> ' +
+                                                '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='txt'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-pencil" aria-hidden="true"></span> ' +
+                                                '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='word'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-list-alt" aria-hidden="true"></span> ' +
+                                                '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='xls'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-calendar" aria-hidden="true"></span> ' +
+                                                '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                        $('.rightData .fieList').append(l);
+                                    }else if(obj.kind =='other'){
+                                        var l ='<li data-aid="'+obj.AID+'">' +
+                                                '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                '<span class="glyphicon  glyphicon-folder-open" aria-hidden="true"></span> ' +
+                                                '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                        $('.rightData .fieList').append(l);
+                                    }
+                                });
+                            });
+                            $('.rightData .fieList>li').on('click',function () {
+                                $(this).addClass('li-selected');
+                                $(this).siblings().removeClass('li-selected');
+                            });
+                            $('#reportTable>tbody td').on('click',function () {
+                                $(this).parent().addClass('table-selected');
+                                $(this).parent().siblings().removeClass('table-selected');
+                            })
+                        }else{
+                            $('#reportTable>tbody').empty();
+                            $('#reportTable>tbody').append('<tr><td colspan="9">该项目工程暂无数据</td></tr>');
+                        }
+                    }else{
+                        window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg);
+                }
+            });
+        }
+        function drawFiles(c) {
+            var crid = c;
+            console.log(crid);
+            $.ajax({
+                url:protocols.getReport,
+                type:'post',
+                data:{
+                    BUID:sgId,
+                },
+                success:function (data) {
+                    if(!data.code){
+                        if(data.rows.length){
+//                            $('#reportTable>tbody').empty();
+                            $('.rightData .fieList').empty();
+                            $.each(data.rows,function (i,o) {
+                               if(o.CRID == crid){
+                                   $.each(o.ATTACHLIST,function (idx,obj) {
+                                       if(obj.kind =='pic'){
+                                           var l ='<li data-aid="'+obj.AID+'">' +
+                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                   '<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> ' +
+                                                   '</a> <p>'+obj.AName+'</p</li>';
+//                                           var l ='<li data-aid="'+obj.AID+'">' +
+//                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                   '<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> ' +
+//                                                   '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                           $('.rightData .fieList').append(l);
+                                       }else if(obj.kind =='audio'){
+                                           var l ='<li data-aid="'+obj.AID+'">' +
+                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                   '<span class="glyphicon  glyphicon-headphones" aria-hidden="true"></span> ' +
+                                                   '</a><p>'+obj.AName+'</li>';
+//                                           var l ='<li data-aid="'+obj.AID+'">' +
+//                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                   '<span class="glyphicon  glyphicon-headphones" aria-hidden="true"></span> ' +
+//                                                   '</a><p>'+obj.AName+'<p>'+obj.Remark+'</p> </li>';
+                                           $('.rightData .fieList').append(l);
+                                       }else if(obj.kind =='video'){
+                                           var l ='<li data-aid="'+obj.AID+'">' +
+                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                   '<span class="glyphicon  glyphicon-facetime-video" aria-hidden="true"></span> ' +
+                                                   '</a><p>'+obj.AName+'</p></li>';
+//                                           var l ='<li data-aid="'+obj.AID+'">' +
+//                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                   '<span class="glyphicon  glyphicon-facetime-video" aria-hidden="true"></span> ' +
+//                                                   '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                           $('.rightData .fieList').append(l);
+                                       }else if(obj.kind =='txt'){
+//                                           var l ='<li data-aid="'+obj.AID+'">' +
+//                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                   '<span class="glyphicon  glyphicon-pencil" aria-hidden="true"></span> ' +
+//                                                   '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                           var l ='<li data-aid="'+obj.AID+'">' +
+                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                   '<span class="glyphicon  glyphicon-pencil" aria-hidden="true"></span> ' +
+                                                   '</a><p>'+obj.AName+'</p></li>';
+                                           $('.rightData .fieList').append(l);
+                                       }else if(obj.kind =='word'){
+                                           var l ='<li data-aid="'+obj.AID+'">' +
+                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                   '<span class="glyphicon  glyphicon-list-alt" aria-hidden="true"></span> ' +
+                                                   '</a> <p>'+obj.AName+'</p></li>';
+//                                           var l ='<li data-aid="'+obj.AID+'">' +
+//                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                   '<span class="glyphicon  glyphicon-list-alt" aria-hidden="true"></span> ' +
+//                                                   '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                           $('.rightData .fieList').append(l);
+                                       }else if(obj.kind =='xls'){
+                                           var l ='<li data-aid="'+obj.AID+'">' +
+                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                   '<span class="glyphicon  glyphicon-calendar" aria-hidden="true"></span> ' +
+                                                   '</a> <p>'+obj.AName+'</p></li>';
+//                                           var l ='<li data-aid="'+obj.AID+'">' +
+//                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                   '<span class="glyphicon  glyphicon-calendar" aria-hidden="true"></span> ' +
+//                                                   '</a> <p>'+obj.AName+'</p><p>'+obj.Remark+'</p></li>';
+                                           $('.rightData .fieList').append(l);
+                                       }else if(obj.kind =='other'){
+                                           var l ='<li data-aid="'+obj.AID+'">' +
+                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+                                                   '<span class="glyphicon  glyphicon-folder-open" aria-hidden="true"></span> ' +
+                                                   '</a><p>'+obj.AName+'</p></li>';
+//                                           var l ='<li data-aid="'+obj.AID+'">' +
+//                                                   '<a href="http://'+obj.FileUrl+'"  target="blank" download="'+obj.AName+'"> ' +
+//                                                   '<span class="glyphicon  glyphicon-folder-open" aria-hidden="true"></span> ' +
+//                                                   '</a><p>'+obj.AName+'</p><p>'+obj.Remark+'</p> </li>';
+                                           $('.rightData .fieList').append(l);
+                                       }
+                                   });
+                               }
+                            });
+                            $('.rightData .fieList>li').on('click',function () {
+                                $(this).addClass('li-selected');
+                                $(this).siblings().removeClass('li-selected');
+                            });
+//                            $('#reportTable>tbody td').on('click',function () {
+//                                $(this).parent().addClass('table-selected');
+//                                $(this).parent().siblings().removeClass('table-selected');
+//                            })
+                        }else{
+                            $('#reportTable>tbody').empty();
+                            $('#reportTable>tbody').append('<tr><td colspan="9">该项目工程暂无数据</td></tr>');
+                        }
+                    }else{
+                        window.wxc.xcConfirm(data.msg, window.wxc.xcConfirm.typeEnum.warning);
+                    }
+                },
+                error:function (data) {
+                    alert(data.msg);
+                }
+            });
+        }
+        //32Id随机值
+        function getUnitId() {
+            var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+            var res = "";
+            for(var i = 0; i < 32 ; i ++) {
+                var id = Math.ceil(Math.random()*35);
+                res += chars[id];
+            }
+            return res;
+
+        }
+    })(window.jQuery)
+</script>
+</body>
+</html>
